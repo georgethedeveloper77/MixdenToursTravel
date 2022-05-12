@@ -1,13 +1,14 @@
 <template>
-    <draggable class="dragArea" tag="ul" :list="items" :group="{ name: 'g1' }">
-        <li v-for="item in items" :key="el.name">
+    <draggable :group="{ name: 'g1' }" :list="items" class="dragArea" tag="ul">
+        <li :key="el.name" v-for="item in items">
             <slot :item="item"></slot>
-            <nested-draggable :items="item.children" />
+            <nested-draggable :items="item.children"/>
         </li>
     </draggable>
 </template>
 <script>
     import draggable from "vuedraggable";
+
     export default {
         props: {
             items: {

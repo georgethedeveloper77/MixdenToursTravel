@@ -1,4 +1,5 @@
 <?php
+
 namespace Plugins\PaymentTwoCheckout\Controllers;
 
 use App\Http\Controllers\Controller;

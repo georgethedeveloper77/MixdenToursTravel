@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\User\Controllers;
 
 use App\User;
@@ -14,16 +15,16 @@ class VerificationController extends FrontendController
 {
     public function index()
     {
-        if( setting_item('user_disable_verification_feature')){
+        if (setting_item('user_disable_verification_feature')) {
             return redirect(route("user.profile.index"));
         }
         $user = Auth::user();
         $data = [
-            'fields'         => $user->verification_fields,
+            'fields' => $user->verification_fields,
             'only_show_data' => 1,
-            'breadcrumbs'    => [
+            'breadcrumbs' => [
                 [
-                    'name'  => __('Verification'),
+                    'name' => __('Verification'),
                     'class' => 'active'
                 ],
             ],
@@ -35,15 +36,15 @@ class VerificationController extends FrontendController
     {
         $user = Auth::user();
         $data = [
-            'user'        => $user,
-            'fields'      => $user->verification_fields,
+            'user' => $user,
+            'fields' => $user->verification_fields,
             'breadcrumbs' => [
                 [
                     'name' => __('Verification'),
-                    'url'  => route('user.verification.index')
+                    'url' => route('user.verification.index')
                 ],
                 [
-                    'name'  => __('Update Verification Data'),
+                    'name' => __('Update Verification Data'),
                     'class' => 'active'
                 ],
             ],
@@ -130,7 +131,7 @@ class VerificationController extends FrontendController
         $inputLabel = $request->inputLabel;
         if (empty($phone)) {
             return response()->json([
-                'status'  => 0,
+                'status' => 0,
                 'message' => __($inputLabel . ' is required.')
             ]);
         }
@@ -149,30 +150,30 @@ class VerificationController extends FrontendController
                 Sms::to($to)->content($message)->send();
                 $user->addMeta('verify_phone_data', [
                     $string => [
-                        'phone'      => $phone,
-                        'inputName'  => $inputName,
+                        'phone' => $phone,
+                        'inputName' => $inputName,
                         'inputLabel' => $inputLabel
                     ]
                 ]);
                 return response()->json([
                     'status' => 1,
                     'action' => 'openModalVerify',
-                    'phone'  => $phone
+                    'phone' => $phone
                 ]);
             } catch (\Exception $e) {
                 return response()->json([
-                    'status'  => 0,
-                    'action'  => 'showError',
-                    'phone'   => $phone,
+                    'status' => 0,
+                    'action' => 'showError',
+                    'phone' => $phone,
                     'message' => $e->getMessage()
                 ]);
             }
         } else {
             return response()->json([
-                'status'   => 1,
+                'status' => 1,
                 'verified' => 1,
-                'phone'    => $phone,
-                'message'  => __($inputLabel . ' verified')
+                'phone' => $phone,
+                'message' => __($inputLabel . ' verified')
             ]);
         }
     }
@@ -197,14 +198,14 @@ class VerificationController extends FrontendController
                 }
             }
             return response()->json([
-                'status'   => 1,
+                'status' => 1,
                 'verified' => 1
             ]);
         } else {
             return response()->json([
-                'status'   => 0,
+                'status' => 0,
                 'verified' => 0,
-                'message'  => __('Verify code do not match')
+                'message' => __('Verify code do not match')
             ]);
         }
     }

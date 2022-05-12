@@ -1,10 +1,16 @@
 <?php
+
 namespace Plugins;
 
 use File;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+    public static function getModules()
+    {
+        return array_map('basename', array_filter(glob(base_path() . '/plugins/*'), 'is_dir'));
+    }
+
     public function boot()
     {
         $listModule = array_map('basename', File::directories(__DIR__));
@@ -35,10 +41,5 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         if (is_dir(__DIR__ . '/Layout')) {
             $this->loadViewsFrom(__DIR__ . '/Layout', 'Layout');
         }
-    }
-
-    public static function getModules()
-    {
-        return array_map('basename', array_filter(glob(base_path() . '/plugins/*'), 'is_dir'));
     }
 }

@@ -5,7 +5,8 @@
                 <div class="border-bottom">
                     @if($row->discount_percent)
                         <div class="sale-box">
-                            <div class="ribbon ribbon--red">{{ __("SAVE :text",['text'=>$row->discount_percent]) }}</div>
+                            <div
+                                class="ribbon ribbon--red">{{ __("SAVE :text",['text'=>$row->discount_percent]) }}</div>
                         </div>
                     @endif
                     <div class="p-4">
@@ -19,7 +20,7 @@
                     </div>
                 </div>
                 <div class="nav-enquiry" v-if="is_form_enquiry_and_book">
-                    <div class="enquiry-item active" >
+                    <div class="enquiry-item active">
                         <span>{{ __("Book") }}</span>
                     </div>
                     <div class="enquiry-item" data-toggle="modal" data-target="#enquiry_form_modal">
@@ -28,10 +29,13 @@
                 </div>
                 <div class="form-book" :class="{'d-none':enquiry_type!='book'}">
                     <div class="p-4">
-                        <span class="d-block text-gray-1 font-weight-normal mb-0 text-left">{{ __("Pick Up Date") }}</span>
+                        <span
+                            class="d-block text-gray-1 font-weight-normal mb-0 text-left">{{ __("Pick Up Date") }}</span>
                         <div class="mb-4">
-                            <div class="border-bottom border-width-2 border-color-1 position-relative" data-format="{{get_moment_date_format()}}">
-                                <div  @click="openStartDate" class="start_date d-flex align-items-center w-auto height-40 font-size-16 shadow-none font-weight-bold form-control hero-form bg-transparent border-0 flatpickr-input p-0">
+                            <div class="border-bottom border-width-2 border-color-1 position-relative"
+                                 data-format="{{get_moment_date_format()}}">
+                                <div @click="openStartDate"
+                                     class="start_date d-flex align-items-center w-auto height-40 font-size-16 shadow-none font-weight-bold form-control hero-form bg-transparent border-0 flatpickr-input p-0">
                                     <div v-html="start_date_html"></div>
                                 </div>
                                 @if(!empty($row->min_day_before_booking))
@@ -56,7 +60,8 @@
                                         </small>
                                     </div>
                                 @endif
-                                <input type="text" class="start_date" ref="start_date" style="height: 1px;visibility: hidden;position: absolute;bottom: 0;width: 100%;">
+                                <input type="text" class="start_date" ref="start_date"
+                                       style="height: 1px;visibility: hidden;position: absolute;bottom: 0;width: 100%;">
                             </div>
                         </div>
                         <div class="mb-4">
@@ -69,7 +74,9 @@
                                         <a class="font-size-10 text-dark" href="javascript:;" @click="minusNumberType">
                                             <i class="fa fa-chevron-down"></i>
                                         </a>
-                                        <input class="form-control h-auto width-30 font-weight-bold font-size-16 shadow-none bg-tranparent border-0 rounded p-0 mx-1 text-center"  type="text"  v-model="number" min="0">
+                                        <input
+                                            class="form-control h-auto width-30 font-weight-bold font-size-16 shadow-none bg-tranparent border-0 rounded p-0 mx-1 text-center"
+                                            type="text" v-model="number" min="0">
                                         <a class="font-size-10 text-dark" href="javascript:;" @click="addNumberType">
                                             <i class="fa fa-chevron-up"></i>
                                         </a>
@@ -90,10 +97,12 @@
                             </div>
                         </div>
                         <div class="mb-2" v-if="buyer_fees.length">
-                            <div class="extra-price-wrap d-flex justify-content-between" v-for="(type,index) in buyer_fees">
+                            <div class="extra-price-wrap d-flex justify-content-between"
+                                 v-for="(type,index) in buyer_fees">
                                 <div class="flex-grow-1">
                                     <label>@{{type.type_name}}
-                                        <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip" data-placement="top" :title="type.type_desc"></i>
+                                        <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip"
+                                           data-placement="top" :title="type.type_desc"></i>
                                     </label>
                                     <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
                                 </div>
@@ -101,7 +110,7 @@
                                     <div class="unit" v-if='type.unit == "percent"'>
                                         @{{ type.price }}%
                                     </div>
-                                    <div class="unit" v-else >
+                                    <div class="unit" v-else>
                                         @{{ formatMoney(type.price) }}
                                     </div>
                                 </div>
@@ -119,11 +128,16 @@
                         </ul>
                         <div v-html="html"></div>
                         <div class="text-center">
-                            <button class="btn btn-primary d-flex align-items-center justify-content-center  height-60 w-100 mb-xl-0 mb-lg-1 transition-3d-hover font-weight-bold" @click="doSubmit($event)" :class="{'disabled':onSubmit,'btn-success':(step == 2),'btn-primary':step == 1}" name="submit">
+                            <button
+                                class="btn btn-primary d-flex align-items-center justify-content-center  height-60 w-100 mb-xl-0 mb-lg-1 transition-3d-hover font-weight-bold"
+                                @click="doSubmit($event)"
+                                :class="{'disabled':onSubmit,'btn-success':(step == 2),'btn-primary':step == 1}"
+                                name="submit">
                                 <span class="stop-color-white">{{__("Book Now")}}</span>
                                 <i v-show="onSubmit" class="fa fa-spinner fa-spin ml-1"></i>
                             </button>
-                            <div class="alert-text mt-3 text-left" v-show="message.content" v-html="message.content" :class="{'danger':!message.type,'success':message.type}"></div>
+                            <div class="alert-text mt-3 text-left" v-show="message.content" v-html="message.content"
+                                 :class="{'danger':!message.type,'success':message.type}"></div>
                         </div>
                     </div>
                 </div>

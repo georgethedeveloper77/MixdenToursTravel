@@ -1,17 +1,18 @@
 <?php
+
 namespace Modules\Booking\Models;
 
 use App\BaseModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use Modules\Core\Models\Terms;
 use Modules\Location\Models\Location;
 
 class Service extends BaseModel
 {
     use SoftDeletes;
-    public    $type          = 'service';
-    public    $allowType     = [
+
+    public $type = 'service';
+    public $allowType = [
         'hotel',
         'space',
         'tour',
@@ -20,10 +21,10 @@ class Service extends BaseModel
         'flight',
         'boat',
     ];
-    protected $table         = 'bravo_services';
-    protected $slugField     = 'slug';
+    protected $table = 'bravo_services';
+    protected $slugField = 'slug';
     protected $slugFromField = 'title';
-    protected $fillable      = [
+    protected $fillable = [
         'title',
         'location_id',
         'category_id',
@@ -110,8 +111,8 @@ class Service extends BaseModel
         $model_service = parent::query()->select("bravo_services.*");
         $model_service->where("bravo_services.status", "publish");
         if (!empty($location_id = $request->query('location_id'))) {
-            $location = Location::query()->where('id', $location_id)->where("status","publish")->first();
-            if(!empty($location)){
+            $location = Location::query()->where('id', $location_id)->where("status", "publish")->first();
+            if (!empty($location)) {
                 $model_service->join('bravo_locations', function ($join) use ($location) {
                     $join->on('bravo_locations.id', '=', 'bravo_services.location_id')
                         ->where('bravo_locations._lft', '>=', $location->_lft)
@@ -122,35 +123,35 @@ class Service extends BaseModel
         if (!empty($price_range = $request->query('price_range'))) {
             $pri_from = explode(";", $price_range)[0];
             $pri_to = explode(";", $price_range)[1];
-            $raw_sql_min_max = "( (IFNULL(bravo_services.sale_price,0) > 0 and bravo_services.sale_price >= ? ) OR (IFNULL(bravo_services.sale_price,0) <= 0 and bravo_services.price >= ? ) ) 
+            $raw_sql_min_max = "( (IFNULL(bravo_services.sale_price,0) > 0 and bravo_services.sale_price >= ? ) OR (IFNULL(bravo_services.sale_price,0) <= 0 and bravo_services.price >= ? ) )
                             AND ( (IFNULL(bravo_services.sale_price,0) > 0 and bravo_services.sale_price <= ? ) OR (IFNULL(bravo_services.sale_price,0) <= 0 and bravo_services.price <= ? ) )";
-            $model_service->WhereRaw($raw_sql_min_max,[$pri_from,$pri_from,$pri_to,$pri_to]);
+            $model_service->WhereRaw($raw_sql_min_max, [$pri_from, $pri_from, $pri_to, $pri_to]);
         }
         $review_scores = $request->query('review_score');
         if (is_array($review_scores) && !empty($review_scores)) {
             $where_review_score = [];
             $params = [];
-            foreach ($review_scores as $number){
+            foreach ($review_scores as $number) {
                 $where_review_score[] = " ( bravo_services.review_score >= ? AND bravo_services.review_score <= ? ) ";
                 $params[] = $number;
-                $params[] = $number.'.9';
+                $params[] = $number . '.9';
             }
             $sql_where_review_score = " ( " . implode("OR", $where_review_score) . " )  ";
-            $model_service->WhereRaw($sql_where_review_score,$params);
+            $model_service->WhereRaw($sql_where_review_score, $params);
         }
-        if(!empty( $service_name = $request->query("service_name") )){
-            if( setting_item('site_enable_multi_lang') && setting_item('site_locale') != app()->getLocale() ){
+        if (!empty($service_name = $request->query("service_name"))) {
+            if (setting_item('site_enable_multi_lang') && setting_item('site_locale') != app()->getLocale()) {
                 $model_service->leftJoin('bravo_service_translations', function ($join) {
                     $join->on('bravo_services.id', '=', 'bravo_service_translations.origin_id');
                 });
                 $model_service->where('bravo_service_translations.title', 'LIKE', '%' . $service_name . '%');
 
-            }else{
+            } else {
                 $model_service->where('bravo_services.title', 'LIKE', '%' . $service_name . '%');
             }
         }
         $orderby = $request->input("orderby");
-        switch ($orderby){
+        switch ($orderby) {
             case "price_low_high":
                 $raw_sql = "CASE WHEN IFNULL( bravo_services.sale_price, 0 ) > 0 THEN bravo_services.sale_price ELSE bravo_services.price END AS tmp_min_price";
                 $model_service->selectRaw($raw_sql);
@@ -169,14 +170,16 @@ class Service extends BaseModel
                 $model_service->orderBy("id", "desc");
         }
         $model_service->groupBy("bravo_services.id");
-        if(!empty($request->query('limit'))){
+        if (!empty($request->query('limit'))) {
             $limit = $request->query('limit');
-        }else{
+        } else {
             $limit = 9;
         }
         return $model_service->with(['translations'])->paginate($limit);
     }
-    public function dataForApi($forSingle = false){
+
+    public function dataForApi($forSingle = false)
+    {
         $service = $this->service;
         $data = $service->dataForApi();
         return $data;

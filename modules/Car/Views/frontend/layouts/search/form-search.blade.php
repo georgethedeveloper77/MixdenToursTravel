@@ -12,16 +12,16 @@
                     <div class="col-md-{{ $field['size'] ?? "6" }} border-right">
                         @switch($field['field'])
                             @case ('service_name')
-                                @include('Car::frontend.layouts.search.fields.service_name')
+                            @include('Car::frontend.layouts.search.fields.service_name')
                             @break
                             @case ('location')
-                                @include('Car::frontend.layouts.search.fields.location')
+                            @include('Car::frontend.layouts.search.fields.location')
                             @break
                             @case ('date')
-                                @include('Car::frontend.layouts.search.fields.date')
+                            @include('Car::frontend.layouts.search.fields.date')
                             @break
                             @case ('attr')
-                                @include('Car::frontend.layouts.search.fields.attr')
+                            @include('Car::frontend.layouts.search.fields.attr')
                             @break
                         @endswitch
                     </div>

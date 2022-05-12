@@ -1,7 +1,8 @@
 <?php
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateHotelTable extends Migration
 {
@@ -35,7 +36,7 @@ class CreateHotelTable extends Migration
             $table->string('check_in_time', 255)->nullable();
             $table->string('check_out_time', 255)->nullable();
             $table->smallInteger('allow_full_day')->nullable();
-            $table->decimal('sale_price', 12,2)->nullable();
+            $table->decimal('sale_price', 12, 2)->nullable();
             //$table->tinyInteger('is_instant')->default(0)->nullable();
             //$table->tinyInteger('allow_children')->default(0)->nullable();
             //$table->tinyInteger('allow_infant')->default(0)->nullable();
@@ -136,7 +137,7 @@ class CreateHotelTable extends Migration
 
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
-            $table->decimal('price',12,2)->nullable();
+            $table->decimal('price', 12, 2)->nullable();
             $table->tinyInteger('max_guests')->nullable();
             $table->tinyInteger('active')->default(0)->nullable();
             $table->text('note_to_customer')->nullable();
@@ -159,7 +160,7 @@ class CreateHotelTable extends Migration
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
             $table->smallInteger('number')->nullable();
-            $table->decimal('price',12,2)->nullable();
+            $table->decimal('price', 12, 2)->nullable();
 
             $table->bigInteger('create_user')->nullable();
             $table->bigInteger('update_user')->nullable();

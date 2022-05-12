@@ -25,14 +25,16 @@
                         <strong>
                             {{ $phpSupportInfo['current'] }}
                         </strong>
-                        <i class="fa fa-fw fa-{{ $phpSupportInfo['supported'] ? 'check-circle-o' : 'exclamation-circle' }} row-icon" aria-hidden="true"></i>
+                        <i class="fa fa-fw fa-{{ $phpSupportInfo['supported'] ? 'check-circle-o' : 'exclamation-circle' }} row-icon"
+                           aria-hidden="true"></i>
                     </span>
                 @endif
             </li>
             @foreach($requirements['requirements'][$type] as $extention => $enabled)
                 <li class="list__item {{ $enabled ? 'success' : 'error' }}">
                     {{ $extention }}
-                    <i class="fa fa-fw fa-{{ $enabled ? 'check-circle-o' : 'exclamation-circle' }} row-icon" aria-hidden="true"></i>
+                    <i class="fa fa-fw fa-{{ $enabled ? 'check-circle-o' : 'exclamation-circle' }} row-icon"
+                       aria-hidden="true"></i>
                 </li>
             @endforeach
         </ul>

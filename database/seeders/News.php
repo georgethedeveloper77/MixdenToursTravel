@@ -1,11 +1,13 @@
 <?php
+
 namespace Database\Seeders;
-use Illuminate\Support\Str;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Modules\Media\Models\MediaFile;
 use Modules\News\Models\NewsCategory;
 use Modules\News\Models\Tag;
-use Modules\Media\Models\MediaFile;
 
 class News extends Seeder
 {
@@ -38,24 +40,24 @@ class News extends Seeder
         );
 
         $list_categories = [
-              ['name' => 'Adventure Travel', 'slug' => 'adventure-travel',  'status' => 'publish' ]
-            , ['name' => 'Ecotourism', 'slug' => 'ecotourism',  'status' => 'publish' ]
-            , ['name' => 'Sea Travel ', 'slug' => 'sea-travel',  'status' => 'publish' ]
-            , ['name' => 'Hosted Tour', 'slug' => 'hosted-tour',  'status' => 'publish' ]
-            , ['name' => 'City trips ', 'slug' => 'city-trips',  'status' => 'publish' ]
-            , ['name' => 'Escorted Tour ', 'slug' => 'escorted-tour',  'status' => 'publish' ]
+            ['name' => 'Adventure Travel', 'slug' => 'adventure-travel', 'status' => 'publish']
+            , ['name' => 'Ecotourism', 'slug' => 'ecotourism', 'status' => 'publish']
+            , ['name' => 'Sea Travel ', 'slug' => 'sea-travel', 'status' => 'publish']
+            , ['name' => 'Hosted Tour', 'slug' => 'hosted-tour', 'status' => 'publish']
+            , ['name' => 'City trips ', 'slug' => 'city-trips', 'status' => 'publish']
+            , ['name' => 'Escorted Tour ', 'slug' => 'escorted-tour', 'status' => 'publish']
         ];
-        foreach ($list_categories as $category){
-            $row = new NewsCategory( $category );
+        foreach ($list_categories as $category) {
+            $row = new NewsCategory($category);
             $row->save();
         }
         $list_tags = [
-             ['name' => 'park', 'slug' => 'park' ],
-             ['name' => 'National park', 'slug' => 'national-park' ],
-             ['name' => 'Moutain', 'slug' => 'moutain' ],
-             ['name' => 'Travel', 'slug' => 'travel' ],
-             ['name' => 'Summer', 'slug' => 'summer'],
-             ['name' => 'Walking', 'slug' => 'walking'],
+            ['name' => 'park', 'slug' => 'park'],
+            ['name' => 'National park', 'slug' => 'national-park'],
+            ['name' => 'Moutain', 'slug' => 'moutain'],
+            ['name' => 'Travel', 'slug' => 'travel'],
+            ['name' => 'Summer', 'slug' => 'summer'],
+            ['name' => 'Walking', 'slug' => 'walking'],
         ];
         foreach ($list_tags as $tag) {
             $row = new Tag($tag);
@@ -72,7 +74,7 @@ class News extends Seeder
             'cat_id' => rand(1, 4),
             'image_id' => MediaFile::findMediaByName("news-1")->id,
             'create_user' => '1',
-            'created_at' =>  date("Y-m-d H:i:s")
+            'created_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('core_news')->insert([
             'title' => 'Pure Luxe in Punta Mita',
@@ -83,7 +85,7 @@ class News extends Seeder
             'cat_id' => rand(1, 4),
             'image_id' => MediaFile::findMediaByName("news-2")->id,
             'create_user' => '1',
-            'created_at' =>  date("Y-m-d H:i:s")
+            'created_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('core_news')->insert([
             'title' => 'All Aboard the Rocky Mountaineer',
@@ -94,7 +96,7 @@ class News extends Seeder
             'cat_id' => rand(1, 4),
             'image_id' => MediaFile::findMediaByName("news-3")->id,
             'create_user' => '1',
-            'created_at' =>  date("Y-m-d H:i:s")
+            'created_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('core_news')->insert([
             'title' => 'City Spotlight: Philadelphia',
@@ -105,7 +107,7 @@ class News extends Seeder
             'cat_id' => rand(1, 4),
             'image_id' => MediaFile::findMediaByName("news-4")->id,
             'create_user' => '1',
-            'created_at' =>  date("Y-m-d H:i:s")
+            'created_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('core_news')->insert([
             'title' => 'Tiptoe through the Tulips of Washington',
@@ -116,7 +118,7 @@ class News extends Seeder
             'cat_id' => rand(1, 4),
             'image_id' => MediaFile::findMediaByName("news-5")->id,
             'create_user' => '1',
-            'created_at' =>  date("Y-m-d H:i:s")
+            'created_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('core_news')->insert([
             'title' => 'A Seaside Reset in Laguna Beach',
@@ -127,7 +129,7 @@ class News extends Seeder
             'cat_id' => rand(1, 4),
             'image_id' => MediaFile::findMediaByName("news-6")->id,
             'create_user' => '1',
-            'created_at' =>  date("Y-m-d H:i:s")
+            'created_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('core_news')->insert([
             'title' => 'America  National Parks with Denver',
@@ -138,7 +140,7 @@ class News extends Seeder
             'cat_id' => rand(1, 4),
             'image_id' => MediaFile::findMediaByName("news-7")->id,
             'create_user' => '1',
-            'created_at' =>  date("Y-m-d H:i:s")
+            'created_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('core_news')->insert([
             'title' => 'Morning in the Northern sea',
@@ -149,7 +151,7 @@ class News extends Seeder
             'cat_id' => rand(1, 4),
             'image_id' => MediaFile::findMediaByName("news-2")->id,
             'create_user' => '1',
-            'created_at' =>  date("Y-m-d H:i:s")
+            'created_at' => date("Y-m-d H:i:s")
         ]);
     }
 }

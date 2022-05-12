@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Core\Models;
 
 use App\BaseModel;
@@ -30,30 +31,32 @@ class Plugins extends BaseModel
     public static function isPluginActive($name)
     {
         $listActive = setting_item("core_plugins_active");
-        $listActive = $listActive ? json_decode($listActive,true) : [];
+        $listActive = $listActive ? json_decode($listActive, true) : [];
         if (in_array($name, $listActive)) {
             return true;
         }
         return false;
     }
 
-    public static function updateActivePlugins($items){
+    public static function updateActivePlugins($items)
+    {
         $listActive = setting_item("core_plugins_active");
-        $listActive = $listActive ? json_decode($listActive,true) : [];
-        foreach ($items as $item){
-            if(!in_array($item,$listActive)){
+        $listActive = $listActive ? json_decode($listActive, true) : [];
+        foreach ($items as $item) {
+            if (!in_array($item, $listActive)) {
                 $listActive[] = $item;
             }
         }
-        setting_update_item('core_plugins_active',json_encode($listActive));
+        setting_update_item('core_plugins_active', json_encode($listActive));
         return true;
     }
 
-    public static function updateDeactivatePlugins($items){
+    public static function updateDeactivatePlugins($items)
+    {
         $listActive = setting_item("core_plugins_active");
-        $listActive = $listActive ? json_decode($listActive,true) : [];
+        $listActive = $listActive ? json_decode($listActive, true) : [];
         $listActive = array_diff($listActive, $items);
-        setting_update_item('core_plugins_active',json_encode($listActive));
+        setting_update_item('core_plugins_active', json_encode($listActive));
         return true;
     }
 }

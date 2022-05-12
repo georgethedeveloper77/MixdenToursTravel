@@ -14,9 +14,9 @@
             $file = (new \Modules\Media\Models\MediaFile())->findById($favicon);
         @endphp
         @if(!empty($file))
-            <link rel="icon" type="{{$file['file_type']}}" href="{{asset('uploads/'.$file['file_path'])}}" />
+            <link rel="icon" type="{{$file['file_type']}}" href="{{asset('uploads/'.$file['file_path'])}}"/>
         @else:
-            <link rel="icon" type="image/png" href="{{url('images/favicon.png')}}" />
+        <link rel="icon" type="image/png" href="{{url('images/favicon.png')}}"/>
         @endif
     @endif
 
@@ -34,7 +34,7 @@
     <link href="{{ asset('themes/mytravel/dist/frontend/css/notification.css') }}" rel="newest stylesheet">
     <link href="{{ asset('themes/mytravel/dist/frontend/css/app.css?_ver='.config('app.version')) }}" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="{{ asset("libs/daterange/daterangepicker.css") }}" >
+    <link rel="stylesheet" type="text/css" href="{{ asset("libs/daterange/daterangepicker.css") }}">
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <!-- Google Fonts -->
@@ -43,9 +43,11 @@
     <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:100,200,300,400,500,600,700,800,900&display=swap"
+          rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('themes/mytravel/libs/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
+    <link rel="stylesheet"
+          href="{{ asset('themes/mytravel/libs/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
     <link href="{{ asset('libs/ion_rangeslider/css/ion.rangeSlider.css') }}" rel="stylesheet">
 
 
@@ -53,41 +55,41 @@
     {!! \App\Helpers\Assets::js() !!}
     <script>
         var myTravel = {
-            url:'{{url( app_get_locale() )}}',
-            url_root:'{{ url('') }}',
+            url: '{{url( app_get_locale() )}}',
+            url_root: '{{ url('') }}',
             booking_decimals:{{(int)get_current_currency('currency_no_decimal',2)}},
-            thousand_separator:'{{get_current_currency('currency_thousand')}}',
-            decimal_separator:'{{get_current_currency('currency_decimal')}}',
-            currency_position:'{{get_current_currency('currency_format')}}',
-            currency_symbol:'{{currency_symbol()}}',
-			currency_rate:'{{get_current_currency('rate',1)}}',
-            date_format:'{{get_moment_date_format()}}',
-            map_provider:'{{setting_item('map_provider')}}',
-            map_gmap_key:'{{setting_item('map_gmap_key')}}',
-            routes:{
-                login:'{{route('login')}}',
-                register:'{{route('auth.register')}}',
-                checkout:'{{is_api() ? route('api.booking.doCheckout') : route('booking.doCheckout')}}'
+            thousand_separator: '{{get_current_currency('currency_thousand')}}',
+            decimal_separator: '{{get_current_currency('currency_decimal')}}',
+            currency_position: '{{get_current_currency('currency_format')}}',
+            currency_symbol: '{{currency_symbol()}}',
+            currency_rate: '{{get_current_currency('rate',1)}}',
+            date_format: '{{get_moment_date_format()}}',
+            map_provider: '{{setting_item('map_provider')}}',
+            map_gmap_key: '{{setting_item('map_gmap_key')}}',
+            routes: {
+                login: '{{route('login')}}',
+                register: '{{route('auth.register')}}',
+                checkout: '{{is_api() ? route('api.booking.doCheckout') : route('booking.doCheckout')}}'
             },
-            module:{
-                hotel:'{{route('hotel.search')}}',
-                car:'{{route('car.search')}}',
-                tour:'{{route('tour.search')}}',
-                space:'{{route('space.search')}}',
-                flight:"{{route('flight.search')}}"
+            module: {
+                hotel: '{{route('hotel.search')}}',
+                car: '{{route('car.search')}}',
+                tour: '{{route('tour.search')}}',
+                space: '{{route('space.search')}}',
+                flight: "{{route('flight.search')}}"
             },
             currentUser: {{(int)Auth::id()}},
-            isAdmin : {{is_admin() ? 1 : 0}},
+            isAdmin: {{is_admin() ? 1 : 0}},
             rtl: {{ setting_item_with_lang('enable_rtl') ? "1" : "0" }},
-            markAsRead:'{{route('core.notification.markAsRead')}}',
-            markAllAsRead:'{{route('core.notification.markAllAsRead')}}',
-            loadNotify : '{{route('core.notification.loadNotify')}}',
-            pusher_api_key : '{{setting_item("pusher_api_key")}}',
-            pusher_cluster : '{{setting_item("pusher_cluster")}}',
+            markAsRead: '{{route('core.notification.markAsRead')}}',
+            markAllAsRead: '{{route('core.notification.markAllAsRead')}}',
+            loadNotify: '{{route('core.notification.loadNotify')}}',
+            pusher_api_key: '{{setting_item("pusher_api_key")}}',
+            pusher_cluster: '{{setting_item("pusher_cluster")}}',
         };
         var i18n = {
-            warning:"{{__("Warning")}}",
-            success:"{{__("Success")}}",
+            warning: "{{__("Warning")}}",
+            success: "{{__("Success")}}",
         };
         var daterangepickerLocale = {
             "applyLabel": "{{__('Apply')}}",
@@ -136,23 +138,24 @@
     @php event(new \Modules\Layout\Events\LayoutEndHead()); @endphp
 
 </head>
-<body class="frontend-page {{$body_class ?? ''}} @if(!empty($is_home) or !empty($header_transparent)) header_transparent @endif @if(setting_item_with_lang('enable_rtl')) is-rtl @endif @if(is_api()) is_api @endif">
-    @php event(new \Modules\Layout\Events\LayoutBeginBody()); @endphp
+<body
+    class="frontend-page {{$body_class ?? ''}} @if(!empty($is_home) or !empty($header_transparent)) header_transparent @endif @if(setting_item_with_lang('enable_rtl')) is-rtl @endif @if(is_api()) is_api @endif">
+@php event(new \Modules\Layout\Events\LayoutBeginBody()); @endphp
 
-    {!! setting_item('body_scripts') !!}
-    {!! setting_item_with_lang_raw('body_scripts') !!}
-    <div class="bravo_wrap">
-        @if(!is_api())
-            @include('Layout::parts.header')
-        @endif
+{!! setting_item('body_scripts') !!}
+{!! setting_item_with_lang_raw('body_scripts') !!}
+<div class="bravo_wrap">
+    @if(!is_api())
+        @include('Layout::parts.header')
+    @endif
 
-        @yield('content')
+    @yield('content')
 
-        @include('Layout::parts.footer')
-    </div>
-    {!! setting_item('footer_scripts') !!}
-    {!! setting_item_with_lang_raw('footer_scripts') !!}
-    @php event(new \Modules\Layout\Events\LayoutEndBody()); @endphp
-    @include('demo_script')
+    @include('Layout::parts.footer')
+</div>
+{!! setting_item('footer_scripts') !!}
+{!! setting_item_with_lang_raw('footer_scripts') !!}
+@php event(new \Modules\Layout\Events\LayoutEndBody()); @endphp
+@include('demo_script')
 </body>
 </html>

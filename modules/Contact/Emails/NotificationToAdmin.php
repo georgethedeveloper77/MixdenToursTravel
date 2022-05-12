@@ -16,6 +16,7 @@ use Modules\Contact\Models\Contact;
 class NotificationToAdmin extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $contact;
 
     public function __construct(Contact $contact)
@@ -26,7 +27,7 @@ class NotificationToAdmin extends Mailable
     public function build()
     {
 
-        return $this->subject(__('[:site_name] New message',['site_name'=>setting_item('site_title')]))->view('Contact::emails.notification')->with([
+        return $this->subject(__('[:site_name] New message', ['site_name' => setting_item('site_title')]))->view('Contact::emails.notification')->with([
             'contact' => $this->contact,
         ]);
     }

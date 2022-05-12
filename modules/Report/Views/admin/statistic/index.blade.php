@@ -36,11 +36,11 @@
                                     $user = !empty(Request()->user_id) ? App\User::find(Request()->user_id) : false;
                                     \App\Helpers\AdminForm::select2('user_id', [
                                         'configs' => [
-                                            'ajax'        => [
+                                            'ajax' => [
                                                 'url' => route('user.admin.getForSelect2'),
                                                 'dataType' => 'json'
                                             ],
-                                            'allowClear'  => true,
+                                            'allowClear' => true,
                                             'placeholder' => __('-- Select User --')
                                         ]
                                     ], !empty($user->id) ? [

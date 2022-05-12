@@ -1,13 +1,18 @@
 <?php
+
 namespace Modules\Booking\Models;
 
 use App\BaseModel;
 
 class Enquiry extends BaseModel
 {
-    protected $table      = 'bravo_enquiries';
-
-    protected $fillable                           = [
+    public static $enquiryStatus = [
+        'pending',
+        'completed',
+        'cancel',
+    ];
+    protected $table = 'bravo_enquiries';
+    protected $fillable = [
         'object_id',
         'object_model',
         'name',
@@ -16,12 +21,6 @@ class Enquiry extends BaseModel
         'note',
         'status',
         'vendor_id',
-    ];
-
-    public static $enquiryStatus = [
-        'pending',
-        'completed',
-        'cancel',
     ];
 
     public function fill(array $attributes)
@@ -42,6 +41,7 @@ class Enquiry extends BaseModel
         }
         return $this->hasOne(\Modules\Tour\Models\Tour::class, 'id', 'object_id');
     }
+
     public function getStatusNameAttribute()
     {
         return booking_status_to_text($this->status);

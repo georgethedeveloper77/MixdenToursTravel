@@ -28,13 +28,13 @@
             <div class="item-content">
                 <div class="bravo-filter-price">
                     <?php
-                    $price_min = $pri_from = floor ( App\Currency::convertPrice($car_min_max_price[0]) );
-                    $price_max = $pri_to = ceil ( App\Currency::convertPrice($car_min_max_price[1]) );
+                    $price_min = $pri_from = floor(App\Currency::convertPrice($car_min_max_price[0]));
+                    $price_max = $pri_to = ceil(App\Currency::convertPrice($car_min_max_price[1]));
                     if (!empty($price_range = Request::query('price_range'))) {
                         $pri_from = explode(";", $price_range)[0];
                         $pri_to = explode(";", $price_range)[1];
                     }
-                    $currency = App\Currency::getCurrency( App\Currency::getCurrent() );
+                    $currency = App\Currency::getCurrency(App\Currency::getCurrent());
                     ?>
                     <input type="hidden" class="filter-price irs-hidden-input" name="price_range"
                            data-symbol=" {{$currency['symbol'] ?? ''}}"
@@ -58,7 +58,8 @@
                         <li>
                             <div class="bravo-checkbox">
                                 <label>
-                                    <input name="review_score[]" type="checkbox" value="{{$number}}" @if(  in_array($number , request()->query('review_score',[])) )  checked @endif>
+                                    <input name="review_score[]" type="checkbox" value="{{$number}}"
+                                           @if(  in_array($number , request()->query('review_score',[])) )  checked @endif>
                                     <span class="checkmark"></span>
                                     @for ($review_score = 1 ;$review_score <= $number ; $review_score++)
                                         <i class="fa fa-star"></i>
@@ -90,7 +91,8 @@
                                 <li @if($key > 2 and empty($selected)) class="hide" @endif>
                                     <div class="bravo-checkbox">
                                         <label>
-                                            <input @if(in_array($term->id,$selected)) checked @endif type="checkbox" name="terms[]" value="{{$term->id}}"> {!! $translate->name !!}
+                                            <input @if(in_array($term->id,$selected)) checked @endif type="checkbox"
+                                                   name="terms[]" value="{{$term->id}}"> {!! $translate->name !!}
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -98,12 +100,13 @@
                             @endforeach
                         </ul>
                         @if(count($item->terms) > 3 and empty($selected))
-                            <button type="button" class="btn btn-link btn-more-item">{{__("More")}} <i class="fa fa-caret-down"></i></button>
+                            <button type="button" class="btn btn-link btn-more-item">{{__("More")}} <i
+                                    class="fa fa-caret-down"></i></button>
                         @endif
                     </div>
                 </div>
-            @endif
-        @endforeach
+                @endif
+            @endforeach
     </form>
 </div>
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -36,24 +38,23 @@ class MediaFileSeeder extends Seeder
         ]);
 
 
-
         //Tour
         DB::table('media_files')->insert([
             ['file_name' => 'banner-search', 'file_path' => 'demo/tour/banner-search.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
         ]);
-        for ($i=1 ; $i <= 16 ; $i++){
+        for ($i = 1; $i <= 16; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'tour-'.$i, 'file_path' => 'demo/tour/tour-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'tour-' . $i, 'file_path' => 'demo/tour/tour-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 7 ; $i++){
+        for ($i = 1; $i <= 7; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'gallery-'.$i, 'file_path' => 'demo/tour/gallery-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'gallery-' . $i, 'file_path' => 'demo/tour/gallery-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 17 ; $i++){
+        for ($i = 1; $i <= 17; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'banner-tour-'.$i, 'file_path' => 'demo/tour/banner-detail/banner-tour-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'banner-tour-' . $i, 'file_path' => 'demo/tour/banner-detail/banner-tour-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
 
@@ -62,26 +63,26 @@ class MediaFileSeeder extends Seeder
             ['file_name' => 'banner-search-space', 'file_path' => 'demo/space/banner-search-space.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ['file_name' => 'banner-search-space-2', 'file_path' => 'demo/space/banner-search-space-2.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
         ]);
-        for ($i=1 ; $i <= 13 ; $i++){
+        for ($i = 1; $i <= 13; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'space-'.$i, 'file_path' => 'demo/space/space-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'space-' . $i, 'file_path' => 'demo/space/space-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 7 ; $i++){
+        for ($i = 1; $i <= 7; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'space-gallery-'.$i, 'file_path' => 'demo/space/gallery/space-gallery-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'space-gallery-' . $i, 'file_path' => 'demo/space/gallery/space-gallery-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
 
 
-        for ($i=1 ; $i <= 3 ; $i++){
+        for ($i = 1; $i <= 3; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'space-single-'.$i, 'file_path' => 'demo/space/space-single-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'space-single-' . $i, 'file_path' => 'demo/space/space-single-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 6 ; $i++){
+        for ($i = 1; $i <= 6; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'icon-space-box-'.$i, 'file_path' => 'demo/space/featured-box/icon-space-box-'.$i.'.png', 'file_type' => 'image/png', 'file_extension' => 'jpg'],
+                ['file_name' => 'icon-space-box-' . $i, 'file_path' => 'demo/space/featured-box/icon-space-box-' . $i . '.png', 'file_type' => 'image/png', 'file_extension' => 'jpg'],
             ]);
         }
 
@@ -89,19 +90,19 @@ class MediaFileSeeder extends Seeder
         DB::table('media_files')->insert([
             ['file_name' => 'banner-search-hotel', 'file_path' => 'demo/hotel/banner-search-hotel.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
         ]);
-        for ($i=1 ; $i <= 4 ; $i++){
+        for ($i = 1; $i <= 4; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'hotel-featured-'.$i, 'file_path' => 'demo/hotel/hotel-featured-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'hotel-featured-' . $i, 'file_path' => 'demo/hotel/hotel-featured-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 6 ; $i++){
+        for ($i = 1; $i <= 6; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'hotel-gallery-'.$i, 'file_path' => 'demo/hotel/gallery/hotel-gallery-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'hotel-gallery-' . $i, 'file_path' => 'demo/hotel/gallery/hotel-gallery-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 3 ; $i++){
+        for ($i = 1; $i <= 3; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'hotel-icon-'.$i, 'file_path' => 'demo/hotel/hotel-icon-'.$i.'.svg', 'file_type' => 'image/svg', 'file_extension' => 'svg'],
+                ['file_name' => 'hotel-icon-' . $i, 'file_path' => 'demo/hotel/hotel-icon-' . $i . '.svg', 'file_type' => 'image/svg', 'file_extension' => 'svg'],
             ]);
         }
 
@@ -157,14 +158,14 @@ class MediaFileSeeder extends Seeder
             ['file_name' => 'Steering Wheel', 'file_path' => 'demo/car/feature/Steering.svg', 'file_type' => 'image/svg', 'file_extension' => 'svg'],
             ['file_name' => 'Power Windows', 'file_path' => 'demo/car/feature/Windows.svg', 'file_type' => 'image/svg', 'file_extension' => 'svg'],
         ]);
-        for ($i=1 ; $i <= 12 ; $i++){
+        for ($i = 1; $i <= 12; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'car-'.$i, 'file_path' => 'demo/car/car-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'car-' . $i, 'file_path' => 'demo/car/car-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 7 ; $i++){
+        for ($i = 1; $i <= 7; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'car-gallery-'.$i, 'file_path' => 'demo/car/gallery-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'car-gallery-' . $i, 'file_path' => 'demo/car/gallery-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
 
@@ -172,19 +173,19 @@ class MediaFileSeeder extends Seeder
         DB::table('media_files')->insert([
             ['file_name' => 'banner-search-event', 'file_path' => 'demo/event/banner-search.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
         ]);
-        for ($i=1 ; $i <= 12 ; $i++){
+        for ($i = 1; $i <= 12; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'event-'.$i, 'file_path' => 'demo/event/event-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'event-' . $i, 'file_path' => 'demo/event/event-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 6 ; $i++){
+        for ($i = 1; $i <= 6; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'gallery-event-'.$i, 'file_path' => 'demo/event/gallery-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'gallery-event-' . $i, 'file_path' => 'demo/event/gallery-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 3 ; $i++){
+        for ($i = 1; $i <= 3; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'banner-event-'.$i, 'file_path' => 'demo/event/banner-detail/banner-event-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'banner-event-' . $i, 'file_path' => 'demo/event/banner-detail/banner-event-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
 

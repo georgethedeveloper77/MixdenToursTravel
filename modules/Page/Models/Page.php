@@ -1,17 +1,20 @@
 <?php
+
 namespace Modules\Page\Models;
 
 use App\BaseModel;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Core\Models\SEO;
 
 class Page extends BaseModel
 {
     use SoftDeletes;
 
+    public $translatedAttributes = [
+        'title',
+        'content',
+        'short_desc',
+    ];
     protected $table = 'core_pages';
     protected $fillable = [
         'title',
@@ -23,26 +26,14 @@ class Page extends BaseModel
         'header_style',
         'custom_logo'
     ];
-    protected $slugField     = 'slug';
+    protected $slugField = 'slug';
     protected $slugFromField = 'title';
     protected $cleanFields = [
         'content',
     ];
-
-    public $translatedAttributes = [
-        'title',
-        'content',
-        'short_desc',
-    ];
-
     protected $seo_type = 'page';
 
     protected $sitemap_type = 'page';
-
-    public function getDetailUrl($locale = false)
-    {
-        return route('page.detail',['slug'=>$this->slug]);
-    }
 
     public static function getModelName()
     {
@@ -65,9 +56,14 @@ class Page extends BaseModel
         return $a;
     }
 
+    public function getDetailUrl($locale = false)
+    {
+        return route('page.detail', ['slug' => $this->slug]);
+    }
+
     public function getEditUrlAttribute()
     {
-        return url(route('page.admin.edit',['id'=>$this->id]));
+        return url(route('page.admin.edit', ['id' => $this->id]));
     }
 
     public function template()
@@ -78,7 +74,7 @@ class Page extends BaseModel
     public function getProcessedContent()
     {
         $template = $this->template;
-        if(!empty($template)){
+        if (!empty($template)) {
             $translation = $template->translateOrOrigin(app()->getLocale());
             return $translation->getProcessedContent();
         }

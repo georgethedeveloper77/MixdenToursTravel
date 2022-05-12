@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class BravoLocation extends Migration
 {
@@ -15,14 +15,14 @@ class BravoLocation extends Migration
     {
         Schema::create('bravo_locations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name',255)->nullable();
+            $table->string('name', 255)->nullable();
             $table->text('content')->nullable();
-            $table->string('slug',255)->nullable();
+            $table->string('slug', 255)->nullable();
             $table->integer('image_id')->nullable();
-            $table->string('map_lat',20)->nullable();
-            $table->string('map_lng',20)->nullable();
+            $table->string('map_lat', 20)->nullable();
+            $table->string('map_lng', 20)->nullable();
             $table->integer('map_zoom')->nullable();
-            $table->string('status',50)->nullable();
+            $table->string('status', 50)->nullable();
             $table->nestedSet();
 
             $table->integer('create_user')->nullable();
@@ -31,7 +31,7 @@ class BravoLocation extends Migration
 
             //Languages
             $table->bigInteger('origin_id')->nullable();
-            $table->string('lang',10)->nullable();
+            $table->string('lang', 10)->nullable();
 
             $table->timestamps();
         });

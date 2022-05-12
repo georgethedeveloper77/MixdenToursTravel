@@ -20,7 +20,8 @@
                     <div class="head">
                         <div class="left">
                             <span class="head-rating">{{$review_score['score_text']}}</span>
-                            <span class="text-rating">{{__("from :number reviews",['number'=>$review_score['total_review']])}}</span>
+                            <span
+                                class="text-rating">{{__("from :number reviews",['number'=>$review_score['total_review']])}}</span>
                         </div>
                         <div class="score">
                             {{$review_score['score_total']}}<span>/5</span>
@@ -37,7 +38,8 @@
 
 @if($row->getGallery())
     <div class="g-gallery">
-        <div class="fotorama" data-width="100%" data-thumbwidth="135" data-thumbheight="135" data-thumbmargin="15" data-nav="thumbs" data-allowfullscreen="true">
+        <div class="fotorama" data-width="100%" data-thumbwidth="135" data-thumbheight="135" data-thumbmargin="15"
+             data-nav="thumbs" data-allowfullscreen="true">
             @foreach($row->getGallery() as $key=>$item)
                 <a href="{{$item['large']}}" data-thumb="{{$item['thumb']}}" data-alt="{{ __("Gallery") }}"></a>
             @endforeach
@@ -49,12 +51,16 @@
                 </span>
                 <ul class="share-wrapper">
                     <li>
-                        <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{$row->getDetailUrl()}}&amp;title={{$translation->title}}" target="_blank" rel="noopener" original-title="{{__("Facebook")}}">
+                        <a class="facebook"
+                           href="https://www.facebook.com/sharer/sharer.php?u={{$row->getDetailUrl()}}&amp;title={{$translation->title}}"
+                           target="_blank" rel="noopener" original-title="{{__("Facebook")}}">
                             <i class="fa fa-facebook fa-lg"></i>
                         </a>
                     </li>
                     <li>
-                        <a class="twitter" href="https://twitter.com/share?url={{$row->getDetailUrl()}}&amp;title={{$translation->title}}" target="_blank" rel="noopener" original-title="{{__("Twitter")}}">
+                        <a class="twitter"
+                           href="https://twitter.com/share?url={{$row->getDetailUrl()}}&amp;title={{$translation->title}}"
+                           target="_blank" rel="noopener" original-title="{{__("Twitter")}}">
                             <i class="fa fa-twitter fa-lg"></i>
                         </a>
                     </li>
@@ -76,27 +82,27 @@
 @endif
 @include('Car::frontend.layouts.details.attributes')
 @if($translation->faqs)
-<div class="g-faq">
-    <h3> {{__("FAQs")}} </h3>
-    @foreach($translation->faqs as $item)
-        <div class="item">
-            <div class="header">
-                <i class="field-icon icofont-support-faq"></i>
-                <h5>{{$item['title']}}</h5>
-                <span class="arrow"><i class="fa fa-angle-down"></i></span>
+    <div class="g-faq">
+        <h3> {{__("FAQs")}} </h3>
+        @foreach($translation->faqs as $item)
+            <div class="item">
+                <div class="header">
+                    <i class="field-icon icofont-support-faq"></i>
+                    <h5>{{$item['title']}}</h5>
+                    <span class="arrow"><i class="fa fa-angle-down"></i></span>
+                </div>
+                <div class="body">
+                    {{$item['content']}}
+                </div>
             </div>
-            <div class="body">
-                {{$item['content']}}
-            </div>
-        </div>
-    @endforeach
-</div>
+        @endforeach
+    </div>
 @endif
 @if($row->map_lat && $row->map_lng)
-<div class="g-location">
-    <h3>{{__("Location")}}</h3>
-    <div class="location-map">
-        <div id="map_content"></div>
+    <div class="g-location">
+        <h3>{{__("Location")}}</h3>
+        <div class="location-map">
+            <div id="map_content"></div>
+        </div>
     </div>
-</div>
 @endif

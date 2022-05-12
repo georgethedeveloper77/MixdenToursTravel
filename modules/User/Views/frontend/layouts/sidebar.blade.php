@@ -1,62 +1,61 @@
 <?php
 $dataUser = Auth::user();
 $menus = [
-    'dashboard'       => [
-        'url'        => route("vendor.dashboard"),
-        'title'      => __("Dashboard"),
-        'icon'       => 'fa fa-home',
+    'dashboard' => [
+        'url' => route("vendor.dashboard"),
+        'title' => __("Dashboard"),
+        'icon' => 'fa fa-home',
         'permission' => 'dashboard_vendor_access',
-        'position'   => 10
+        'position' => 10
     ],
     'booking-history' => [
-        'url'      => route("user.booking_history"),
-        'title'    => __("Booking History"),
-        'icon'     => 'fa fa-clock-o',
+        'url' => route("user.booking_history"),
+        'title' => __("Booking History"),
+        'icon' => 'fa fa-clock-o',
         'position' => 20
     ],
-    "wishlist"=>[
-        'url'   => route("user.wishList.index"),
+    "wishlist" => [
+        'url' => route("user.wishList.index"),
         'title' => __("Wishlist"),
-        'icon'  => 'fa fa-heart-o',
+        'icon' => 'fa fa-heart-o',
         'position' => 21
     ],
-    'profile'         => [
-        'url'      => route("user.profile.index"),
-        'title'    => __("My Profile"),
-        'icon'     => 'fa fa-cogs',
+    'profile' => [
+        'url' => route("user.profile.index"),
+        'title' => __("My Profile"),
+        'icon' => 'fa fa-cogs',
         'position' => 40
     ],
-    'password'        => [
-        'url'      => route("user.change_password"),
-        'title'    => __("Change password"),
-        'icon'     => 'fa fa-lock',
+    'password' => [
+        'url' => route("user.change_password"),
+        'title' => __("Change password"),
+        'icon' => 'fa fa-lock',
         'position' => 50
     ],
-    'admin'           => [
-        'url'        => route('admin.index'),
-        'title'      => __("Admin Dashboard"),
-        'icon'       => 'icon ion-ios-ribbon',
+    'admin' => [
+        'url' => route('admin.index'),
+        'title' => __("Admin Dashboard"),
+        'icon' => 'icon ion-ios-ribbon',
         'permission' => 'dashboard_access',
-        'position'   => 60
+        'position' => 60
     ]
 ];
 
 // Modules
 $custom_modules = \Modules\ServiceProvider::getModules();
-if(!empty($custom_modules)){
-    foreach($custom_modules as $module){
-        $moduleClass = "\\Modules\\".ucfirst($module)."\\ModuleProvider";
-        if(class_exists($moduleClass))
-        {
-            $menuConfig = call_user_func([$moduleClass,'getUserMenu']);
-            if(!empty($menuConfig)){
-                $menus = array_merge($menus,$menuConfig);
+if (!empty($custom_modules)) {
+    foreach ($custom_modules as $module) {
+        $moduleClass = "\\Modules\\" . ucfirst($module) . "\\ModuleProvider";
+        if (class_exists($moduleClass)) {
+            $menuConfig = call_user_func([$moduleClass, 'getUserMenu']);
+            if (!empty($menuConfig)) {
+                $menus = array_merge($menus, $menuConfig);
             }
-            $menuSubMenu = call_user_func([$moduleClass,'getUserSubMenu']);
-            if(!empty($menuSubMenu)){
-                foreach($menuSubMenu as $k=>$submenu){
-                    $submenu['id'] = $submenu['id'] ?? '_'.$k;
-                    if(!empty($submenu['parent']) and isset($menus[$submenu['parent']])){
+            $menuSubMenu = call_user_func([$moduleClass, 'getUserSubMenu']);
+            if (!empty($menuSubMenu)) {
+                foreach ($menuSubMenu as $k => $submenu) {
+                    $submenu['id'] = $submenu['id'] ?? '_' . $k;
+                    if (!empty($submenu['parent']) and isset($menus[$submenu['parent']])) {
                         $menus[$submenu['parent']]['children'][$submenu['id']] = $submenu;
                         $menus[$submenu['parent']]['children'] = array_values(\Illuminate\Support\Arr::sort($menus[$submenu['parent']]['children'], function ($value) {
                             return $value['position'] ?? 100;
@@ -70,20 +69,19 @@ if(!empty($custom_modules)){
 
 // Plugins Menu
 $plugins_modules = \Plugins\ServiceProvider::getModules();
-if(!empty($plugins_modules)){
-    foreach($plugins_modules as $module){
-        $moduleClass = "\\Plugins\\".ucfirst($module)."\\ModuleProvider";
-        if(class_exists($moduleClass))
-        {
-            $menuConfig = call_user_func([$moduleClass,'getUserMenu']);
-            if(!empty($menuConfig)){
-                $menus = array_merge($menus,$menuConfig);
+if (!empty($plugins_modules)) {
+    foreach ($plugins_modules as $module) {
+        $moduleClass = "\\Plugins\\" . ucfirst($module) . "\\ModuleProvider";
+        if (class_exists($moduleClass)) {
+            $menuConfig = call_user_func([$moduleClass, 'getUserMenu']);
+            if (!empty($menuConfig)) {
+                $menus = array_merge($menus, $menuConfig);
             }
-            $menuSubMenu = call_user_func([$moduleClass,'getUserSubMenu']);
-            if(!empty($menuSubMenu)){
-                foreach($menuSubMenu as $k=>$submenu){
-                    $submenu['id'] = $submenu['id'] ?? '_'.$k;
-                    if(!empty($submenu['parent']) and isset($menus[$submenu['parent']])){
+            $menuSubMenu = call_user_func([$moduleClass, 'getUserSubMenu']);
+            if (!empty($menuSubMenu)) {
+                foreach ($menuSubMenu as $k => $submenu) {
+                    $submenu['id'] = $submenu['id'] ?? '_' . $k;
+                    if (!empty($submenu['parent']) and isset($menus[$submenu['parent']])) {
                         $menus[$submenu['parent']]['children'][$submenu['id']] = $submenu;
                         $menus[$submenu['parent']]['children'] = array_values(\Illuminate\Support\Arr::sort($menus[$submenu['parent']]['children'], function ($value) {
                             return $value['position'] ?? 100;
@@ -97,20 +95,19 @@ if(!empty($plugins_modules)){
 
 // Custom Menu
 $custom_modules = \Custom\ServiceProvider::getModules();
-if(!empty($custom_modules)){
-    foreach($custom_modules as $module){
-        $moduleClass = "\\Custom\\".ucfirst($module)."\\ModuleProvider";
-        if(class_exists($moduleClass))
-        {
-            $menuConfig = call_user_func([$moduleClass,'getUserMenu']);
-            if(!empty($menuConfig)){
-                $menus = array_merge($menus,$menuConfig);
+if (!empty($custom_modules)) {
+    foreach ($custom_modules as $module) {
+        $moduleClass = "\\Custom\\" . ucfirst($module) . "\\ModuleProvider";
+        if (class_exists($moduleClass)) {
+            $menuConfig = call_user_func([$moduleClass, 'getUserMenu']);
+            if (!empty($menuConfig)) {
+                $menus = array_merge($menus, $menuConfig);
             }
-            $menuSubMenu = call_user_func([$moduleClass,'getUserSubMenu']);
-            if(!empty($menuSubMenu)){
-                foreach($menuSubMenu as $k=>$submenu){
-                    $submenu['id'] = $submenu['id'] ?? '_'.$k;
-                    if(!empty($submenu['parent']) and isset($menus[$submenu['parent']])){
+            $menuSubMenu = call_user_func([$moduleClass, 'getUserSubMenu']);
+            if (!empty($menuSubMenu)) {
+                foreach ($menuSubMenu as $k => $submenu) {
+                    $submenu['id'] = $submenu['id'] ?? '_' . $k;
+                    if (!empty($submenu['parent']) and isset($menus[$submenu['parent']])) {
                         $menus[$submenu['parent']]['children'][$submenu['id']] = $submenu;
                         $menus[$submenu['parent']]['children'] = array_values(\Illuminate\Support\Arr::sort($menus[$submenu['parent']]['children'], function ($value) {
                             return $value['position'] ?? 100;
@@ -127,23 +124,23 @@ if (!empty($menus))
     $menus = array_values(\Illuminate\Support\Arr::sort($menus, function ($value) {
         return $value['position'] ?? 100;
     }));
-    foreach ($menus as $k => $menuItem) {
-        if (!empty($menuItem['permission']) and !Auth::user()->hasPermissionTo($menuItem['permission'])) {
-            unset($menus[$k]);
-            continue;
-        }
-        $menus[$k]['class'] = $currentUrl == url($menuItem['url']) ? 'active' : '';
-        if (!empty($menuItem['children'])) {
-            $menus[$k]['class'] .= ' has-children';
-            foreach ($menuItem['children'] as $k2 => $menuItem2) {
-                if (!empty($menuItem2['permission']) and !Auth::user()->hasPermissionTo($menuItem2['permission'])) {
-                    unset($menus[$k]['children'][$k2]);
-                    continue;
-                }
-                $menus[$k]['children'][$k2]['class'] = $currentUrl == url($menuItem2['url']) ? 'active active_child' : '';
+foreach ($menus as $k => $menuItem) {
+    if (!empty($menuItem['permission']) and !Auth::user()->hasPermissionTo($menuItem['permission'])) {
+        unset($menus[$k]);
+        continue;
+    }
+    $menus[$k]['class'] = $currentUrl == url($menuItem['url']) ? 'active' : '';
+    if (!empty($menuItem['children'])) {
+        $menus[$k]['class'] .= ' has-children';
+        foreach ($menuItem['children'] as $k2 => $menuItem2) {
+            if (!empty($menuItem2['permission']) and !Auth::user()->hasPermissionTo($menuItem2['permission'])) {
+                unset($menus[$k]['children'][$k2]);
+                continue;
             }
+            $menus[$k]['children'][$k2]['class'] = $currentUrl == url($menuItem2['url']) ? 'active active_child' : '';
         }
     }
+}
 ?>
 <div class="sidebar-user">
     <div class="bravo-close-menu-user"><i class="icofont-scroll-left"></i></div>
@@ -199,10 +196,12 @@ if (!empty($menus))
         <form id="logout-form-vendor" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
-        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-vendor').submit();"><i class="fa fa-sign-out"></i> {{__("Log Out")}}
+        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form-vendor').submit();"><i
+                class="fa fa-sign-out"></i> {{__("Log Out")}}
         </a>
     </div>
     <div class="logout">
-        <a href="{{url('/')}}" style="color: #1ABC9C"><i class="fa fa-long-arrow-left"></i> {{__("Back to Homepage")}}</a>
+        <a href="{{url('/')}}" style="color: #1ABC9C"><i class="fa fa-long-arrow-left"></i> {{__("Back to Homepage")}}
+        </a>
     </div>
 </div>

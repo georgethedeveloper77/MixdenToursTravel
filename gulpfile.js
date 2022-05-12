@@ -1,6 +1,6 @@
 const gulp = require("gulp");
 const zip = require("gulp-zip");
-const { series, parallel } = require("gulp");
+const {series, parallel} = require("gulp");
 //const del  = require('del');
 const rename = require("gulp-rename");
 var clean = require("gulp-clean");
@@ -11,6 +11,7 @@ function compressPackage() {
         .pipe(zip("booking-core.zip"))
         .pipe(gulp.dest("../builds/"));
 }
+
 function copyPackage() {
     //del('../builds/booking-core/*/**',{force:true});
 
@@ -35,6 +36,7 @@ function copyPackage() {
         ])
         .pipe(gulp.dest("../builds/booking-core"));
 }
+
 function makeEnv() {
     return gulp
         .src([".env.example"])
@@ -45,15 +47,17 @@ function makeEnv() {
 function backend(cb) {
     cb();
 }
+
 function frontend(cb) {
     cb();
 }
 
 function cleanBuildFolder() {
     return gulp
-        .src("../builds/booking-core", { read: false, allowEmpty: true })
-        .pipe(clean({ force: true }));
+        .src("../builds/booking-core", {read: false, allowEmpty: true})
+        .pipe(clean({force: true}));
 }
+
 exports.default = series(
     parallel(backend, frontend),
     cleanBuildFolder,

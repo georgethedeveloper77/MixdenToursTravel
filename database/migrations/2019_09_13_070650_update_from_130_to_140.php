@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class UpdateFrom130To140 extends Migration
 {
@@ -17,9 +17,9 @@ class UpdateFrom130To140 extends Migration
             $table->bigIncrements('id');
 
             $table->bigInteger('vendor_id')->nullable();
-            $table->decimal('amount',10,2)->nullable();
-            $table->string('status',50)->nullable();
-            $table->string("payout_method",50)->nullable();
+            $table->decimal('amount', 10, 2)->nullable();
+            $table->string('status', 50)->nullable();
+            $table->string("payout_method", 50)->nullable();
             $table->text("account_info")->nullable();
 
             $table->text("note_to_admin")->nullable();
@@ -63,7 +63,7 @@ class UpdateFrom130To140 extends Migration
 
         Schema::table('users', function (Blueprint $table) {
             if (!Schema::hasColumn('users', 'business_name')) {
-                $table->string('business_name',255)->nullable();
+                $table->string('business_name', 255)->nullable();
             }
         });
         Schema::table('bravo_space_translations', function (Blueprint $table) {
@@ -73,7 +73,7 @@ class UpdateFrom130To140 extends Migration
         });
         Schema::table('bravo_terms', function (Blueprint $table) {
             if (!Schema::hasColumn('bravo_terms', 'icon')) {
-                $table->string('icon',50)->nullable();
+                $table->string('icon', 50)->nullable();
             }
         });
         Schema::table('bravo_bookings', function (Blueprint $table) {

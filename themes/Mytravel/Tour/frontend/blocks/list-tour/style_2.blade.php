@@ -6,15 +6,15 @@
             </div>
         @endif
         <div class="travel-slick-carousel u-slick u-slick--gutters-3 u-slick--equal-height mb-4"
-                 data-arrows-classes="d-lg-inline-block u-slick__arrow-classic u-slick__arrow-classic--v2 u-slick__arrow-centered--y rounded-circle"
-                 data-arrow-left-classes="flaticon-back u-slick__arrow-classic-inner u-slick__arrow-classic-inner--left ml-xl-n8"
-                 data-arrow-right-classes="flaticon-next u-slick__arrow-classic-inner u-slick__arrow-classic-inner--right mr-xl-n8"
-                 data-infinite="true"
-                 data-slides-show="4"
-                 data-slides-scroll="4"
-                 data-center-mode="false"
-                 data-pagi-classes="text-center u-slick__pagination mt-5 mb-0"
-                 data-responsive='[{
+             data-arrows-classes="d-lg-inline-block u-slick__arrow-classic u-slick__arrow-classic--v2 u-slick__arrow-centered--y rounded-circle"
+             data-arrow-left-classes="flaticon-back u-slick__arrow-classic-inner u-slick__arrow-classic-inner--left ml-xl-n8"
+             data-arrow-right-classes="flaticon-next u-slick__arrow-classic-inner u-slick__arrow-classic-inner--right mr-xl-n8"
+             data-infinite="true"
+             data-slides-show="4"
+             data-slides-scroll="4"
+             data-center-mode="false"
+             data-pagi-classes="text-center u-slick__pagination mt-5 mb-0"
+             data-responsive='[{
                         "breakpoint": 1025,
                         "settings": {
                         "slidesToShow": 3,
@@ -34,9 +34,9 @@
                         "dots": false
                     }
                     }]'>
-                @foreach($rows as $row)
-                    @include('Tour::frontend.layouts.search.loop-grid')
-                @endforeach
+            @foreach($rows as $row)
+                @include('Tour::frontend.layouts.search.loop-grid')
+            @endforeach
         </div>
     </div>
 </div>

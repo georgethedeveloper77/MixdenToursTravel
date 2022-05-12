@@ -9,14 +9,6 @@ class DecimalPlacesWalletsTable extends Migration
 {
 
     /**
-     * @return string
-     */
-    protected function table(): string
-    {
-        return (new Wallet())->getTable();
-    }
-
-    /**
      * @return void
      */
     public function up(): void
@@ -26,6 +18,14 @@ class DecimalPlacesWalletsTable extends Migration
                 ->default(2)
                 ->after('balance');
         });
+    }
+
+    /**
+     * @return string
+     */
+    protected function table(): string
+    {
+        return (new Wallet())->getTable();
     }
 
     /**

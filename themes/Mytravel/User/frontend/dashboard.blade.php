@@ -59,7 +59,7 @@
                     type: 'bar',//line - bar
                     data: earning_chart_data,
                     options: {
-                        min:0,
+                        min: 0,
                         responsive: true,
                         legend: {
                             display: true
@@ -102,15 +102,17 @@
             });
 
 
-            $(".bravo-user-chart form select").on('change',function () {
+            $(".bravo-user-chart form select").on('change', function () {
                 $(this).closest("form").submit();
             });
 
             var start = moment().startOf('week');
             var end = moment();
+
             function cb(start, end) {
                 $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
+
             $('#reportrange').daterangepicker({
                 startDate: start,
                 endDate: end,

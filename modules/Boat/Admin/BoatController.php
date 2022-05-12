@@ -5,6 +5,7 @@
  * Date: 7/30/2019
  * Time: 1:56 PM
  */
+
 namespace Modules\Boat\Admin;
 
 use Illuminate\Http\Request;
@@ -68,19 +69,19 @@ class BoatController extends AdminController
             $query->where('create_user', Auth::id());
         }
         $data = [
-            'rows'              => $query->with(['author'])->paginate(20),
+            'rows' => $query->with(['author'])->paginate(20),
             'boat_manage_others' => $this->hasPermission('boat_manage_others'),
-            'breadcrumbs'       => [
+            'breadcrumbs' => [
                 [
                     'name' => __('Boats'),
-                    'url'  => route('boat.admin.index')
+                    'url' => route('boat.admin.index')
                 ],
                 [
-                    'name'  => __('All'),
+                    'name' => __('All'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'        => __("Boat Management")
+            'page_title' => __("Boat Management")
         ];
         return view('Boat::admin.index', $data);
     }
@@ -102,20 +103,20 @@ class BoatController extends AdminController
             $query->where('create_user', Auth::id());
         }
         $data = [
-            'rows'              => $query->with(['author'])->paginate(20),
+            'rows' => $query->with(['author'])->paginate(20),
             'boat_manage_others' => $this->hasPermission('boat_manage_others'),
-            'recovery'          => 1,
-            'breadcrumbs'       => [
+            'recovery' => 1,
+            'breadcrumbs' => [
                 [
                     'name' => __('Boats'),
-                    'url'  => route('boat.admin.index')
+                    'url' => route('boat.admin.index')
                 ],
                 [
-                    'name'  => __('Recovery'),
+                    'name' => __('Recovery'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'        => __("Recovery Boat Management")
+            'page_title' => __("Recovery Boat Management")
         ];
         return view('Boat::admin.index', $data);
     }
@@ -128,21 +129,21 @@ class BoatController extends AdminController
             'status' => 'publish'
         ]);
         $data = [
-            'row'          => $row,
-            'attributes'   => $this->attributes::where('service', 'boat')->get(),
+            'row' => $row,
+            'attributes' => $this->attributes::where('service', 'boat')->get(),
             'boat_location' => $this->location::where('status', 'publish')->get()->toTree(),
-            'translation'  => new $this->boat_translation(),
-            'breadcrumbs'  => [
+            'translation' => new $this->boat_translation(),
+            'breadcrumbs' => [
                 [
                     'name' => __('Boats'),
-                    'url'  => route('boat.admin.index')
+                    'url' => route('boat.admin.index')
                 ],
                 [
-                    'name'  => __('Add Boat'),
+                    'name' => __('Add Boat'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'   => __("Add new Boat")
+            'page_title' => __("Add new Boat")
         ];
         return view('Boat::admin.detail', $data);
     }
@@ -161,23 +162,23 @@ class BoatController extends AdminController
             }
         }
         $data = [
-            'row'               => $row,
-            'translation'       => $translation,
-            "selected_terms"    => $row->terms->pluck('term_id'),
-            'attributes'        => $this->attributes::where('service', 'boat')->get(),
-            'boat_location'      => $this->location::where('status', 'publish')->get()->toTree(),
+            'row' => $row,
+            'translation' => $translation,
+            "selected_terms" => $row->terms->pluck('term_id'),
+            'attributes' => $this->attributes::where('service', 'boat')->get(),
+            'boat_location' => $this->location::where('status', 'publish')->get()->toTree(),
             'enable_multi_lang' => true,
-            'breadcrumbs'       => [
+            'breadcrumbs' => [
                 [
                     'name' => __('Boats'),
-                    'url'  => route('boat.admin.index')
+                    'url' => route('boat.admin.index')
                 ],
                 [
-                    'name'  => __('Edit Boat'),
+                    'name' => __('Edit Boat'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'        => __("Edit: :name", ['name' => $row->title])
+            'page_title' => __("Edit: :name", ['name' => $row->title])
         ];
         return view('Boat::admin.detail', $data);
     }
@@ -265,7 +266,7 @@ class BoatController extends AdminController
             $term_ids = $request->input('terms');
             foreach ($term_ids as $term_id) {
                 $this->boat_term::firstOrCreate([
-                    'term_id'   => $term_id,
+                    'term_id' => $term_id,
                     'target_id' => $row->id
                 ]);
             }

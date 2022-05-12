@@ -4,7 +4,8 @@
             @if(!empty($list_item))
                 @foreach($list_item as $item)
                     <div class="col-12 col-md mb-5">
-                        <img class="img-fluid" src="{{ get_file_url($item['image_id'],'full') }}" alt="Image Description">
+                        <img class="img-fluid" src="{{ get_file_url($item['image_id'],'full') }}"
+                             alt="Image Description">
                     </div>
                 @endforeach
             @endif

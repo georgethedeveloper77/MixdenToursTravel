@@ -5,7 +5,8 @@
             @foreach($translation->specs as $item)
                 <div class="item">
                     <div class="text">
-                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i> {{ $item['title']  }}: <strong>{{ $item['content'] }}</strong>
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i> {{ $item['title']  }}:
+                        <strong>{{ $item['content'] }}</strong>
                     </div>
                 </div>
             @endforeach

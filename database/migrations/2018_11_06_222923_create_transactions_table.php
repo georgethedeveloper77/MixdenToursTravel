@@ -37,6 +37,14 @@ class CreateTransactionsTable extends Migration
     }
 
     /**
+     * @return string
+     */
+    protected function table(): string
+    {
+        return (new Transaction())->getTable();
+    }
+
+    /**
      * @param Blueprint $table
      * @param string $column
      * @return ColumnDefinition
@@ -50,20 +58,12 @@ class CreateTransactionsTable extends Migration
                 $sql = 'SELECT JSON_EXTRACT(\'[10, 20, [30, 40]]\', \'$[1]\');';
                 $prepare = $pdo->prepare($sql);
                 $prepare->fetch();
-            } catch (\Throwable $throwable) {
+            } catch (Throwable $throwable) {
                 return $table->text($column);
             }
         }
 
         return $table->json($column);
-    }
-
-    /**
-     * @return string
-     */
-    protected function table(): string
-    {
-        return (new Transaction())->getTable();
     }
 
     /**

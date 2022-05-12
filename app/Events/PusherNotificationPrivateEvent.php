@@ -6,7 +6,6 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 
 class PusherNotificationPrivateEvent implements ShouldBroadcast
 {
@@ -21,20 +20,20 @@ class PusherNotificationPrivateEvent implements ShouldBroadcast
     public function __construct($idNotification, $data, $user)
     {
 
-        if($user->avatar_url){
-            $avatar = '<img class="image-responsive" src="'.$user->avatar_url.'" alt="'.$user->getDisplayName().'">';
-        }else{
-            $avatar = '<span class="avatar-text">'.$user->getFirstCharacterDisplayName().'</span>';
+        if ($user->avatar_url) {
+            $avatar = '<img class="image-responsive" src="' . $user->avatar_url . '" alt="' . $user->getDisplayName() . '">';
+        } else {
+            $avatar = '<span class="avatar-text">' . $user->getFirstCharacterDisplayName() . '</span>';
         }
-        $this->avatar  = $avatar;
-        $this->link  = @$data['link'];
-        $this->idNotification  = $idNotification;
-        $this->message  = @$data['message'];
-        $this->userId  = $user->id;
+        $this->avatar = $avatar;
+        $this->link = @$data['link'];
+        $this->idNotification = $idNotification;
+        $this->message = @$data['message'];
+        $this->userId = $user->id;
     }
 
     public function broadcastOn()
     {
-        return ['user-channel-'.$this->userId];
+        return ['user-channel-' . $this->userId];
     }
 }

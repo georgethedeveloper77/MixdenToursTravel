@@ -34,7 +34,8 @@
                    data-result-min="#rangeSliderMinResult"
                    data-result-max="#rangeSliderMaxResult">
             <div class="text-right">
-                <a href="#" onclick="return false;" class="btn btn-primary btn-sm btn-apply-advances">{{__("APPLY")}}</a>
+                <a href="#" onclick="return false;"
+                   class="btn btn-primary btn-sm btn-apply-advances">{{__("APPLY")}}</a>
             </div>
         </div>
     </div>

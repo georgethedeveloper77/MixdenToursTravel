@@ -1,14 +1,16 @@
 <?php
+
 namespace Modules\Location\Models;
 
 use App\BaseModel;
-use Kalnoy\Nestedset\NodeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kalnoy\Nestedset\NodeTrait;
 
 class LocationCategory extends BaseModel
 {
     use SoftDeletes;
     use NodeTrait;
+
     protected $table = 'location_category';
     protected $fillable = [
         'name',
@@ -18,7 +20,7 @@ class LocationCategory extends BaseModel
         'status',
         'parent_id'
     ];
-    protected $slugField     = 'slug';
+    protected $slugField = 'slug';
     protected $slugFromField = 'name';
 
     public static function getModelName()
@@ -35,19 +37,24 @@ class LocationCategory extends BaseModel
         $a = $query->orderBy('id', 'desc')->limit(10)->get();
         return $a;
     }
-    public function getDetailUrl(){
-        return url(app_get_locale(false, false, '/') . config('tour.tour_route_prefix').'?cat_id[]='.$this->id);
+
+    public function getDetailUrl()
+    {
+        return url(app_get_locale(false, false, '/') . config('tour.tour_route_prefix') . '?cat_id[]=' . $this->id);
     }
 
-    public function dataForApi(){
+    public function dataForApi()
+    {
         $translation = $this->translateOrOrigin(app()->getLocale());
         return [
-            'id'=>$this->id,
-            'name'=>$translation->name,
-            'slug'=>$this->slug,
+            'id' => $this->id,
+            'name' => $translation->name,
+            'slug' => $this->slug,
         ];
     }
-    public function location_category_translations(){
-        return $this->hasOne(LocationCategoryTranslation::class,'origin_id')->where('locale',app()->getLocale());
+
+    public function location_category_translations()
+    {
+        return $this->hasOne(LocationCategoryTranslation::class, 'origin_id')->where('locale', app()->getLocale());
     }
 }

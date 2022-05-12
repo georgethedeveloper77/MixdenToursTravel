@@ -5,8 +5,8 @@ jQuery(function ($) {
             var $this = $(this);
             var main = $(this).closest(".smart-search");
             var textLoading = options.textLoading;
-            main.append('<div class="bravo-autocomplete on-message"><div class="list-item"></div><div class="message">'+textLoading+'</div></div>');
-            $(document).on("click.Bst", function(event){
+            main.append('<div class="bravo-autocomplete on-message"><div class="list-item"></div><div class="message">' + textLoading + '</div></div>');
+            $(document).on("click.Bst", function (event) {
                 if (main.has(event.target).length === 0 && !main.is(event.target)) {
                     main.find('.bravo-autocomplete').removeClass('show');
                 } else {
@@ -19,14 +19,14 @@ jQuery(function ($) {
                 var items = '';
                 for (var index in options.dataDefault) {
                     var item = options.dataDefault[index];
-                    items += '<div class="item" data-id="' + item.id + '" data-text="' + item.title + '"> <i class="'+options.iconItem+'"></i> ' + item.title + ' </div>';
+                    items += '<div class="item" data-id="' + item.id + '" data-text="' + item.title + '"> <i class="' + options.iconItem + '"></i> ' + item.title + ' </div>';
                 }
                 main.find('.bravo-autocomplete .list-item').html(items);
                 main.find('.bravo-autocomplete').removeClass("on-message");
             }
             var requestTimeLimit;
-            if(typeof options.url !='undefined' && options.url) {
-                $this.on('keyup',function () {
+            if (typeof options.url != 'undefined' && options.url) {
+                $this.on('keyup', function () {
                     main.find('.bravo-autocomplete').addClass("on-message");
                     main.find('.bravo-autocomplete .message').html(textLoading);
                     main.find('.child_id').val("");
@@ -66,9 +66,9 @@ jQuery(function ($) {
                                     main.find('.bravo-autocomplete .list-item').html(items);
                                     main.find('.bravo-autocomplete').removeClass("on-message");
                                 }
-                                if ( typeof res.message === undefined) {
+                                if (typeof res.message === undefined) {
                                     main.find('.bravo-autocomplete').addClass("on-message");
-                                }else{
+                                } else {
                                     main.find('.bravo-autocomplete .message').html(res.message);
                                 }
                             }
@@ -85,21 +85,21 @@ jQuery(function ($) {
                     main.find('.bravo-autocomplete').addClass('show');
                 });
             }
-            main.find('.bravo-autocomplete').on('click','.item',function () {
+            main.find('.bravo-autocomplete').on('click', '.item', function () {
                 var id = $(this).attr('data-id'),
                     text = $(this).attr('data-text');
-                if(id.length > 0 && text.length > 0){
+                if (id.length > 0 && text.length > 0) {
                     text = text.replace(/-/g, "");
-                    text = trimFunc(text,' ');
-                    text = trimFunc(text,'-');
+                    text = trimFunc(text, ' ');
+                    text = trimFunc(text, '-');
                     main.find('.parent_text').val(text).trigger("change");
                     main.find('.child_id').val(id).trigger("change");
-                }else{
+                } else {
                     console.log("Cannot select!")
                 }
                 setTimeout(function () {
                     main.find('.bravo-autocomplete').removeClass('show');
-                },100);
+                }, 100);
             });
 
             var trimFunc = function (s, c) {
@@ -115,30 +115,32 @@ jQuery(function ($) {
 
 jQuery(function ($) {
     "use strict"
-    function parseErrorMessage(e){
+
+    function parseErrorMessage(e) {
         var html = '';
-        if(e.responseJSON){
-            if(e.responseJSON.errors){
+        if (e.responseJSON) {
+            if (e.responseJSON.errors) {
                 return Object.values(e.responseJSON.errors).join('<br>');
             }
         }
         return html;
     }
+
     $(".g-map-place").each(function () {
         var map = $(this).find('.map').attr('id');
-        var searchInput =  $(this).find('input[name=map_place]');
+        var searchInput = $(this).find('input[name=map_place]');
         var latInput = $(this).find('input[name="map_lat"]');
         var lgnInput = $(this).find('input[name="map_lgn"]');
         new BravoMapEngine(map, {
             fitBounds: true,
-            center: [ 51.505, -0.09],
+            center: [51.505, -0.09],
             ready: function (engineMap) {
-            engineMap.searchBox(searchInput,function (dataLatLng) {
-                latInput.attr("value", dataLatLng[0]);
-                lgnInput.attr("value", dataLatLng[1]);
-            });
-        }
-    });
+                engineMap.searchBox(searchInput, function (dataLatLng) {
+                    latInput.attr("value", dataLatLng[0]);
+                    lgnInput.attr("value", dataLatLng[1]);
+                });
+            }
+        });
 
     });
 
@@ -176,7 +178,7 @@ jQuery(function ($) {
     // Date Picker Range
     $('.form-date-search').each(function () {
         var single_picker = false;
-        if($(this).hasClass("is_single_picker")){
+        if ($(this).hasClass("is_single_picker")) {
             single_picker = true;
         }
         var nowDate = new Date();
@@ -196,15 +198,15 @@ jQuery(function ($) {
             widthSingle: 300,
             onlyShowCurrentMonth: true,
             minDate: today,
-            opens: myTravel.rtl ? 'right':'right',
+            opens: myTravel.rtl ? 'right' : 'right',
             locale: {
                 format: "YYYY-MM-DD",
-                direction: myTravel.rtl ? 'rtl':'ltr',
-                firstDay:daterangepickerLocale.first_day_of_week
+                direction: myTravel.rtl ? 'rtl' : 'ltr',
+                firstDay: daterangepickerLocale.first_day_of_week
             }
         };
-        if (typeof  daterangepickerLocale == 'object') {
-            options.locale = _.merge(daterangepickerLocale,options.locale);
+        if (typeof daterangepickerLocale == 'object') {
+            options.locale = _.merge(daterangepickerLocale, options.locale);
         }
         check_in_out.daterangepicker(options,
             function (start, end, label) {
@@ -213,7 +215,7 @@ jQuery(function ($) {
                 check_out_input.val(end.format(myTravel.date_format));
                 check_out_render.html(end.format(myTravel.date_format));
             });
-        date_wrapper.on('click',function (e) {
+        date_wrapper.on('click', function (e) {
             check_in_out.trigger('click');
         });
     });
@@ -222,15 +224,15 @@ jQuery(function ($) {
     $('.date-picker').each(function () {
         var options = {
             "singleDatePicker": true,
-            opens: myTravel.rtl ? 'right':'right',
+            opens: myTravel.rtl ? 'right' : 'right',
             locale: {
                 format: myTravel.date_format,
-                direction: myTravel.rtl ? 'rtl':'ltr',
-                firstDay:daterangepickerLocale.first_day_of_week
+                direction: myTravel.rtl ? 'rtl' : 'ltr',
+                firstDay: daterangepickerLocale.first_day_of_week
             }
         };
-        if (typeof  daterangepickerLocale == 'object') {
-            options.locale = _.merge(daterangepickerLocale,options.locale);
+        if (typeof daterangepickerLocale == 'object') {
+            options.locale = _.merge(daterangepickerLocale, options.locale);
         }
         $(this).daterangepicker(options);
     });
@@ -254,35 +256,35 @@ jQuery(function ($) {
             widthSingle: 300,
             onlyShowCurrentMonth: true,
             minDate: today,
-            opens: myTravel.rtl ? 'right':'left',
+            opens: myTravel.rtl ? 'right' : 'left',
             locale: {
                 format: "YYYY-MM-DD",
-                direction: myTravel.rtl ? 'rtl':'ltr',
-                firstDay:daterangepickerLocale.first_day_of_week
+                direction: myTravel.rtl ? 'rtl' : 'ltr',
+                firstDay: daterangepickerLocale.first_day_of_week
             }
         };
 
-        if (typeof  daterangepickerLocale == 'object') {
-            options.locale = _.merge(daterangepickerLocale,options.locale);
+        if (typeof daterangepickerLocale == 'object') {
+            options.locale = _.merge(daterangepickerLocale, options.locale);
         }
         check_in_out.daterangepicker(options).on('apply.daterangepicker',
             function (ev, picker) {
                 if (picker.endDate.diff(picker.startDate, 'day') <= 0) {
                     picker.endDate.add(1, 'day');
                 }
-                check_in_input.val( picker.startDate.format(myTravel.date_format) );
-                check_in_render.html( picker.startDate.format(myTravel.date_format) );
-                check_out_input.val( picker.endDate.format(myTravel.date_format) );
-                check_out_render.html( picker.endDate.format(myTravel.date_format) );
-                check_in_out.val( picker.startDate.format("YYYY-MM-DD") + " - "+  picker.endDate.format("YYYY-MM-DD") )
+                check_in_input.val(picker.startDate.format(myTravel.date_format));
+                check_in_render.html(picker.startDate.format(myTravel.date_format));
+                check_out_input.val(picker.endDate.format(myTravel.date_format));
+                check_out_render.html(picker.endDate.format(myTravel.date_format));
+                check_in_out.val(picker.startDate.format("YYYY-MM-DD") + " - " + picker.endDate.format("YYYY-MM-DD"))
             });
-        date_wrapper.on('click',function (e) {
+        date_wrapper.on('click', function (e) {
             check_in_out.trigger('click');
         });
     });
 
     //Login
-    $('.bravo-form-login [type=submit]').on('click',function (e) {
+    $('.bravo-form-login [type=submit]').on('click', function (e) {
         e.preventDefault();
         let form = $(this).closest('.bravo-form-login');
         $.ajaxSetup({
@@ -297,7 +299,7 @@ jQuery(function ($) {
                 'password': form.find('input[name=password]').val(),
                 'remember': form.find('input[name=remember]').is(":checked") ? 1 : '',
                 'g-recaptcha-response': form.find('[name=g-recaptcha-response]').val(),
-                'redirect':form.find('input[name=redirect]').val()
+                'redirect': form.find('input[name=redirect]').val()
             },
             'type': 'POST',
             beforeSend: function () {
@@ -308,9 +310,9 @@ jQuery(function ($) {
                 form.find('.icon-loading').hide();
                 if (data.error === true) {
                     if (data.messages !== undefined) {
-                        for(var item in data.messages) {
+                        for (var item in data.messages) {
                             var msg = data.messages[item];
-                            form.find('.error-'+item).show().text(msg[0]);
+                            form.find('.error-' + item).show().text(msg[0]);
                         }
                     }
                     if (data.messages.message_error !== undefined) {
@@ -323,7 +325,7 @@ jQuery(function ($) {
             }
         });
     })
-    $('.bravo-form-register [type=submit]').on('click',function (e) {
+    $('.bravo-form-register [type=submit]').on('click', function (e) {
         e.preventDefault();
         let form = $(this).closest('.bravo-form-register');
         $.ajaxSetup({
@@ -332,7 +334,7 @@ jQuery(function ($) {
             }
         });
         $.ajax({
-            'url':  myTravel.routes.register,
+            'url': myTravel.routes.register,
             'data': {
                 'email': form.find('input[name=email]').val(),
                 'password': form.find('input[name=password]').val(),
@@ -351,9 +353,9 @@ jQuery(function ($) {
                 form.find('.icon-loading').hide();
                 if (data.error === true) {
                     if (data.messages !== undefined) {
-                        for(var item in data.messages) {
+                        for (var item in data.messages) {
                             var msg = data.messages[item];
-                            form.find('.error-'+item).show().text(msg[0]);
+                            form.find('.error-' + item).show().text(msg[0]);
                         }
                     }
                     if (data.messages.message_error !== undefined) {
@@ -364,9 +366,9 @@ jQuery(function ($) {
                     window.location.href = data.redirect
                 }
             },
-            error:function (e) {
+            error: function (e) {
                 form.find('.icon-loading').hide();
-                if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+                if (typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message != 'undefined') {
                     form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
                 }
             }
@@ -381,7 +383,7 @@ jQuery(function ($) {
 
     var onSubmitSubscribe = false;
     //Subscribe box
-    $('.bravo-subscribe-form').on('submit',function (e) {
+    $('.bravo-subscribe-form').on('submit', function (e) {
         e.preventDefault();
 
         if (onSubmitSubscribe) return;
@@ -413,10 +415,9 @@ jQuery(function ($) {
                 onSubmitSubscribe = false;
                 me.removeClass('loading');
 
-                if(parseErrorMessage(e)){
+                if (parseErrorMessage(e)) {
                     me.find('.form-mess').html('<span class="text-danger">' + parseErrorMessage(e) + '</span>');
-                }else
-                if (e.responseText) {
+                } else if (e.responseText) {
                     me.find('.form-mess').html('<span class="text-danger">' + e.responseText + '</span>');
                 }
 
@@ -427,26 +428,26 @@ jQuery(function ($) {
     });
 
     //Menu
-    $(".bravo-more-menu").on('click',function () {
+    $(".bravo-more-menu").on('click', function () {
         $(this).trigger('bravo-trigger-menu-mobile');
     });
-    $(".bravo-menu-mobile .b-close").on('click',function () {
+    $(".bravo-menu-mobile .b-close").on('click', function () {
         $(".bravo-more-menu").trigger('bravo-trigger-menu-mobile');
     });
-    $(document).on("click",".bravo-effect-bg",function () {
+    $(document).on("click", ".bravo-effect-bg", function () {
         $(".bravo-more-menu").trigger('bravo-trigger-menu-mobile');
     })
-    $(document).on("bravo-trigger-menu-mobile",".bravo-more-menu",function () {
+    $(document).on("bravo-trigger-menu-mobile", ".bravo-more-menu", function () {
         $(this).toggleClass('active');
-        if($(this).hasClass('active')){
+        if ($(this).hasClass('active')) {
             $(".bravo-menu-mobile").addClass("active");
-            $('body').css('overflow','hidden').append("<div class='bravo-effect-bg'></div>");
-        }else{
+            $('body').css('overflow', 'hidden').append("<div class='bravo-effect-bg'></div>");
+        } else {
             $(".bravo-menu-mobile").removeClass("active");
-            $("body").css('overflow','initial').find(".bravo-effect-bg").remove();
+            $("body").css('overflow', 'initial').find(".bravo-effect-bg").remove();
         }
     });
-    $(".bravo-menu-mobile .g-menu ul li .fa").on('click',function (e) {
+    $(".bravo-menu-mobile .g-menu ul li .fa").on('click', function (e) {
         e.preventDefault();
         $(this).closest('li').toggleClass('active');
     });
@@ -456,27 +457,27 @@ jQuery(function ($) {
         $(this).find(".g-menu").css("max-height", h1_main - h_profile - 15);
     });
 
-    $(".bravo-more-menu-user").on('click',function () {
+    $(".bravo-more-menu-user").on('click', function () {
         $(".bravo_user_profile > .container-fluid > .row > .col-md-3").addClass("active");
-        $("body").css('overflow','hidden').append("<div class='bravo-effect-user-bg'></div>");
+        $("body").css('overflow', 'hidden').append("<div class='bravo-effect-user-bg'></div>");
     });
-    $(document).on("click",".bravo-effect-user-bg,.bravo-close-menu-user",function () {
+    $(document).on("click", ".bravo-effect-user-bg,.bravo-close-menu-user", function () {
         $(".bravo_user_profile > .container-fluid > .row > .col-md-3").removeClass("active");
-        $('body').css('overflow','initial').find(".bravo-effect-user-bg").remove();
+        $('body').css('overflow', 'initial').find(".bravo-effect-user-bg").remove();
     })
 
-    $('.bravo-video-popup').on('click',function() {
-        let video_url = $(this).data( "src" );
-        let target = $(this).data( "target" );
-        $(target).find(".bravo_embed_video").attr('src',video_url + "?autoplay=0&amp;modestbranding=1&amp;showinfo=0" );
+    $('.bravo-video-popup').on('click', function () {
+        let video_url = $(this).data("src");
+        let target = $(this).data("target");
+        $(target).find(".bravo_embed_video").attr('src', video_url + "?autoplay=0&amp;modestbranding=1&amp;showinfo=0");
         $(target).on('hidden.bs.modal', function () {
-            $(target).find(".bravo_embed_video").attr('src',"" );
+            $(target).find(".bravo_embed_video").attr('src', "");
         });
     });
 
     var onSubmitContact = false;
     //Contact box
-    $('.bravo-contact-block-form').on('submit',function (e) {
+    $('.bravo-contact-block-form').on('submit', function (e) {
         e.preventDefault();
         if (onSubmitContact) return;
         $(this).addClass('loading');
@@ -502,10 +503,9 @@ jQuery(function ($) {
                 console.log(e);
                 onSubmitContact = false;
                 me.removeClass('loading');
-                if(parseErrorMessage(e)){
+                if (parseErrorMessage(e)) {
                     me.find('.form-mess').html('<span class="text-danger">' + parseErrorMessage(e) + '</span>');
-                }else
-                if (e.responseText) {
+                } else if (e.responseText) {
                     me.find('.form-mess').html('<span class="text-danger">' + e.responseText + '</span>');
                 }
             }
@@ -513,48 +513,47 @@ jQuery(function ($) {
         return false;
     });
 
-    $('.btn-submit-enquiry').on('click',function (e) {
+    $('.btn-submit-enquiry').on('click', function (e) {
 
         e.preventDefault();
         let form = $(this).closest('.enquiry_form_modal_form');
 
         $.ajax({
-            url:myTravel.url+'/booking/addEnquiry',
-            data:form.find('textarea,input,select').serialize(),
-            dataType:'json',
-            type:'post',
+            url: myTravel.url + '/booking/addEnquiry',
+            data: form.find('textarea,input,select').serialize(),
+            dataType: 'json',
+            type: 'post',
             beforeSend: function () {
                 form.find('.message_box').html('').hide();
                 form.find('.icon-loading').css("display", 'inline-block');
             },
-            success:function(res){
-                if(res.errors){
+            success: function (res) {
+                if (res.errors) {
                     res.message = '';
-                    for(var k in res.errors){
-                        res.message += res.errors[k].join('<br>')+'<br>';
+                    for (var k in res.errors) {
+                        res.message += res.errors[k].join('<br>') + '<br>';
                     }
                 }
-                if(res.message)
-                {
-                    if(!res.status){
-                        form.find('.message_box').append('<div class="text text-danger">'+res.message+'</div>').show();
-                    }else{
-                        form.find('.message_box').append('<div class="text text-success">'+res.message+'</div>').show();
+                if (res.message) {
+                    if (!res.status) {
+                        form.find('.message_box').append('<div class="text text-danger">' + res.message + '</div>').show();
+                    } else {
+                        form.find('.message_box').append('<div class="text text-success">' + res.message + '</div>').show();
                     }
                 }
 
                 form.find('.icon-loading').hide();
 
-                if(res.status){
+                if (res.status) {
                     form.find('textarea,input,select').val('');
                 }
 
-                if(typeof BravoReCaptcha != "undefined"){
+                if (typeof BravoReCaptcha != "undefined") {
                     BravoReCaptcha.reset('enquiry_form');
                 }
             },
-            error:function (e) {
-                if(typeof BravoReCaptcha != "undefined"){
+            error: function (e) {
+                if (typeof BravoReCaptcha != "undefined") {
                     BravoReCaptcha.reset('enquiry_form');
                 }
                 form.find('.icon-loading').hide();
@@ -562,17 +561,17 @@ jQuery(function ($) {
         })
     })
 
-    $('.review_upload_file').on('change',function () {
+    $('.review_upload_file').on('change', function () {
         var me = $(this);
         var p = $(this).closest('.review_upload_wrap');
         var lists = p.find('.review_upload_photo_list');
 
         me.isLoading = true;
-        for(var i = 0 ;i < me.get(0).files.length ; i++) {
+        for (var i = 0; i < me.get(0).files.length; i++) {
             var d = new FormData();
-            d.append('type','image');
-            d.append('file',me.get(0).files[i]);
-            if(!me.showErr){
+            d.append('type', 'image');
+            d.append('file', me.get(0).files[i]);
+            if (!me.showErr) {
                 $.ajax({
                     url: myTravel.url + '/media/private/store',
                     data: d,
@@ -587,20 +586,20 @@ jQuery(function ($) {
                         }
                         if (res.data) {
                             var count = $(".review_upload_photo_list > .col-md-2").length;
-                            if(count > 5){
+                            if (count > 5) {
                                 myTravelApp.showError('Maximum upload 6 pictures');
-                            }else{
+                            } else {
                                 var div = $('<div class="col-md-2 mb-2"/>');
                                 var item = $('<div class="review_upload_item"/>');
                                 div.append(item);
                                 var input = $("<input/>");
                                 input.attr('type', 'hidden');
-                                input.attr('name', me.data('name')+'[]');
+                                input.attr('name', me.data('name') + '[]');
                                 input.val(JSON.stringify(res.data));
 
                                 item.append(input);
                                 item.css({
-                                    'background-image':'url('+res.data.download+')'
+                                    'background-image': 'url(' + res.data.download + ')'
                                 });
 
                                 if (me.data('multiple')) {
@@ -624,19 +623,17 @@ jQuery(function ($) {
         $(this).val('');
     })
 
-    $('.review_upload_item').on('click',function (e) {
-        var p  = $(e.target).data('target');
-        var fotorama = $(p+' .fotorama').fotorama();
+    $('.review_upload_item').on('click', function (e) {
+        var p = $(e.target).data('target');
+        var fotorama = $(p + ' .fotorama').fotorama();
 
     });
-
-
 
 
     //My Travel
 
     // Fancybox
-    if($(".travel-fancybox").length){
+    if ($(".travel-fancybox").length) {
         var conf = {
             parentEl: 'html',
             baseClass: 'u-fancybox-theme',
@@ -775,7 +772,7 @@ jQuery(function ($) {
             listItems = list.children(),
             itemIndex = $(this).index(),
             parentItem = list.parent();
-        $(this).hover(function(){
+        $(this).hover(function () {
             for (var i = 0; i < listItems.length; i++) {
                 if (i <= itemIndex) {
                     $(listItems[i]).addClass('hovered');
@@ -783,7 +780,7 @@ jQuery(function ($) {
                     break;
                 }
             }
-            $(this).click(function(){
+            $(this).click(function () {
                 for (var i = 0; i < listItems.length; i++) {
                     if (i <= itemIndex) {
                         $(listItems[i]).addClass('selected');
@@ -1058,157 +1055,154 @@ jQuery(function ($) {
 
     $('.dropdown-toggle').dropdown();
 
-    $('.select-guests-dropdown .btn-minus').on('click',function(e){
+    $('.select-guests-dropdown .btn-minus').on('click', function (e) {
         e.stopPropagation();
         var parent = $(this).closest('.form-select-guests');
-        var input = parent.find('.select-guests-dropdown [name='+$(this).data('input')+']');
+        var input = parent.find('.select-guests-dropdown [name=' + $(this).data('input') + ']');
         var min = parseInt(input.attr('min'));
         var old = parseInt(input.val());
 
-        if(old <= min){
+        if (old <= min) {
             return;
         }
-        input.val(old-1);
+        input.val(old - 1);
         updateGuestCountText(parent);
     });
 
-    $('.select-guests-dropdown .btn-add').on('click',function(e){
+    $('.select-guests-dropdown .btn-add').on('click', function (e) {
         e.stopPropagation();
         var parent = $(this).closest('.form-select-guests');
-        var input = parent.find('.select-guests-dropdown [name='+$(this).data('input')+']');
+        var input = parent.find('.select-guests-dropdown [name=' + $(this).data('input') + ']');
         var max = parseInt(input.attr('max'));
         var old = parseInt(input.val());
 
-        if(old >= max){
+        if (old >= max) {
             return;
         }
-        input.val(old+1);
+        input.val(old + 1);
         updateGuestCountText(parent);
     });
 
-    $('.select-guests-dropdown input').on('keyup',function(e){
+    $('.select-guests-dropdown input').on('keyup', function (e) {
         var parent = $(this).closest('.form-select-guests');
         updateGuestCountText(parent);
     });
-    $('.select-guests-dropdown input').on('change',function(e){
+    $('.select-guests-dropdown input').on('change', function (e) {
         var parent = $(this).closest('.form-select-guests');
         updateGuestCountText(parent);
     });
 
-    function updateGuestCountText(parent){
+    function updateGuestCountText(parent) {
         var adults = parseInt(parent.find('[name=adults]').val());
         var children = parseInt(parent.find('[name=children]').val());
 
         var adultsHtml = parent.find('.render .adults .multi').data('html');
-        console.log(parent,adultsHtml);
-        parent.find('.render .adults .multi').html(adultsHtml.replace(':count',adults));
+        console.log(parent, adultsHtml);
+        parent.find('.render .adults .multi').html(adultsHtml.replace(':count', adults));
 
         var childrenHtml = parent.find('.render .children .multi').data('html');
-        parent.find('.render .children .multi').html(childrenHtml.replace(':count',children));
-        if(adults > 1){
+        parent.find('.render .children .multi').html(childrenHtml.replace(':count', children));
+        if (adults > 1) {
             parent.find('.render .adults .multi').removeClass('d-none');
             parent.find('.render .adults .one').addClass('d-none');
-        }else{
+        } else {
             parent.find('.render .adults .multi').addClass('d-none');
             parent.find('.render .adults .one').removeClass('d-none');
         }
 
-        if(children > 1){
+        if (children > 1) {
             parent.find('.render .children .multi').removeClass('d-none');
             parent.find('.render .children .one').addClass('d-none');
-        }else{
+        } else {
             parent.find('.render .children .multi').addClass('d-none');
-            parent.find('.render .children .one').removeClass('d-none').html(parent.find('.render .children .one').data('html').replace(':count',children));
+            parent.find('.render .children .one').removeClass('d-none').html(parent.find('.render .children .one').data('html').replace(':count', children));
         }
 
     }
 
-    $('.select-guests-dropdown .dropdown-item-row').on('click',function(e){
+    $('.select-guests-dropdown .dropdown-item-row').on('click', function (e) {
         e.stopPropagation();
     });
-
 
 
     //Flight
 
-    $('.custom-select-dropdown .btn-minus').on('click',function(e){
+    $('.custom-select-dropdown .btn-minus').on('click', function (e) {
         e.stopPropagation();
         var parent = $(this).closest('.custom-select-dropdown-parent');
         var inputAttr = $(this).data('input-attr');
-        if(typeof inputAttr =='undefined'){
+        if (typeof inputAttr == 'undefined') {
             inputAttr = 'name';
         }
-        var input = parent.find('.custom-select-dropdown ['+inputAttr+'='+$(this).data('input')+']');
+        var input = parent.find('.custom-select-dropdown [' + inputAttr + '=' + $(this).data('input') + ']');
         var min = parseInt(input.attr('min'));
         var old = parseInt(input.val());
 
-        if(old <= min){
+        if (old <= min) {
             return;
         }
-        input.val(old-1);
+        input.val(old - 1);
         updateCustomSelectDropdown(input);
     });
 
-    $('.custom-select-dropdown .btn-add').on('click',function(e){
+    $('.custom-select-dropdown .btn-add').on('click', function (e) {
         e.stopPropagation();
         var parent = $(this).closest('.custom-select-dropdown-parent');
         var inputAttr = $(this).data('input-attr');
-        if(typeof inputAttr =='undefined'){
+        if (typeof inputAttr == 'undefined') {
             inputAttr = 'name';
         }
-        var input = parent.find('.custom-select-dropdown ['+inputAttr+'='+$(this).data('input')+']');
+        var input = parent.find('.custom-select-dropdown [' + inputAttr + '=' + $(this).data('input') + ']');
         var max = parseInt(input.attr('max'));
         var old = parseInt(input.val());
 
-        if(old >= max){
+        if (old >= max) {
             return;
         }
-        input.val(old+1);
-       updateCustomSelectDropdown(input);
+        input.val(old + 1);
+        updateCustomSelectDropdown(input);
     });
-    $('.custom-select-dropdown input').on('keyup',function(e){
+    $('.custom-select-dropdown input').on('keyup', function (e) {
         updateCustomSelectDropdown($(this));
     });
-    $('.custom-select-dropdown input').on('change',function(e){
+    $('.custom-select-dropdown input').on('change', function (e) {
         updateCustomSelectDropdown($(this));
     });
 
-    function updateCustomSelectDropdown(input){
-        var parent =input.closest('.custom-select-dropdown-parent');
+    function updateCustomSelectDropdown(input) {
+        var parent = input.closest('.custom-select-dropdown-parent');
         var target = input.attr('id');
         var number = parseInt(input.val());
-        var render = parent.find('[id='+target+'_render]')
+        var render = parent.find('[id=' + target + '_render]')
 
         var htmlString = render.find('.multi').data('html');
         var min = input.attr('min')
         console.log(
             render
         )
-        if(number > min){
-            render.find('.multi').removeClass('d-none').html(htmlString.replace(':count',number));
+        if (number > min) {
+            render.find('.multi').removeClass('d-none').html(htmlString.replace(':count', number));
             render.find('.one').addClass('d-none');
-        }else{
+        } else {
             render.find('.multi').addClass('d-none');
             render.find('.one').removeClass('d-none');
         }
     }
-    $('.custom-select-dropdown .dropdown-item-row').on('click',function(e){
+
+    $('.custom-select-dropdown .dropdown-item-row').on('click', function (e) {
         e.stopPropagation();
     });
-
-
-
 
 
     $(".smart-search .smart-search-location").each(function () {
         var $this = $(this);
         var string_list = $this.attr('data-default');
         var default_list = [];
-        if(string_list.length > 0){
+        if (string_list.length > 0) {
             default_list = JSON.parse(string_list);
         }
         var options = {
-            url: myTravel.url+'/location/search/searchForSelect2',
+            url: myTravel.url + '/location/search/searchForSelect2',
             dataDefault: default_list,
             textLoading: $this.attr("data-onLoad"),
             iconItem: "icofont-location-pin",
@@ -1220,7 +1214,7 @@ jQuery(function ($) {
         var $this = $(this);
         var string_list = $this.attr('data-default');
         var default_list = [];
-        if(string_list.length > 0){
+        if (string_list.length > 0) {
             default_list = JSON.parse(string_list);
         }
         var options = {
@@ -1231,17 +1225,17 @@ jQuery(function ($) {
         $this.bravoAutocomplete(options);
     });
 
-    $(document).on("click",".service-wishlist",function(){
+    $(document).on("click", ".service-wishlist", function () {
         var $this = $(this);
         $.ajax({
-            url:  myTravel.url+'/user/wishlist',
+            url: myTravel.url + '/user/wishlist',
             data: {
                 object_id: $this.attr("data-id"),
                 object_model: $this.attr("data-type"),
             },
             dataType: 'json',
             type: 'POST',
-            beforeSend: function() {
+            beforeSend: function () {
                 $this.addClass("loading");
             },
             success: function (res) {
@@ -1249,8 +1243,8 @@ jQuery(function ($) {
                 $this.removeClass("loading");
                 $this.addClass(res.class);
             },
-            error:function (e) {
-                if(e.status === 401){
+            error: function (e) {
+                if (e.status === 401) {
                     $('#login').modal('show');
                 }
             }
@@ -1259,7 +1253,7 @@ jQuery(function ($) {
 
     //Video Play
 
-    if($(".travel-inline-video-player").length){
+    if ($(".travel-inline-video-player").length) {
         $(".travel-inline-video-player").each(function (i, el) {
             var $this = $(el),
                 parent = $this.data('parent'),
@@ -1279,10 +1273,11 @@ jQuery(function ($) {
                     vimeoPlayer(target, SRC, isAutoPlay);
 
                 } else {
-                   youTubePlayer(target, SRC, isAutoPlay);
+                    youTubePlayer(target, SRC, isAutoPlay);
                 }
             });
         });
+
         function youTubeAPIReady() {
             var YTScriptTag = document.createElement('script');
             YTScriptTag.src = '//www.youtube.com/player_api';
@@ -1292,6 +1287,7 @@ jQuery(function ($) {
                 .parentNode
                 .insertBefore(YTScriptTag, DOMfirstScriptTag);
         }
+
         function youTubePlayer(target, src, autoplay) {
             var YTPlayer = new YT.Player(target, {
                 videoId: src,
@@ -1301,14 +1297,16 @@ jQuery(function ($) {
                 }
             });
         }
+
         function vimeoPlayer(target, src, autoplay) {
             var vimeoIframe = document.getElementById(target),
-            vimeoPlayer = new Vimeo.Player(vimeoIframe, {
-                id: src,
-                autoplay: autoplay === true ? 1 : 0
-            });
+                vimeoPlayer = new Vimeo.Player(vimeoIframe, {
+                    id: src,
+                    autoplay: autoplay === true ? 1 : 0
+                });
         }
-    };
+    }
+    ;
 
 //    modal
 
@@ -1414,42 +1412,42 @@ jQuery(function ($) {
 
 });
 
-jQuery(function($){
+jQuery(function ($) {
     "use strict"
-    var notificationsWrapper   = $('.dropdown-notifications');
-    var notificationsToggle    = notificationsWrapper.find('a[data-toggle]');
+    var notificationsWrapper = $('.dropdown-notifications');
+    var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
     var notificationsCountElem = notificationsToggle.find('.notification-icon');
-    var notificationsCount     = parseInt(notificationsCountElem.html());
-    var notifications          = notificationsWrapper.find('ul.dropdown-list-items');
+    var notificationsCount = parseInt(notificationsCountElem.html());
+    var notifications = notificationsWrapper.find('ul.dropdown-list-items');
 
-    if(myTravel.pusher_api_key && myTravel.pusher_cluster){
+    if (myTravel.pusher_api_key && myTravel.pusher_cluster) {
         var pusher = new Pusher(myTravel.pusher_api_key, {
             encrypted: true,
             cluster: myTravel.pusher_cluster
         });
     }
 
-    $(document).on("click",".markAsRead",function(e) {
+    $(document).on("click", ".markAsRead", function (e) {
         e.stopPropagation();
         e.preventDefault();
         var id = $(this).data('id');
         var url = $(this).attr('href');
         $.ajax({
             url: myTravel.markAsRead,
-            data: {'id' : id },
+            data: {'id': id},
             method: "post",
-            success:function (res) {
+            success: function (res) {
                 window.location.href = url;
             }
         })
     });
-    $(document).on("click",".markAllAsRead",function(e) {
+    $(document).on("click", ".markAllAsRead", function (e) {
         e.stopPropagation();
         e.preventDefault();
         $.ajax({
             url: myTravel.markAllAsRead,
             method: "post",
-            success:function (res) {
+            success: function (res) {
                 $('.dropdown-notifications').find('li.notification').removeClass('active');
                 notificationsCountElem.text(0);
                 notificationsWrapper.find('.notif-count').text(0);
@@ -1457,23 +1455,23 @@ jQuery(function($){
         })
     });
 
-    var callback = function(data) {
+    var callback = function (data) {
         var existingNotifications = notifications.html();
         var newNotificationHtml = '<li class="notification active">'
-            +'<div class="media">'
-            +'    <div class="media-left">'
-            +'      <div class="media-object">'
-            +  data.avatar
-            +'      </div>'
-            +'    </div>'
-            +'    <div class="media-body">'
-            +'      <a class="markAsRead p-0" data-id="'+data.idNotification+'" href="'+data.link+'">'+data.message+'</a>'
-            +'      <div class="notification-meta">'
-            +'        <small class="timestamp">about a few seconds ago</small>'
-            +'      </div>'
-            +'    </div>'
-            +'  </div>'
-            +'</li>';
+            + '<div class="media">'
+            + '    <div class="media-left">'
+            + '      <div class="media-object">'
+            + data.avatar
+            + '      </div>'
+            + '    </div>'
+            + '    <div class="media-body">'
+            + '      <a class="markAsRead p-0" data-id="' + data.idNotification + '" href="' + data.link + '">' + data.message + '</a>'
+            + '      <div class="notification-meta">'
+            + '        <small class="timestamp">about a few seconds ago</small>'
+            + '      </div>'
+            + '    </div>'
+            + '  </div>'
+            + '</li>';
         notifications.html(newNotificationHtml + existingNotifications);
 
         notificationsCount += 1;
@@ -1481,13 +1479,13 @@ jQuery(function($){
         notificationsWrapper.find('.notif-count').text(notificationsCount);
     };
 
-    if(myTravel.isAdmin > 0 && myTravel.pusher_api_key){
+    if (myTravel.isAdmin > 0 && myTravel.pusher_api_key) {
         var channel = pusher.subscribe('admin-channel');
         channel.bind('App\\Events\\PusherNotificationAdminEvent', callback);
     }
 
-    if(myTravel.currentUser > 0 && myTravel.pusher_api_key){
-        var channelPrivate = pusher.subscribe('user-channel-'+myTravel.currentUser);
+    if (myTravel.currentUser > 0 && myTravel.pusher_api_key) {
+        var channelPrivate = pusher.subscribe('user-channel-' + myTravel.currentUser);
         channelPrivate.bind('App\\Events\\PusherNotificationPrivateEvent', callback);
     }
 

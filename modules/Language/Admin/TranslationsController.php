@@ -1,7 +1,7 @@
 <?php
+
 namespace Modules\Language\Admin;
 
-use function Clue\StreamFilter\fun;
 use Illuminate\Http\Request;
 use Modules\AdminController;
 use Modules\Language\Models\Language;
@@ -15,7 +15,7 @@ class TranslationsController extends AdminController
         $this->checkPermission('language_translation');
         $data = [
             'page_title' => __('Translation Manager'),
-            'languages'  => Language::paginate(20),
+            'languages' => Language::paginate(20),
             'total_text' => Translation::where('locale', 'raw')->count()
         ];
         $this->setActiveMenu(route('core.admin.tool.index'));
@@ -54,11 +54,11 @@ class TranslationsController extends AdminController
             }
         }
 
-        if( $request->search_by == "translated_text"){
+        if ($request->search_by == "translated_text") {
             if ($request->s) {
                 $query->where('t.string', 'like', '%' . $request->s . '%');
             }
-        }else{
+        } else {
             if ($request->s) {
                 $query->where('core_translations.string', 'like', '%' . $request->s . '%');
             }
@@ -67,16 +67,16 @@ class TranslationsController extends AdminController
         $origins = $query->orderBy('core_translations.string', 'asc')->paginate(30);
         $origins->appends($request->query());
         $data = [
-            'page_title'  => __('Translation Manager'),
-            'origins'     => $origins,
-            'lang'        => $lang,
+            'page_title' => __('Translation Manager'),
+            'origins' => $origins,
+            'lang' => $lang,
             'breadcrumbs' => [
                 [
                     'name' => __('Translation Manager'),
-                    'url'  => route('language.admin.translations.index')
+                    'url' => route('language.admin.translations.index')
                 ],
                 [
-                    'name'  => __('Translate for: :name', ['name' => $lang->name]),
+                    'name' => __('Translate for: :name', ['name' => $lang->name]),
                     'class' => 'active'
                 ],
             ]
@@ -153,35 +153,36 @@ class TranslationsController extends AdminController
         return redirect(route('language.admin.translations.index'))->with('success', __("Re-build language file for: :name success", ['name' => $lang->name]));
     }
 
-    public function loadStrings(){
+    public function loadStrings()
+    {
 
         $this->checkPermission('language_translation');
 
         $file = base_path('resources/lang/default.json');
         $back = route('language.admin.translations.index');
 
-        if(!is_file($file)){
+        if (!is_file($file)) {
             return redirect($back)->with('error', __("Default language source does not exists"));
         }
 
         $content = file_get_contents($file);
-        if(empty($content)){
+        if (empty($content)) {
             return redirect($back)->with('error', __("Default language source empty"));
         }
 
-        $json = \GuzzleHttp\json_decode($content,true);
-        if(empty($json)){
+        $json = \GuzzleHttp\json_decode($content, true);
+        if (empty($json)) {
             return redirect($back)->with('error', __("Default language source do not have any strings"));
         }
 
 
-        $all_string = Translation::select("string")->where("locale","raw")->get()->pluck('string')->toArray();
+        $all_string = Translation::select("string")->where("locale", "raw")->get()->pluck('string')->toArray();
         $all_string = array_flip($all_string);
 
-        foreach ($json as $key=>$value) {
+        foreach ($json as $key => $value) {
             // Split the group and item
-            if(empty($all_string[ $key ])){
-                $lang =  new Translation([
+            if (empty($all_string[$key])) {
+                $lang = new Translation([
                     'locale' => 'raw',
                     'string' => $key
                 ]);
@@ -189,9 +190,11 @@ class TranslationsController extends AdminController
             }
         }
 
-        return redirect($back)->with('success', __("Loaded :count strings",['count'=>count($json)]));
+        return redirect($back)->with('success', __("Loaded :count strings", ['count' => count($json)]));
     }
-    public function genDefault(){
+
+    public function genDefault()
+    {
 
         $back = route('language.admin.translations.index');
         $file = base_path('resources/lang/default.json');
@@ -220,7 +223,7 @@ class TranslationsController extends AdminController
 
     public function findTranslations($path = null)
     {
-        $path = $path ? : base_path();
+        $path = $path ?: base_path();
         $keys = array();
         $functions = array(
             'trans',
@@ -240,7 +243,7 @@ class TranslationsController extends AdminController
             "\(" .                               // Match opening parenthese
             "[\'\"]" .                           // Match " or '
             "(" .                                // Start a new group to match:
-                ".+".               // Must start with group
+            ".+" .               // Must start with group
 //            "([^\1)]+)+" .                // Be followed by one or more items/keys
             ")" .                                // Close group
             "[\'\"]" .                           // Closing quote
@@ -258,7 +261,7 @@ class TranslationsController extends AdminController
             if (preg_match_all("/$pattern/siU", $file->getContents(), $matches)) {
                 // Get all matches
                 foreach ($matches[2] as $key) {
-                    if(!$key) continue;
+                    if (!$key) continue;
                     $keys[] = $key;
                 }
             }
@@ -267,13 +270,13 @@ class TranslationsController extends AdminController
         $keys = array_unique($keys);
         // Add the translations to the database, if not existing.
 
-        $all_string = Translation::select("string")->where("locale","raw")->get()->pluck('string')->toArray();
+        $all_string = Translation::select("string")->where("locale", "raw")->get()->pluck('string')->toArray();
         $all_string = array_flip($all_string);
 
         foreach ($keys as $key) {
             // Split the group and item
-            if(empty($all_string[ $key ])){
-                $lang =  new Translation([
+            if (empty($all_string[$key])) {
+                $lang = new Translation([
                     'locale' => 'raw',
                     'string' => $key
                 ]);
@@ -284,30 +287,31 @@ class TranslationsController extends AdminController
         return count($keys);
     }
 
-    public function loadTranslateJson(Request $request){
+    public function loadTranslateJson(Request $request)
+    {
         $locale_name = $request->input('locale');
-        $file = base_path('resources/lang/'.$locale_name.'.json');
+        $file = base_path('resources/lang/' . $locale_name . '.json');
         $back = route('language.admin.translations.index');
-        if(!is_file($file)){
+        if (!is_file($file)) {
             return redirect($back)->with('error', __("File language source does not exists"));
         }
         $content = file_get_contents($file);
-        if(empty($content)){
+        if (empty($content)) {
             return redirect($back)->with('error', __("File language source empty"));
         }
-        $json = \GuzzleHttp\json_decode($content,true);
-        if(empty($json)){
+        $json = \GuzzleHttp\json_decode($content, true);
+        if (empty($json)) {
             return redirect($back)->with('error', __("File language source do not have any strings"));
         }
 
-        $all_string = Translation::select("*")->where("locale","raw")->get()->pluck('string',"id")->toArray();
+        $all_string = Translation::select("*")->where("locale", "raw")->get()->pluck('string', "id")->toArray();
         $all_string = array_flip($all_string);
 
-        foreach ($json as $key=>$value){
-            if(!empty($all_string[ $key ])){
-                $lang_id = $all_string[ $key ];
-                $check_exits = Translation::where("locale",$locale_name)->where("parent_id",$lang_id)->first();
-                if(empty($check_exits)){
+        foreach ($json as $key => $value) {
+            if (!empty($all_string[$key])) {
+                $lang_id = $all_string[$key];
+                $check_exits = Translation::where("locale", $locale_name)->where("parent_id", $lang_id)->first();
+                if (empty($check_exits)) {
                     $create = new Translation([
                         'locale' => $locale_name,
                         'string' => $value,

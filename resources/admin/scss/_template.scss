@@ -1,6 +1,7 @@
-.block-panel{
+.block-panel {
     margin-bottom: 10px;
-    .block-title{
+
+    .block-title {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -15,75 +16,85 @@
         font-size: 14px;
         font-weight: 600;
 
-        .title-right{
+        .title-right {
 
-            i{
+            i {
                 font-size: 22px;
                 padding: 0px 12px;
                 cursor: pointer;
                 margin-right: -3px;
 
             }
-            span{
+
+            span {
             }
-            .show-hover{
+
+            .show-hover {
                 display: none;
             }
-            .block-delete{
-                color:red;
-                i{
-                    color:red;
+
+            .block-delete {
+                color: red;
+
+                i {
+                    color: red;
                 }
             }
         }
 
-        &:hover{
+        &:hover {
 
-            .show-hover{
+            .show-hover {
                 display: inline-block;
             }
         }
     }
 
-    .block-content{
+    .block-content {
         border: 1px solid #ddd;
         border-top: 0px;
         padding: 10px;
     }
 }
 
-.templates-items-zone{
-    .block-panel{
-        .block-title{
-            .title-right{
+.templates-items-zone {
+    .block-panel {
+        .block-title {
+            .title-right {
                 padding-right: 10px;
-                i{
+
+                i {
                     font-size: 18px;
                     padding: 0px;
                     margin-right: 0px;
                 }
-                .btn{
+
+                .btn {
                     line-height: initial;
                     padding: 3px 10px;
                 }
-                .btn-light{
+
+                .btn-light {
                     border-color: #e6e7e8;
                 }
             }
         }
     }
 }
-.bravo-template-list-item{
-    .list-item-wraps{
+
+.bravo-template-list-item {
+    .list-item-wraps {
         margin-bottom: 15px;
     }
-    .list-item{
+
+    .list-item {
         border: 1px solid #c4cdd5;
         border-radius: 3px;
         overflow: hidden;
         margin-bottom: 10px;
         border-bottom: 0px;
-        .list-item-header{
+
+        .list-item-header {
             padding: 3px 11px;
             border-bottom: 1px solid #c4cdd5;
             font-weight: bold;
@@ -91,24 +102,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            i{
+
+            i {
                 font-size: 22px;
                 padding: 0px 5px;
                 cursor: pointer;
             }
 
         }
-        .list-item-settings{
+
+        .list-item-settings {
             padding: 6px 11px;
             border-bottom: 1px solid #c4cdd5;
         }
     }
 }
-.vue-form-generator{
-    .form-group{
-        .field-wrap{
-            .radio-list{
-                label{
+
+.vue-form-generator {
+    .form-group {
+        .field-wrap {
+            .radio-list {
+                label {
                     margin-right: 10px;
                 }
             }
@@ -116,11 +130,12 @@
     }
 }
 
-.block-types-menu{
+.block-types-menu {
     .panel-toggle-able .panel-title i {
         font-size: 22px;
         line-height: 8px;
     }
+
     .panel-toggle-able .panel-title {
         display: flex;
         justify-content: space-between;

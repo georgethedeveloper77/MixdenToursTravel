@@ -6,7 +6,8 @@
     <div class="pt-5 pb-3 px-4 border-bottom">
         @if(!empty($service->image_url))
             <a href="#" class="d-block mb-3">
-                <img class="img-fluid rounded-sm" src="{{$service->image_url}}" alt="{!! clean($service_translation->title) !!}">
+                <img class="img-fluid rounded-sm" src="{{$service->image_url}}"
+                     alt="{!! clean($service_translation->title) !!}">
             </a>
         @endif
         <a href="{{$service->getDetailUrl()}}" class="text-dark font-weight-bold mb-2 d-block">
@@ -22,7 +23,9 @@
         <div class="card rounded-0 border-top-0 border-left-0 border-right-0">
             <div class="card-header card-collapse bg-transparent border-0">
                 <h5 class="mb-0">
-                    <button type="button" class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark" data-toggle="collapse" data-target="#basicsCollapseDetail">
+                    <button type="button"
+                            class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark"
+                            data-toggle="collapse" data-target="#basicsCollapseDetail">
                         {{ __("Booking Detail") }}
                         <span class="card-btn-arrow font-size-14 text-dark"><i class="fa fa-chevron-down"></i></span>
                     </button>
@@ -32,7 +35,7 @@
                 <div class="card-body px-4 pt-0">
                     <ul class="list-unstyled font-size-1 mb-0 font-size-16">
                         @if($booking->start_date)
-                            <li  class="d-flex justify-content-between py-2">
+                            <li class="d-flex justify-content-between py-2">
                                 <div class="label">{{__('Start date:')}}</div>
                                 <div class="val">
                                     {{display_datetime($booking->start_date)}}
@@ -44,7 +47,7 @@
                                     {{display_datetime($booking->end_date)}}
                                 </div>
                             </li>
-                            <li class="d-flex justify-content-between py-2"i>
+                            <li class="d-flex justify-content-between py-2" i>
                                 <div class="label">{{__('Durations:')}}</div>
                                 <div class="val">
                                     @if($booking->getMeta('type_date') == 'per_hour')
@@ -58,7 +61,8 @@
                         <li class="flex-wrap">
                             <div class="flex-grow-0 flex-shrink-0 w-100">
                                 <p class="text-center">
-                                    <a data-toggle="modal" data-target="#detailBookingDate{{$booking->code}}" aria-expanded="false"
+                                    <a data-toggle="modal" data-target="#detailBookingDate{{$booking->code}}"
+                                       aria-expanded="false"
                                        aria-controls="detailBookingDate{{$booking->code}}">
                                         {{__('Detail')}} <i class="icofont-list"></i>
                                     </a>
@@ -72,7 +76,9 @@
         <div class="card rounded-0 border-top-0 border-left-0 border-right-0">
             <div class="card-header card-collapse bg-transparent border-0" id="basicsHeadingFour">
                 <h5 class="mb-0">
-                    <button type="button" class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark" data-toggle="collapse" data-target="#basicsCollapsePayment">
+                    <button type="button"
+                            class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark"
+                            data-toggle="collapse" data-target="#basicsCollapsePayment">
                         {{ __("Payment") }}
                         <span class="card-btn-arrow font-size-14 text-dark"><i class="fa fa-chevron-down"></i></span>
                     </button>
@@ -135,7 +141,8 @@
                                 <li class="d-flex justify-content-between py-2">
                                     <div class="label">
                                         {{$item['name_'.$lang_local] ?? $item['name']}}
-                                        <i class="icofont-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $item['desc_'.$lang_local] ?? $item['desc'] }}"></i>
+                                        <i class="icofont-info-circle" data-toggle="tooltip" data-placement="top"
+                                           title="{{ $item['desc_'.$lang_local] ?? $item['desc'] }}"></i>
                                         @if(!empty($item['per_person']) and $item['per_person'] == "on")
                                             : {{$booking->total_guests}} * {{format_money( $fee_price )}}
                                         @endif
@@ -175,7 +182,8 @@
     </div>
 </div>
 @php $dateDetail = $service->detailBookingEachDate($booking); @endphp
-<div class="modal fade" id="detailBookingDate{{$booking->code}}" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div class="modal fade" id="detailBookingDate{{$booking->code}}" tabindex="-1" role="dialog"
+     aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

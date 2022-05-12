@@ -33,7 +33,10 @@
                                         </h6>
                                         <div class="flex-horizontal-center mr-6">
                                             <div class="progress bg-gray-33 rounded-pill w-100" style="height: 7px;">
-                                                <div class="progress-bar rounded-pill" role="progressbar" style="width: {{$item['percent']}}%;" aria-valuenow="{{$item['percent']}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar rounded-pill" role="progressbar"
+                                                     style="width: {{$item['percent']}}%;"
+                                                     aria-valuenow="{{$item['percent']}}" aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
                                             </div>
                                             <div class="ml-3 text-primary font-weight-bold">
                                                 {{$item['total']}}
@@ -65,7 +68,8 @@
                         <div class="mr-md-5">
                             <a class="d-block" href="#">
                                 @if($avatar_url = $userInfo->getAvatarUrl())
-                                    <img class="img-fluid mb-3 mb-md-0 rounded-circle avatar-img" src="{{$avatar_url}}" alt="{{$userInfo->getDisplayName()}}">
+                                    <img class="img-fluid mb-3 mb-md-0 rounded-circle avatar-img" src="{{$avatar_url}}"
+                                         alt="{{$userInfo->getDisplayName()}}">
                                 @endif
                             </a>
                         </div>
@@ -74,10 +78,14 @@
                                 <h6 class="font-weight-bold text-gray-3">
                                     <a href="#">{{$userInfo->getDisplayName()}}</a>
                                 </h6>
-                                <div class="font-weight-normal font-size-14 text-gray-9 mb-2">{{display_datetime($item->created_at)}}</div>
+                                <div
+                                    class="font-weight-normal font-size-14 text-gray-9 mb-2">{{display_datetime($item->created_at)}}</div>
                                 <div class="d-flex align-items-center flex-column flex-md-row mb-2">
                                     @if($item->rate_number)
-                                        <button type="button" class="btn btn-xs btn-primary rounded-xs font-size-14 py-1 px-2 mr-2 mb-2 mb-md-0">{{$item->rate_number}} /5 </button>
+                                        <button type="button"
+                                                class="btn btn-xs btn-primary rounded-xs font-size-14 py-1 px-2 mr-2 mb-2 mb-md-0">{{$item->rate_number}}
+                                            /5
+                                        </button>
                                     @endif
                                     <span class="font-weight-bold font-italic text-gray-3">{{$item->title}}</span>
                                 </div>
@@ -100,7 +108,8 @@
                 </h5>
                 <div class="form-wrapper">
 
-                    <form action="{{ route('review.store')}}" class="needs-validation sfeedbacks_form" novalidate method="post">
+                    <form action="{{ route('review.store')}}" class="needs-validation sfeedbacks_form" novalidate
+                          method="post">
                         @csrf
                         <div class="row mb-5 mb-lg-0">
                             <div class="col-sm-12">
@@ -115,7 +124,8 @@
                                                 <h6 class="font-weight-bold text-dark mb-1">
                                                     {{$item->title}}
                                                 </h6>
-                                                <input class="review_stats" type="hidden" name="review_stats[{{$item->title}}]">
+                                                <input class="review_stats" type="hidden"
+                                                       name="review_stats[{{$item->title}}]">
                                                 <span class="font-size-20 letter-spacing-3 sspd_review">
                                                     <small class="fa fa-smile-o font-weight-normal"></small>
                                                     <small class="fa fa-smile-o font-weight-normal"></small>
@@ -144,20 +154,29 @@
                             </div>
                             <div class="col-sm-12 mb-5">
                                 <div class="js-form-message">
-                                    <input type="text" class="form-control" name="review_title" placeholder="{{__("Title")}}" required data-error-class="u-has-error" data-msg="{{__('Review title is required')}}" data-success-class="u-has-success">
+                                    <input type="text" class="form-control" name="review_title"
+                                           placeholder="{{__("Title")}}" required data-error-class="u-has-error"
+                                           data-msg="{{__('Review title is required')}}"
+                                           data-success-class="u-has-success">
                                     <div class="invalid-feedback">{{__('Review title is required')}}</div>
                                 </div>
                             </div>
                             <div class="col-sm-12 mb-5">
                                 <div class="js-form-message">
                                     <div class="input-group">
-                                        <textarea class="form-control" rows="6" cols="77" name="review_content" placeholder="{{__("Review content")}}" required data-msg="{{__('Review content has at least 10 character')}}" data-error-class="u-has-error" data-success-class="u-has-success"></textarea>
-                                        <div class="invalid-feedback">{{__('Review content has at least 10 character')}}</div>
+                                        <textarea class="form-control" rows="6" cols="77" name="review_content"
+                                                  placeholder="{{__("Review content")}}" required
+                                                  data-msg="{{__('Review content has at least 10 character')}}"
+                                                  data-error-class="u-has-error"
+                                                  data-success-class="u-has-success"></textarea>
+                                        <div
+                                            class="invalid-feedback">{{__('Review content has at least 10 character')}}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col d-flex justify-content-center justify-content-lg-start">
-                                <button type="submit" id="submit" name="submit" class="btn rounded-xs bg-blue-dark-1 text-white p-2 height-51 width-190 transition-3d-hover">{{__("Leave a Review")}}</button>
+                                <button type="submit" id="submit" name="submit"
+                                        class="btn rounded-xs bg-blue-dark-1 text-white p-2 height-51 width-190 transition-3d-hover">{{__("Leave a Review")}}</button>
                                 <input type="hidden" name="review_service_id" value="{{$row->id}}">
                                 <input type="hidden" name="review_service_type" value="{{ $row->type }}">
                             </div>

@@ -3,7 +3,9 @@
         <div class="location-title">
             <h3 class="font-size-21 font-weight-bold text-dark mb-4">{{__("What's Nearby")}}</h3>
             @foreach($location_category as $category)
-                <h6 class="font-weight-bold mb-3"><i class="{{clean($category->icon_class)}} "></i> {{$category->location_category_translations->name??$category->name}}</h6>
+                <h6 class="font-weight-bold mb-3"><i
+                        class="{{clean($category->icon_class)}} "></i> {{$category->location_category_translations->name??$category->name}}
+                </h6>
                 @if(!empty($translation->surrounding[$category->id]))
                     @foreach($translation->surrounding[$category->id] as $item)
                         <div class="row mb-3">

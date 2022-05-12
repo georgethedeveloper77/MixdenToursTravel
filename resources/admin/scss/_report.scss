@@ -1,4 +1,4 @@
-.dashboard-report-card{
+.dashboard-report-card {
     margin-bottom: 30px;
     border: 1px solid #e2e2e2;
     -webkit-box-shadow: none;
@@ -9,27 +9,31 @@
     -moz-border-radius: 3px;
     border-radius: 3px;
 
-    &.purple{
+    &.purple {
         background-color: #8892d6;
         border-color: #8892d6;
     }
-    &.info{
+
+    &.info {
         background-color: #45bbe0;
         border-color: #45bbe0;
     }
-    &.pink{
+
+    &.pink {
         background-color: #F06292;
         border-color: #F06292;
     }
-    &.success{
+
+    &.success {
         background-color: #78c350;
         border-color: #78c350;
     }
+
     padding: 20px;
     display: flex;
     justify-content: space-between;
 
-    .card-media{
+    .card-media {
         width: 70px;
         height: 70px;
         border-radius: 50%;
@@ -40,35 +44,43 @@
         text-align: center;
         background-color: rgba(255, 255, 255, 0.2);
         justify-content: center;
-        i{
+
+        i {
             font-size: 35px;
             color: white;
         }
+
         right: 20px;
         top: 20px;
         position: absolute;
     }
-    .card-content{
+
+    .card-content {
         color: white;
         flex-grow: 1;
-        a{
-            color:white;
-            &:hover{
+
+        a {
+            color: white;
+
+            &:hover {
                 text-decoration: none;
             }
         }
-        .card-title{
+
+        .card-title {
             text-transform: uppercase;
             display: block;
             margin-bottom: 0px;
         }
-        .card-amount{
+
+        .card-amount {
             font-size: 28px;
             margin: 8px 0px;
             display: block;
             font-weight: 600;
         }
-        .card-desc{
+
+        .card-desc {
             display: block;
         }
     }

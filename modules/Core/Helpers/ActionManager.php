@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Core\Helpers;
 class ActionManager extends BaseAction
 {
@@ -6,7 +7,7 @@ class ActionManager extends BaseAction
      * Filters a value.
      *
      * @param string $action Name of action
-     * @param array  $args   Arguments passed to the filter
+     * @param array $args Arguments passed to the filter
      *
      * @return string Always returns the value
      */

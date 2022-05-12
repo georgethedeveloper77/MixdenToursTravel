@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Theme\Abstracts;
 
 use Illuminate\Support\ServiceProvider;
@@ -19,8 +20,12 @@ abstract class AbstractThemeProvider extends ServiceProvider
      */
     abstract static function info();
 
-    public function register(){}
+    public function register()
+    {
+    }
 
-    public function boot(){}
+    public function boot()
+    {
+    }
 
 }

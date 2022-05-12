@@ -11,8 +11,9 @@
                             <h2 class="pb-3">{{@$trip_idea['title']}}</h2>
                             <div class="description pb-3"><p>{{$trip_idea['content']}}</p></div>
                             @if($trip_idea['link'])
-                                <p><a href="{{$trip_idea['link']}}" target="_blank" class="read-more">{{__('Read More')}}</a></p>
-                                @endif
+                                <p><a href="{{$trip_idea['link']}}" target="_blank"
+                                      class="read-more">{{__('Read More')}}</a></p>
+                            @endif
                         </div>
                         <div class="col-md-12 col-lg-4 pb-5">
                             @if($trip_idea['image_id'])

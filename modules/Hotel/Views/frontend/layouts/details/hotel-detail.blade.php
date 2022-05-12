@@ -21,7 +21,8 @@
                     <div class="head">
                         <div class="left">
                             <span class="head-rating">{{$review_score['score_text']}}</span>
-                            <span class="text-rating">{{__("from :number reviews",['number'=>$review_score['total_review']])}}</span>
+                            <span
+                                class="text-rating">{{__("from :number reviews",['number'=>$review_score['total_review']])}}</span>
                         </div>
                         <div class="score">
                             {{$review_score['score_total']}}<span>/5</span>
@@ -37,7 +38,8 @@
 </div>
 @if($row->getGallery())
     <div class="g-gallery">
-        <div class="fotorama" data-width="100%" data-thumbwidth="135" data-thumbheight="135" data-thumbmargin="15" data-nav="thumbs" data-allowfullscreen="true">
+        <div class="fotorama" data-width="100%" data-thumbwidth="135" data-thumbheight="135" data-thumbmargin="15"
+             data-nav="thumbs" data-allowfullscreen="true">
             @foreach($row->getGallery() as $key=>$item)
                 <a href="{{$item['large']}}" data-thumb="{{$item['thumb']}}" data-alt="{{ __("Gallery") }}"></a>
             @endforeach
@@ -49,12 +51,16 @@
                 </span>
                 <ul class="share-wrapper">
                     <li>
-                        <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{$row->getDetailUrl()}}&amp;title={{$translation->title}}" target="_blank" rel="noopener" original-title="{{__("Facebook")}}">
+                        <a class="facebook"
+                           href="https://www.facebook.com/sharer/sharer.php?u={{$row->getDetailUrl()}}&amp;title={{$translation->title}}"
+                           target="_blank" rel="noopener" original-title="{{__("Facebook")}}">
                             <i class="fa fa-facebook fa-lg"></i>
                         </a>
                     </li>
                     <li>
-                        <a class="twitter" href="https://twitter.com/share?url={{$row->getDetailUrl()}}&amp;title={{$translation->title}}" target="_blank" rel="noopener" original-title="{{__("Twitter")}}">
+                        <a class="twitter"
+                           href="https://twitter.com/share?url={{$row->getDetailUrl()}}&amp;title={{$translation->title}}"
+                           target="_blank" rel="noopener" original-title="{{__("Twitter")}}">
                             <i class="fa fa-twitter fa-lg"></i>
                         </a>
                     </li>
@@ -86,7 +92,7 @@
                 <div class="key">{{__("Check In")}}</div>
             </div>
             <div class="col-lg-8">
-                <div class="value">	{{$row->check_in_time}} </div>
+                <div class="value">    {{$row->check_in_time}} </div>
             </div>
         </div>
         <div class="row">
@@ -94,7 +100,7 @@
                 <div class="key">{{__("Check Out")}}</div>
             </div>
             <div class="col-lg-8">
-                <div class="value">	{{$row->check_out_time}} </div>
+                <div class="value">    {{$row->check_out_time}} </div>
             </div>
         </div>
         @if($translation->policy)

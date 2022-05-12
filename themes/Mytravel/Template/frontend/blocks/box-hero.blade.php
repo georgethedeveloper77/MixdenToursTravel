@@ -5,8 +5,10 @@
                 <h1 class="font-size-40 font-size-xs-30 text-white font-weight-bold mb-0">{{ $title ?? "" }}</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-no-gutter justify-content-center mb-0">
-                        <li class="breadcrumb-item font-size-14"> <a class="text-white" href="{{ url("/") }}">{{ __("Home") }}</a> </li>
-                        <li class="breadcrumb-item custom-breadcrumb-item font-size-14 text-white active" aria-current="page">
+                        <li class="breadcrumb-item font-size-14"><a class="text-white"
+                                                                    href="{{ url("/") }}">{{ __("Home") }}</a></li>
+                        <li class="breadcrumb-item custom-breadcrumb-item font-size-14 text-white active"
+                            aria-current="page">
                             {{ $sub_title ?? "" }}
                         </li>
                     </ol>

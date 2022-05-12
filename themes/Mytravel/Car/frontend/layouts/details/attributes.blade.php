@@ -6,7 +6,8 @@
     @foreach($attributes as $attribute )
         @php $translate_attribute = $attribute['parent']->translateOrOrigin(app()->getLocale()) @endphp
         @if(empty($attribute['parent']['hide_in_single']))
-            <div class="list-attributes border-bottom py-4 {{$attribute['parent']->slug}} attr-{{$attribute['parent']->id}}">
+            <div
+                class="list-attributes border-bottom py-4 {{$attribute['parent']->slug}} attr-{{$attribute['parent']->id}}">
                 <h3 class="font-size-21 font-weight-bold text-dark mb-4">{{ $translate_attribute->name }}</h3>
                 @php $terms = $attribute['child'] @endphp
                 <ul class="list-group list-group-borderless list-group-horizontal list-group-flush no-gutters row">

@@ -1,10 +1,15 @@
 <?php
+
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\Boat\Models\Boat;
+use Modules\Boat\Models\BoatTerm;
+use Modules\Core\Models\Attributes;
+use Modules\Core\Models\Terms;
 use Modules\Media\Models\MediaFile;
-
 use Modules\Review\Models\Review;
 use Modules\Review\Models\ReviewMeta;
 
@@ -23,23 +28,23 @@ class BoatSeeder extends Seeder
             ['file_name' => 'banner-search-boat', 'file_path' => 'demo/boat/banner-search-boat.jpg', 'file_type' => 'image/jpg', 'file_extension' => 'jpg'],
         ]);
 
-        for ($i=1 ; $i <= 12 ; $i++){
+        for ($i = 1; $i <= 12; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'boat-'.$i, 'file_path' => 'demo/boat/boat-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'boat-' . $i, 'file_path' => 'demo/boat/boat-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
-        for ($i=1 ; $i <= 7 ; $i++){
+        for ($i = 1; $i <= 7; $i++) {
             DB::table('media_files')->insert([
-                ['file_name' => 'boat-gallery-'.$i, 'file_path' => 'demo/boat/gallery-'.$i.'.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
+                ['file_name' => 'boat-gallery-' . $i, 'file_path' => 'demo/boat/gallery-' . $i . '.jpg', 'file_type' => 'image/jpeg', 'file_extension' => 'jpg'],
             ]);
         }
 
         $list_gallery = [];
-        for($i=1 ; $i <=6 ; $i++){
-            $list_gallery[] = MediaFile::findMediaByName("boat-gallery-".$i)->id;
+        for ($i = 1; $i <= 6; $i++) {
+            $list_gallery[] = MediaFile::findMediaByName("boat-gallery-" . $i)->id;
         }
 
-        $IDs_vendor[] = $create_user =   '1';
+        $IDs_vendor[] = $create_user = '1';
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Cruising Yacht',
@@ -49,8 +54,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 1,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "100",
@@ -62,19 +67,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   '1';
+        $IDs_vendor[] = $create_user = '1';
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Summer Breeze',
@@ -84,8 +89,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 1,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "150",
@@ -97,19 +102,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   '1';
+        $IDs_vendor[] = $create_user = '1';
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Blue Moon Cruising',
@@ -119,8 +124,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 3,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "200",
@@ -132,19 +137,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   '1';
+        $IDs_vendor[] = $create_user = '1';
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'BOAT 1992 ALISON',
@@ -154,8 +159,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 1,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "50",
@@ -167,19 +172,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   '1';
+        $IDs_vendor[] = $create_user = '1';
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Andiamo MX-3',
@@ -189,8 +194,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 5,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "250",
@@ -202,19 +207,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   rand(4,6);
+        $IDs_vendor[] = $create_user = rand(4, 6);
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Blue Dream TC-20',
@@ -224,8 +229,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 1,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "130",
@@ -237,19 +242,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   rand(4,6);
+        $IDs_vendor[] = $create_user = rand(4, 6);
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Blue Moon YC-300',
@@ -259,8 +264,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 1,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "130",
@@ -272,19 +277,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   rand(4,6);
+        $IDs_vendor[] = $create_user = rand(4, 6);
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Carpe Diem LA',
@@ -294,8 +299,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 1,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "200",
@@ -307,19 +312,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   rand(4,6);
+        $IDs_vendor[] = $create_user = rand(4, 6);
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Destiny 6',
@@ -329,8 +334,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 6,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "180",
@@ -342,19 +347,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   rand(4,6);
+        $IDs_vendor[] = $create_user = rand(4, 6);
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Endless Summer W-10',
@@ -364,8 +369,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 7,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "230",
@@ -377,19 +382,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   rand(4,6);
+        $IDs_vendor[] = $create_user = rand(4, 6);
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Freedom M2',
@@ -399,8 +404,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 8,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "50",
@@ -412,19 +417,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   rand(4,6);
+        $IDs_vendor[] = $create_user = rand(4, 6);
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'Ohana 3X',
@@ -434,8 +439,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 3,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "80",
@@ -447,19 +452,19 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
-        $IDs_vendor[] = $create_user =   rand(4,6);
+        $IDs_vendor[] = $create_user = rand(4, 6);
         $IDs[] = DB::table('bravo_boats')->insertGetId(
             [
                 'title' => 'My Way 100',
@@ -469,8 +474,8 @@ class BoatSeeder extends Seeder
                 'banner_image_id' => MediaFile::findMediaByName('banner-boat-single')->id,
                 'location_id' => 1,
                 'address' => "Arrondissement de Paris",
-                'is_featured' => rand(0,1),
-                'gallery' => implode(",",$list_gallery),
+                'is_featured' => rand(0, 1),
+                'gallery' => implode(",", $list_gallery),
                 'video' => "https://www.youtube.com/watch?v=UfEiKK-iX70",
                 'number' => 1,
                 'price_per_hour' => "150",
@@ -482,25 +487,25 @@ class BoatSeeder extends Seeder
                 'faqs' => '[{"title":"When should I check the transmission fluid?","content":"You should check the transmission fluid regularly. Try to check it at least once a month or at the sign of any trouble, for instance if there is any hesitation when you shift gears in an automatic."},{"title":"How do I check the transmission fluid?","content":"It\u2019s not hard to check your transmission fluid if the vehicle is an automatic. This link to the Dummies guide to checking your transmission fluid has step-by-step instructions and illustrations that show you where to locate the dipstick. What you want is clear, pink transmission fluid. If it is low, top it up. If it is dark, smells burnt or has bits in it then you need to get it changed by at a reliable auto repair shop."},{"title":"Is it really that important to check the transmission fluid?","content":"Yes, it can be. Often times the symptoms you\u2019ll experience from low or dirty transmission fluid will be the same as transmission problems. If you check the fluid levels regularly and refill as necessary then you\u2019ll know if there are any symptoms of trouble that it\u2019s not because the fluid levels are low and you need to see a mechanic."},{"title":"Are there different types of transmission fluid?","content":"How do I know what to buy? Yes, there are many different types of transmission fluid, each designed for a certain transmission. Different vehicles require different transmission fluids and the age of the boat can also be a factor because newer transmissions take different types of transmission fluids than older vehicles. Don\u2019t guess! Find out which type of transmission fluid is required for your vehicle by checking your owner\u2019s manual."},{"title":"What is a transmission flush and should I get one?","content":"A transmission flush is used by some auto repair shops with the goal of flushing out debris.  Auto Tech does not do any sort of transmission flush.  Flushing an older transmission can cause harmful sediment to get stuck in the solenoids of the transmission. We heavily favor regular maintenance to lengthen the life of your transmission.  We service the transmission by changing fluid and the filter and do not recommend having your transmission flushed."},{"title":"How do I know I have a fluid leak from the transmission?","content":"Transmission fluid is slightly pink in color \u2013 it will appear pink or red, or possibly more brownish if the transmission fluid is dirty and needs to be replaced. When you feel transmission fluid it will be slick and oily on your fingers. It smells much like oil unless it is dirty, in which case it will smell burnt. Usually transmission fluid leaks around the front or middle of your vehicle, so if you find puddles of reddish liquid there it is probably transmission fluid. Another clue is if in addition to the leak your transmission is not working well and you notice changes in the way it sounds when you shift gears, or if shifting gears is not working as well. In this case you likely have a leak of transmission fluid that is impacting how your transmission operates."}]',
                 'status' => "publish",
                 'create_user' => $create_user,
-                'created_at' =>  date("Y-m-d H:i:s"),
-                'max_guest'=>rand(5,15),
-                'cabin'=>rand(1,5),
-                'length'=>rand(10,20)."m",
-                'speed'=>rand(25,35)."km/h",
-                'specs'=>'{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
-                'cancel_policy'=>"Full refund up to 4 days prior.",
-                'terms_information'=>"<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
+                'created_at' => date("Y-m-d H:i:s"),
+                'max_guest' => rand(5, 15),
+                'cabin' => rand(1, 5),
+                'length' => rand(10, 20) . "m",
+                'speed' => rand(25, 35) . "km/h",
+                'specs' => '{"0":{"title":"Manufacturer","content":"Sunrise"},"1":{"title":"Boat skipper","content":"Bareboat"},"2":{"title":"Model","content":"Summer Breeze"},"3":{"title":"Year","content":"2010"},"4":{"title":"Number of crew","content":"5"},"5":{"title":"Engines","content":"Diesel"},"6":{"title":"Fuel","content":"Composite"}}',
+                'cancel_policy' => "Full refund up to 4 days prior.",
+                'terms_information' => "<p>For Sanitary purposes ONLY, although there is a working toilet and shower, we've deactivated the shower and the toliet is for limited use (urine only..pardon the graphic detail!). This keeps the boat clean and odor-free for all of our guests.&nbsp; Sinks can be used.</p>
 <p>Booking is weather pending. Because of the safety factors associated with the boat and inclement weather, If forecast shows rain, strong winds etc, the Host will communicate with Guest 24-48hrs in advance to mutually cancel/reschedule reservation. No smoking in boat cabin.</p>",
                 'enable_extra_price' => '1',
                 'extra_price' => '[{"name":"Child Toddler Seat","price":"100","type":"one_time"},{"name":"Infant Child Seat","price":"100","type":"one_time"},{"name":"GPS Satellite","price":"200","type":"one_time"}]',
             ]);
 
         // Add meta
-        foreach ($IDs as $numer_key => $boat){
+        foreach ($IDs as $numer_key => $boat) {
             $vendor_id = $IDs_vendor[$numer_key];
-            for ($i = 1 ; $i <= 5 ; $i++){
-                if( rand(1,5) == $i) continue;
-                if( rand(1,5) == $i) continue;
+            for ($i = 1; $i <= 5; $i++) {
+                if (rand(1, 5) == $i) continue;
+                if (rand(1, 5) == $i) continue;
                 $metaReview = [];
                 $list_meta = [
                     "Equipment",
@@ -511,29 +516,29 @@ class BoatSeeder extends Seeder
                 ];
                 $total_point = 0;
                 foreach ($list_meta as $key => $value) {
-                    $point = rand(4,5);
+                    $point = rand(4, 5);
                     $total_point += $point;
                     $metaReview[] = [
-                        "object_id"    => $boat,
+                        "object_id" => $boat,
                         "object_model" => "boat",
-                        "name"         => $value,
-                        "val"          => $point,
-                        "create_user"  => "1",
+                        "name" => $value,
+                        "val" => $point,
+                        "create_user" => "1",
                     ];
                 }
                 $rate = round($total_point / count($list_meta), 1);
                 if ($rate > 5) $rate = 5;
-                $titles = ["Great Boat","Good Boat","Boat was great","Easy way to discover the city"];
+                $titles = ["Great Boat", "Good Boat", "Boat was great", "Easy way to discover the city"];
                 $review = new Review([
-                    "object_id"    => $boat,
+                    "object_id" => $boat,
                     "object_model" => "boat",
-                    "title"        => $titles[rand(0, 3)],
-                    "content"      => "Eum eu sumo albucius perfecto, commodo torquatos consequuntur pro ut, id posse splendide ius. Cu nisl putent omittantur usu, mutat atomorum ex pro, ius nibh nonumy id. Nam at eius dissentias disputando, molestie mnesarchum complectitur per te",
-                    "rate_number"  => $rate,
-                    "author_ip"    => "127.0.0.1",
-                    "status"       => "approved",
+                    "title" => $titles[rand(0, 3)],
+                    "content" => "Eum eu sumo albucius perfecto, commodo torquatos consequuntur pro ut, id posse splendide ius. Cu nisl putent omittantur usu, mutat atomorum ex pro, ius nibh nonumy id. Nam at eius dissentias disputando, molestie mnesarchum complectitur per te",
+                    "rate_number" => $rate,
+                    "author_ip" => "127.0.0.1",
+                    "status" => "approved",
                     "publish_date" => date("Y-m-d H:i:s"),
-                    'create_user' => rand(7,16),
+                    'create_user' => rand(7, 16),
                     'vendor_id' => $vendor_id,
                 ]);
                 if ($review->save()) {
@@ -592,67 +597,67 @@ class BoatSeeder extends Seeder
                     'group' => "boat",
                 ],
                 [
-                    'name'=>'boat_map_search_fields',
-                    'val'=>'[{"field":"location","attr":null,"position":"1"},{"field":"attr","attr":"14","position":"2"},{"field":"date","attr":null,"position":"3"},{"field":"price","attr":null,"position":"4"},{"field":"advance","attr":null,"position":"5"}]',
-                    'group'=>'boat'
+                    'name' => 'boat_map_search_fields',
+                    'val' => '[{"field":"location","attr":null,"position":"1"},{"field":"attr","attr":"14","position":"2"},{"field":"date","attr":null,"position":"3"},{"field":"price","attr":null,"position":"4"},{"field":"advance","attr":null,"position":"5"}]',
+                    'group' => 'boat'
                 ],
                 [
-                    'name'=>'boat_search_fields',
-                    'val'=>'[{"title":"Location","field":"location","size":"6","position":"1"},{"title":"Start Date","field":"date","size":"6","position":"2"}]',
-                    'group'=>'boat'
+                    'name' => 'boat_search_fields',
+                    'val' => '[{"title":"Location","field":"location","size":"6","position":"1"},{"title":"Start Date","field":"date","size":"6","position":"2"}]',
+                    'group' => 'boat'
                 ]
             ]
         );
 
-        $boat_type = new \Modules\Core\Models\Attributes([
-            'name'=>'Boat Type',
-            'service'=>'boat',
-            'hide_in_single'=>'1',
+        $boat_type = new Attributes([
+            'name' => 'Boat Type',
+            'service' => 'boat',
+            'hide_in_single' => '1',
         ]);
         $boat_type->save();
 
         $term_ids = [];
-        foreach (['Airboat','Cabin cruiser','Cruise ship','Express cruiser','Electric boat','Ferry','Inflatable boat','Jetboat'] as $k=>$term){
-            $t = new \Modules\Core\Models\Terms([
-                'name'=>$term,
-                'attr_id'=>$boat_type->id,
+        foreach (['Airboat', 'Cabin cruiser', 'Cruise ship', 'Express cruiser', 'Electric boat', 'Ferry', 'Inflatable boat', 'Jetboat'] as $k => $term) {
+            $t = new Terms([
+                'name' => $term,
+                'attr_id' => $boat_type->id,
             ]);
             $t->save();
             $term_ids[] = $t->id;
         }
 
-        foreach ($IDs as $boat_id){
-            foreach ($term_ids as $k=>$term_id) {
-                if( rand(0 , count($term_ids) ) == $k) continue;
-                if( rand(0 , count($term_ids) ) == $k) continue;
-                if( rand(0 , count($term_ids) ) == $k) continue;
-                \Modules\Boat\Models\BoatTerm::firstOrCreate([
+        foreach ($IDs as $boat_id) {
+            foreach ($term_ids as $k => $term_id) {
+                if (rand(0, count($term_ids)) == $k) continue;
+                if (rand(0, count($term_ids)) == $k) continue;
+                if (rand(0, count($term_ids)) == $k) continue;
+                BoatTerm::firstOrCreate([
                     'term_id' => $term_id,
                     'target_id' => $boat_id
                 ]);
             }
         }
 
-        $boat_type = new \Modules\Core\Models\Attributes([
-            'name'=>'Amenities',
-            'service'=>'boat'
+        $boat_type = new Attributes([
+            'name' => 'Amenities',
+            'service' => 'boat'
         ]);
         $boat_type->save();
 
         $term_ids = [];
-        foreach (['Events and Meetings','Scuba Gear','Hot Tub/Jacuzzi on Deck','Sport Fishing','Speciality Classic Yacht','Gulet'] as $k=>$term){
-            $t = new \Modules\Core\Models\Terms([
-                'name'=>$term,
-                'attr_id'=>$boat_type->id,
+        foreach (['Events and Meetings', 'Scuba Gear', 'Hot Tub/Jacuzzi on Deck', 'Sport Fishing', 'Speciality Classic Yacht', 'Gulet'] as $k => $term) {
+            $t = new Terms([
+                'name' => $term,
+                'attr_id' => $boat_type->id,
             ]);
             $t->save();
             $term_ids[] = $t->id;
         }
-        foreach ($IDs as $boat_id){
-            foreach ($term_ids as $k=>$term_id) {
-                if( rand(0 , count($term_ids) ) == $k) continue;
-                if( rand(0 , count($term_ids) ) == $k) continue;
-                \Modules\Boat\Models\BoatTerm::firstOrCreate([
+        foreach ($IDs as $boat_id) {
+            foreach ($term_ids as $k => $term_id) {
+                if (rand(0, count($term_ids)) == $k) continue;
+                if (rand(0, count($term_ids)) == $k) continue;
+                BoatTerm::firstOrCreate([
                     'term_id' => $term_id,
                     'target_id' => $boat_id
                 ]);
@@ -660,8 +665,8 @@ class BoatSeeder extends Seeder
         }
 
         //Update Review Score
-        foreach ($IDs as $service_id){
-            \Modules\Boat\Models\Boat::find($service_id)->update_service_rate();
+        foreach ($IDs as $service_id) {
+            Boat::find($service_id)->update_service_rate();
         }
     }
 }

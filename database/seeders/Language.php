@@ -1,9 +1,10 @@
 <?php
+
 namespace Database\Seeders;
-use Illuminate\Support\Str;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Modules\Media\Models\MediaFile;
+
 class Language extends Seeder
 {
     /**

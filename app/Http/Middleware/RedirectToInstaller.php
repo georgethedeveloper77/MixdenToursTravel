@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
 class RedirectToInstaller
 {
@@ -14,35 +14,36 @@ class RedirectToInstaller
     protected $except = [
         '_debugbar/*'
     ];
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @param  string|null $guard
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param string|null $guard
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (strpos($request->path(),'install') === false && !file_exists(storage_path().'/installed')  and !$this->inExceptArray($request)) {
+        if (strpos($request->path(), 'install') === false && !file_exists(storage_path() . '/installed') and !$this->inExceptArray($request)) {
 
             return redirect('/install');
         }
 
-        if(strpos($request->path(),'install') !== false ){
-            if(!file_exists(base_path('.env')))
-            {
+        if (strpos($request->path(), 'install') !== false) {
+            if (!file_exists(base_path('.env'))) {
                 // copy file .env.example to .env
-                copy(base_path('.env.example'),base_path('.env'));
+                copy(base_path('.env.example'), base_path('.env'));
             }
         }
 
         return $next($request);
     }
+
     /**
      * Determine if the request has a URI that should be accessible in maintenance mode.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
     protected function inExceptArray($request)

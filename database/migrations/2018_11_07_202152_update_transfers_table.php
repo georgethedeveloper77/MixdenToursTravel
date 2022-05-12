@@ -16,7 +16,7 @@ class UpdateTransfersTable extends Migration
     public function up(): void
     {
         Schema::table($this->table(), function (Blueprint $table) {
-            if(!Schema::hasColumn($this->table(),'refund')){
+            if (!Schema::hasColumn($this->table(), 'refund')) {
                 $table->boolean('refund')
                     ->after('withdraw_id')
                     ->default(0);

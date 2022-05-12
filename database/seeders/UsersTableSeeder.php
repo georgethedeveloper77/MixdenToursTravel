@@ -1,6 +1,8 @@
 <?php
+
 namespace Database\Seeders;
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,49 +17,49 @@ class UsersTableSeeder extends Seeder
     {
 
         DB::table('users')->insert([
-            'first_name'        => 'System',
-            'last_name'         => 'Admin',
-            'email'             => 'admin@bookingcore.test',
-            'password'          => bcrypt('admin123'),
-            'phone'             => '112 666 888',
-            'status'            => 'publish',
-            'city'            => 'New York',
-            'country'            => 'US',
-            'created_at'        => date("Y-m-d H:i:s"),
+            'first_name' => 'System',
+            'last_name' => 'Admin',
+            'email' => 'admin@bookingcore.test',
+            'password' => bcrypt('admin123'),
+            'phone' => '112 666 888',
+            'status' => 'publish',
+            'city' => 'New York',
+            'country' => 'US',
+            'created_at' => date("Y-m-d H:i:s"),
             'email_verified_at' => date("Y-m-d H:i:s"),
-            'bio'               => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.'
+            'bio' => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.'
         ]);
-        $user = \App\User::where('email', 'admin@bookingcore.test')->first();
+        $user = User::where('email', 'admin@bookingcore.test')->first();
         $user->assignRole('administrator');
         DB::table('users')->insert([
-            'first_name'        => 'Vendor',
-            'last_name'         => '01',
-            'email'             => 'vendor1@bookingcore.test',
-            'password'          => bcrypt('123456Aa'),
-            'phone'             => '112 666 888',
-            'status'            => 'publish',
-            'city'            => 'New York',
-            'country'            => 'US',
-            'created_at'        => date("Y-m-d H:i:s"),
+            'first_name' => 'Vendor',
+            'last_name' => '01',
+            'email' => 'vendor1@bookingcore.test',
+            'password' => bcrypt('123456Aa'),
+            'phone' => '112 666 888',
+            'status' => 'publish',
+            'city' => 'New York',
+            'country' => 'US',
+            'created_at' => date("Y-m-d H:i:s"),
             'email_verified_at' => date("Y-m-d H:i:s"),
-            'bio'               => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.'
+            'bio' => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.'
         ]);
-        $user = \App\User::where('email', 'vendor1@bookingcore.test')->first();
+        $user = User::where('email', 'vendor1@bookingcore.test')->first();
         $user->assignRole('vendor');
         DB::table('users')->insert([
-            'first_name'        => 'Customer',
-            'last_name'         => '01',
-            'email'             => 'customer1@bookingcore.test',
-            'password'          => bcrypt('123456Aa'),
-            'phone'             => '112 666 888',
-            'status'            => 'publish',
-            'city'            => 'New York',
-            'country'            => 'US',
-            'created_at'        => date("Y-m-d H:i:s"),
+            'first_name' => 'Customer',
+            'last_name' => '01',
+            'email' => 'customer1@bookingcore.test',
+            'password' => bcrypt('123456Aa'),
+            'phone' => '112 666 888',
+            'status' => 'publish',
+            'city' => 'New York',
+            'country' => 'US',
+            'created_at' => date("Y-m-d H:i:s"),
             'email_verified_at' => date("Y-m-d H:i:s"),
-            'bio'               => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.'
+            'bio' => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.'
         ]);
-        $user = \App\User::where('email', 'customer1@bookingcore.test')->first();
+        $user = User::where('email', 'customer1@bookingcore.test')->first();
         $user->assignRole('customer');
         $vendor = [
             [
@@ -75,19 +77,19 @@ class UsersTableSeeder extends Seeder
         ];
         foreach ($vendor as $k => $v) {
             DB::table('users')->insert([
-                'first_name'        => $v[0],
-                'last_name'         => $v[1],
-                'email'             => $v[1] . '@bookingcore.test',
-                'password'          => bcrypt('123456Aa'),
-                'phone'             => '112 666 888',
-                'status'            => 'publish',
-                'city'            => 'New York',
-                'country'            => 'US',
-                'created_at'        => date("Y-m-d H:i:s"),
+                'first_name' => $v[0],
+                'last_name' => $v[1],
+                'email' => $v[1] . '@bookingcore.test',
+                'password' => bcrypt('123456Aa'),
+                'phone' => '112 666 888',
+                'status' => 'publish',
+                'city' => 'New York',
+                'country' => 'US',
+                'created_at' => date("Y-m-d H:i:s"),
                 'email_verified_at' => date("Y-m-d H:i:s"),
-                'bio'               => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.'
+                'bio' => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.'
             ]);
-            $user = \App\User::where('email', $v[1] . '@bookingcore.test')->first();
+            $user = User::where('email', $v[1] . '@bookingcore.test')->first();
             $user->assignRole('vendor');
         }
         $customer = [
@@ -135,17 +137,17 @@ class UsersTableSeeder extends Seeder
         foreach ($customer as $k => $v) {
             DB::table('users')->insert([
                 'first_name' => $v[0],
-                'last_name'  => $v[1],
-                'email'      => $v[1] . '@bookingcore.test',
-                'password'   => bcrypt('123456Aa'),
-                'phone'      => '888 999 777',
-                'status'     => 'publish',
-                'city'            => 'New York',
-                'country'            => 'US',
-                'bio'        => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.',
+                'last_name' => $v[1],
+                'email' => $v[1] . '@bookingcore.test',
+                'password' => bcrypt('123456Aa'),
+                'phone' => '888 999 777',
+                'status' => 'publish',
+                'city' => 'New York',
+                'country' => 'US',
+                'bio' => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.',
                 'created_at' => date("Y-m-d H:i:s"),
             ]);
-            $user = \App\User::where('email', $v[1] . '@bookingcore.test')->first();
+            $user = User::where('email', $v[1] . '@bookingcore.test')->first();
             $user->assignRole('customer');
         }
     }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class UpdateFrom151To160 extends Migration
 {
@@ -15,7 +15,7 @@ class UpdateFrom151To160 extends Migration
     {
         Schema::table('bravo_bookings', function (Blueprint $table) {
             if (!Schema::hasColumn('paid', 'bravo_bookings')) {
-                $table->decimal('paid',10,2)->nullable();
+                $table->decimal('paid', 10, 2)->nullable();
             }
         });
 
@@ -32,14 +32,14 @@ class UpdateFrom151To160 extends Migration
 
         Schema::table('bravo_bookings', function (Blueprint $table) {
             if (!Schema::hasColumn('pay_now', 'bravo_bookings')) {
-                $table->decimal('pay_now',10,2)->nullable();
+                $table->decimal('pay_now', 10, 2)->nullable();
             }
         });
-	    Schema::table('bravo_hotel_rooms', function (Blueprint $table) {
-		    if (!Schema::hasColumn("bravo_hotel_rooms", 'ical_import_url')) {
-			    $table->string('ical_import_url')->nullable();
-		    }
-	    });
+        Schema::table('bravo_hotel_rooms', function (Blueprint $table) {
+            if (!Schema::hasColumn("bravo_hotel_rooms", 'ical_import_url')) {
+                $table->string('ical_import_url')->nullable();
+            }
+        });
 
     }
 

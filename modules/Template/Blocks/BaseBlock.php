@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Template\Blocks;
 class BaseBlock
 {

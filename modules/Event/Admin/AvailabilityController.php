@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Event\Admin;
 
 use Modules\Event\Models\EventDate;

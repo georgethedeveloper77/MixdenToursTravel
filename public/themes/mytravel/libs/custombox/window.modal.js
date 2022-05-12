@@ -1,5 +1,4 @@
-
-(function($){
+(function ($) {
     'use strict';
 
     $.BCoreModal = {
@@ -9,7 +8,7 @@
          *
          * @var Object _baseConfig
          */
-        _baseConfig : {
+        _baseConfig: {
             bounds: 100,
             debounce: 50,
             overlayOpacity: .48,
@@ -17,9 +16,12 @@
             speed: 400,
             type: 'onscroll', // onscroll, beforeunload, hashlink, ontarget, aftersometime
             effect: 'fadein',
-            onOpen: function() {},
-            onClose: function() {},
-            onComplete: function() {},
+            onOpen: function () {
+            },
+            onClose: function () {
+            },
+            onComplete: function () {
+            },
         },
 
         /**
@@ -27,7 +29,7 @@
          *
          * @var jQuery _pageCollection
          */
-        _pageCollection : $(),
+        _pageCollection: $(),
 
         /**
          * Initialization of ModalWindow wrapper.
@@ -37,15 +39,15 @@
          *
          * @return jQuery - collection of initialized items.
          */
-        init: function(selector, config) {
+        init: function (selector, config) {
             var collection = $(selector);
-            if(!collection.length) return;
+            if (!collection.length) return;
 
             config = config && $.isPlainObject(config) ? $.extend({}, this._baseConfig, config) : this._baseConfig;
             config.selector = selector;
 
-            this._pageCollection = this._pageCollection.add( collection.not(this._pageCollection) );
-            if(config.autonomous) {
+            this._pageCollection = this._pageCollection.add(collection.not(this._pageCollection));
+            if (config.autonomous) {
 
                 return this.initAutonomousModalWindows(collection, config);
 
@@ -63,30 +65,30 @@
          *
          * @return jQuery collection
          */
-        initBaseModalWindows: function(collection, config){
+        initBaseModalWindows: function (collection, config) {
 
-            return collection.on('click', function(e){
+            return collection.on('click', function (e) {
 
-                if(!('Custombox' in window)) return;
+                if (!('Custombox' in window)) return;
 
                 var $this = $(this),
                     target = $this.data('modal-target'),
                     effect = $this.data('modal-effect') || config['effect'];
 
-                if(!target || !$(target).length) return;
+                if (!target || !$(target).length) return;
 
                 new Custombox.modal(
                     {
                         content: {
                             target: target,
                             effect: effect,
-                            onOpen: function() {
+                            onOpen: function () {
                                 config['onOpen'].call($(target));
                             },
-                            onClose: function() {
+                            onClose: function () {
                                 config['onClose'].call($(target));
                             },
-                            onComplete: function() {
+                            onComplete: function () {
                                 config['onComplete'].call($(target));
                             }
                         },
@@ -113,12 +115,12 @@
          *
          * @return jQuery collection
          */
-        initAutonomousModalWindows: function(collection, config) {
+        initAutonomousModalWindows: function (collection, config) {
             var self = this;
-            return collection.each(function(i, el) {
+            return collection.each(function (i, el) {
                 var $this = $(el),
                     type = $this.data('modal-type');
-                switch(type) {
+                switch (type) {
 
                     case 'hashlink' :
 
@@ -163,26 +165,26 @@
          *
          * @return undefined
          */
-        initHashLinkPopup: function(popup, config) {
+        initHashLinkPopup: function (popup, config) {
 
             var self = this,
                 hashItem = $(window.location.hash),
                 target = $('#' + popup.attr('id'));
 
-            if(hashItem.length && hashItem.attr('id') ==  popup.attr('id')){
+            if (hashItem.length && hashItem.attr('id') == popup.attr('id')) {
 
                 new Custombox.modal(
                     {
                         content: {
                             target: '#' + popup.attr('id'),
                             effect: popup.data('effect') || config['effect'],
-                            onOpen: function() {
+                            onOpen: function () {
                                 config['onOpen'].call($(target));
                             },
-                            onClose: function() {
+                            onClose: function () {
                                 config['onClose'].call($(target));
                             },
-                            onComplete: function() {
+                            onComplete: function () {
                                 config['onComplete'].call($(target));
                             }
                         },
@@ -206,7 +208,7 @@
          *
          * @return undefined
          */
-        initOnScrollPopup: function(popup, config) {
+        initOnScrollPopup: function (popup, config) {
 
             var self = this,
                 $window = $(window),
@@ -214,24 +216,24 @@
                 target = $('#' + popup.attr('id'));
 
 
-            $window.on('scroll.popup', function() {
+            $window.on('scroll.popup', function () {
 
                 var scrolled = $window.scrollTop() + $window.height();
 
-                if(scrolled >= breakpoint) {
+                if (scrolled >= breakpoint) {
 
                     new Custombox.modal(
                         {
                             content: {
                                 target: '#' + popup.attr('id'),
                                 effect: popup.data('effect') || config['effect'],
-                                onOpen: function() {
+                                onOpen: function () {
                                     config['onOpen'].call($(target));
                                 },
-                                onClose: function() {
+                                onClose: function () {
                                     config['onClose'].call($(target));
                                 },
-                                onComplete: function() {
+                                onComplete: function () {
                                     config['onComplete'].call($(target));
                                 }
                             },
@@ -261,18 +263,18 @@
          *
          * @return undefined
          */
-        initBeforeUnloadPopup: function(popup, config) {
+        initBeforeUnloadPopup: function (popup, config) {
 
             var self = this,
                 count = 0,
                 target = $('#' + popup.attr('id')),
                 timeoutId;
 
-            window.addEventListener('mousemove', function(e) {
+            window.addEventListener('mousemove', function (e) {
 
-                if(timeoutId) clearTimeout(timeoutId);
+                if (timeoutId) clearTimeout(timeoutId);
 
-                timeoutId = setTimeout(function() {
+                timeoutId = setTimeout(function () {
 
                     if (e.clientY < 10 && !count) {
 
@@ -283,13 +285,13 @@
                                 content: {
                                     target: '#' + popup.attr('id'),
                                     effect: popup.data('effect') || config['effect'],
-                                    onOpen: function() {
+                                    onOpen: function () {
                                         config['onOpen'].call($(target));
                                     },
-                                    onClose: function() {
+                                    onClose: function () {
                                         config['onClose'].call($(target));
                                     },
-                                    onComplete: function() {
+                                    onComplete: function () {
                                         config['onComplete'].call($(target));
                                     }
                                 },
@@ -318,32 +320,32 @@
          *
          * @return undefined
          */
-        initOnTargetPopup: function(popup, config) {
+        initOnTargetPopup: function (popup, config) {
             var self = this,
                 target = popup.data('target');
 
-            if(!target || !$(target).length) return;
+            if (!target || !$(target).length) return;
 
             appear({
                 bounds: config['bounds'],
                 debounce: config['debounce'],
-                elements: function() {
+                elements: function () {
                     return document.querySelectorAll(target);
                 },
-                appear: function(element) {
+                appear: function (element) {
 
                     new Custombox.modal(
                         {
                             content: {
                                 target: '#' + popup.attr('id'),
                                 effect: popup.data('effect') || config['effect'],
-                                onOpen: function() {
+                                onOpen: function () {
                                     config['onOpen'].call($(target));
                                 },
-                                onClose: function() {
+                                onClose: function () {
                                     config['onClose'].call($(target));
                                 },
-                                onComplete: function() {
+                                onComplete: function () {
                                     config['onComplete'].call($(target));
                                 }
                             },
@@ -368,25 +370,25 @@
          *
          * @return undefined
          */
-        initAfterSomeTimePopup: function(popup, config) {
+        initAfterSomeTimePopup: function (popup, config) {
 
             var self = this,
                 target = $('#' + popup.attr('id'));
 
-            setTimeout(function() {
+            setTimeout(function () {
 
                 new Custombox.modal(
                     {
                         content: {
                             target: '#' + popup.attr('id'),
                             effect: popup.data('effect') || config['effect'],
-                            onOpen: function() {
+                            onOpen: function () {
                                 config['onOpen'].call($(target));
                             },
-                            onClose: function() {
+                            onClose: function () {
                                 config['onClose'].call($(target));
                             },
-                            onComplete: function() {
+                            onComplete: function () {
                                 config['onComplete'].call($(target));
                             }
                         },

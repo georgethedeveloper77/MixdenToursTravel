@@ -33,7 +33,8 @@
                         }]'>
             @if(!empty($rows))
                 @foreach($rows as $row)
-                    <div class="item bg-img-hero-center rounded-border min-height-350 gradient-overlay-half-bg-gradient-v1 mt-5">
+                    <div
+                        class="item bg-img-hero-center rounded-border min-height-350 gradient-overlay-half-bg-gradient-v1 mt-5">
                         @include('Location::frontend.blocks.list-locations.loop')
                     </div>
                 @endforeach

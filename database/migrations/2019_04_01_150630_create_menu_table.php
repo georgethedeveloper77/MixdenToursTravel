@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMenuTable extends Migration
 {
@@ -16,7 +16,7 @@ class CreateMenuTable extends Migration
         Schema::create('core_menus', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('name',255)->nullable();
+            $table->string('name', 255)->nullable();
             $table->longText('items')->nullable();
 
             $table->integer('create_user')->nullable();
@@ -25,7 +25,7 @@ class CreateMenuTable extends Migration
 
             //Languages
             $table->bigInteger('origin_id')->nullable();
-            $table->string('lang',10)->nullable();
+            $table->string('lang', 10)->nullable();
 
 
             $table->timestamps();

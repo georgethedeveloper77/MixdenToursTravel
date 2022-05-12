@@ -6,10 +6,10 @@
  * Time: 3:39 PM
  */
 $reviews = \Modules\Review\Models\Review::query()->where([
-    'vendor_id'=>$user->id,
-    'status'=>'approved'
+    'vendor_id' => $user->id,
+    'status' => 'approved'
 ])
-    ->orderBy('id','desc')
+    ->orderBy('id', 'desc')
     ->with('author')
     ->paginate(3);
 ?>
@@ -61,6 +61,8 @@ $reviews = \Modules\Review\Models\Review::query()->where([
                 @endforeach
             @endif
         </div>
-        <div class="text-center mt30"><a class="btn btn-sm btn-primary" href="{{route('user.profile.reviews',['id'=> $user->user_name ?? $user->id])}}">{{__('View all reviews (:total)',['total'=>$reviews->total()])}}</a></div>
+        <div class="text-center mt30"><a class="btn btn-sm btn-primary"
+                                         href="{{route('user.profile.reviews',['id'=> $user->user_name ?? $user->id])}}">{{__('View all reviews (:total)',['total'=>$reviews->total()])}}</a>
+        </div>
     </div>
 @endif

@@ -17,24 +17,22 @@
 @endsection
 
 @section('footer')
-{!! App\Helpers\MapEngine::scripts() !!}
-<script>
-    new BravoMapEngine('test_map',{
-        fitBounds:true,
-        center:[51.505, -0.09],
-        zoom:6,
-        ready: function (engineMap) {
-            console.log(engineMap);
-            engineMap.on('click',function (dataLatLng) {
-                console.log(dataLatLng);
-                engineMap.clearMarkers();
-                engineMap.addMarker([dataLatLng.lat,dataLatLng.lng],{
-                    icon_options:{
-                      
-                    }
-                });
-            })
-        }
-    });
-</script>
+    {!! App\Helpers\MapEngine::scripts() !!}
+    <script>
+        new BravoMapEngine('test_map', {
+            fitBounds: true,
+            center: [51.505, -0.09],
+            zoom: 6,
+            ready: function (engineMap) {
+                console.log(engineMap);
+                engineMap.on('click', function (dataLatLng) {
+                    console.log(dataLatLng);
+                    engineMap.clearMarkers();
+                    engineMap.addMarker([dataLatLng.lat, dataLatLng.lng], {
+                        icon_options: {}
+                    });
+                })
+            }
+        });
+    </script>
 @endsection

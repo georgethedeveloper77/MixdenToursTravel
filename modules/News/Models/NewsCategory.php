@@ -1,15 +1,16 @@
 <?php
+
 namespace Modules\News\Models;
 
 use App\BaseModel;
-use Kalnoy\Nestedset\NodeTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Core\Models\SEO;
+use Kalnoy\Nestedset\NodeTrait;
 
 class NewsCategory extends BaseModel
 {
     use SoftDeletes;
     use NodeTrait;
+
     protected $table = 'core_news_category';
     protected $fillable = [
         'name',
@@ -17,19 +18,13 @@ class NewsCategory extends BaseModel
         'status',
         'parent_id'
     ];
-    protected $slugField     = 'slug';
+    protected $slugField = 'slug';
     protected $slugFromField = 'name';
     protected $seo_type = 'news_category';
 
     public static function getModelName()
     {
         return __("News Category");
-    }
-
-    public function filterbyCat($id)
-    {
-        $posts = News::where('news_id', $this->id)->get();
-        return $posts;
     }
 
     public static function searchForMenu($q = false)
@@ -43,18 +38,25 @@ class NewsCategory extends BaseModel
         return $a;
     }
 
-    public function getDetailUrl($locale = false)
+    public function filterbyCat($id)
     {
-        return route('news.category.index',['slug'=>$this->slug]);
+        $posts = News::where('news_id', $this->id)->get();
+        return $posts;
     }
 
-    public function dataForApi(){
+    public function dataForApi()
+    {
         $translation = $this->translateOrOrigin(app()->getLocale());
         return [
-            'name'=>$translation->name,
-            'id'=>$this->id,
-            'url'=>$this->getDetailUrl()
+            'name' => $translation->name,
+            'id' => $this->id,
+            'url' => $this->getDetailUrl()
         ];
+    }
+
+    public function getDetailUrl($locale = false)
+    {
+        return route('news.category.index', ['slug' => $this->slug]);
     }
 
 }

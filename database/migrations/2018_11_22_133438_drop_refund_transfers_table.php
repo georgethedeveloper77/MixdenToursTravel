@@ -11,14 +11,6 @@ class DropRefundTransfersTable extends Migration
 {
 
     /**
-     * @return string
-     */
-    protected function table(): string
-    {
-        return (new Transfer())->getTable();
-    }
-
-    /**
      * @return void
      */
     public function up(): void
@@ -32,6 +24,14 @@ class DropRefundTransfersTable extends Migration
 
             $table->dropColumn('refund');
         });
+    }
+
+    /**
+     * @return string
+     */
+    protected function table(): string
+    {
+        return (new Transfer())->getTable();
     }
 
     /**

@@ -11,8 +11,8 @@
 
 @section('container')
 
-	<p><strong><small>{{ trans('installer_messages.final.log') }}</small></strong></p>
-	<pre><code>{{ $finalStatusMessage }}</code></pre>
+    <p><strong><small>{{ trans('installer_messages.final.log') }}</small></strong></p>
+    <pre><code>{{ $finalStatusMessage }}</code></pre>
     <div class="buttons">
         <a href="{{ url('/') }}" class="button">{{ trans('installer_messages.final.exit') }}</a>
     </div>

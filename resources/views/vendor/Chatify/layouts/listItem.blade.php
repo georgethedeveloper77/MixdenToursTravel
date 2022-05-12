@@ -5,7 +5,8 @@
             {{-- Avatar side --}}
             <td>
                 <div class="avatar av-m" style="background-color: #d9efff; text-align: center;">
-                    <span class="far fa-bookmark" style="font-size: 22px; color: #68a5ff; margin-top: calc(50% - 10px);"></span>
+                    <span class="far fa-bookmark"
+                          style="font-size: 22px; color: #68a5ff; margin-top: calc(50% - 10px);"></span>
                 </div>
             </td>
             {{-- center side --}}
@@ -19,7 +20,7 @@
 
 {{-- -------------------- All users/group list -------------------- --}}
 @if($get == 'users')
-    <?php $user_obj = new \App\User($user->toArray()) ?>
+    <?php use App\User;$user_obj = new User($user->toArray()) ?>
     <table class="messenger-list-item" data-contact="{{ $user->id }}">
         <tr data-action="0">
             {{-- Avatar side --}}

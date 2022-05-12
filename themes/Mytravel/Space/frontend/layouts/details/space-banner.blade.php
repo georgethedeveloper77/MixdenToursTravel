@@ -4,7 +4,8 @@
             <div class="container">
                 <nav class="py-3" aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-no-gutter mb-0 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
-                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{url('')}}">{{__('Home')}}</a></li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a
+                                href="{{url('')}}">{{__('Home')}}</a></li>
                         @foreach($breadcrumbs as $breadcrumb)
                             <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 {{$breadcrumb['class'] ?? ''}}">
                                 @if(!empty($breadcrumb['url']))
@@ -53,7 +54,8 @@
 
                 @if($row->getGallery())
                     @foreach($row->getGallery() as $key=>$item)
-                        <div class="js-slide bg-img-hero min-height-550" style="background-image: url('{{$item['large']}}');"></div>
+                        <div class="js-slide bg-img-hero min-height-550"
+                             style="background-image: url('{{$item['large']}}');"></div>
                     @endforeach
                 @endif
             </div>

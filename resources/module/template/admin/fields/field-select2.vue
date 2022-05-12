@@ -4,14 +4,14 @@
 </template>
 <script>
 
-    import { abstractField } from "vue-form-generator";
+    import {abstractField} from "vue-form-generator";
 
     export default {
-        mixins: [ abstractField ],
-        data(){
+        mixins: [abstractField],
+        data() {
             return {
-                options:[],
-                selectedText:''
+                options: [],
+                selectedText: ''
             }
         },
         mounted: function () {
@@ -19,40 +19,40 @@
 
             $(vm.$el).select2(vm.schema.select2);
 
-            if(this.schema.pre_selected && this.value){
+            if (this.schema.pre_selected && this.value) {
                 $.ajax({
-                    method:'get',
-                    url:this.schema.pre_selected,
-                    data:{
-                        selected:this.value
+                    method: 'get',
+                    url: this.schema.pre_selected,
+                    data: {
+                        selected: this.value
                     },
-                    dataType:'json',
-                    success:function (json) {
-                        if(vm.schema.select2.multiple){
-                            if(typeof json.items !='undefined' && typeof json.items == 'object' && json.items.length){
-                                for(var i = 0 ; i < json.items.length; i++){
+                    dataType: 'json',
+                    success: function (json) {
+                        if (vm.schema.select2.multiple) {
+                            if (typeof json.items != 'undefined' && typeof json.items == 'object' && json.items.length) {
+                                for (var i = 0; i < json.items.length; i++) {
                                     var newOption = new Option(json.items[i].text, json.items[i].id, true, true);
                                     $(vm.$el).append(newOption);
                                 }
-                                $(vm.$el).select2('val',this.value)
+                                $(vm.$el).select2('val', this.value)
                                 $(vm.$el).trigger('change');
                             }
-                            return;
-                        }else{
+
+                        } else {
                             var newOption = new Option(json.text, vm.value, false, false);
                             $(vm.$el).append(newOption).trigger('change');
                         }
                         //vm.selectedText = json.text;
-                        
+
 
                     }
 
                 })
-            }else{
+            } else {
 
             }
 
-            $(vm.$el).on('change',function () {
+            $(vm.$el).on('change', function () {
                 // vm.$emit('input', $(this).val());
                 vm.value = $(this).val();
             })

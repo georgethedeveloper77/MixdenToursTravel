@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Template\Blocks;
 class Text extends BaseBlock
 {
@@ -7,15 +8,15 @@ class Text extends BaseBlock
         $this->setOptions([
             'settings' => [
                 [
-                    'id'    => 'content',
-                    'type'  => 'editor',
+                    'id' => 'content',
+                    'type' => 'editor',
                     'label' => __('Editor')
                 ],
                 [
-                    'id'        => 'class',
-                    'type'      => 'input',
+                    'id' => 'class',
+                    'type' => 'input',
                     'inputType' => 'text',
-                    'label'     => __('Wrapper Class (opt)')
+                    'label' => __('Wrapper Class (opt)')
                 ],
 //                [
 //                    'id'    => 'bg',
@@ -23,7 +24,7 @@ class Text extends BaseBlock
 //                    'label' => __('Image Uploader')
 //                ],
             ],
-            'category'=>__("Other Block")
+            'category' => __("Other Block")
         ]);
     }
 

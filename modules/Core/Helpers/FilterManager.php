@@ -1,8 +1,10 @@
 <?php
+
 namespace Modules\Core\Helpers;
 class FilterManager extends BaseAction
 {
     protected $value = '';
+
     /**
      * Filters a value.
      *

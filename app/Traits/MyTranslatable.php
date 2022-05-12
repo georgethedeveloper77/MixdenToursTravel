@@ -5,15 +5,18 @@
  * Date: 7/16/2019
  * Time: 4:52 PM
  */
+
 namespace App\Traits;
 
 use Astrotomic\Translatable\Translatable;
 
-Trait MyTranslatable{
+trait MyTranslatable
+{
 
     use Translatable;
 
-    public function translateOrOrigin(){
+    public function translateOrOrigin()
+    {
 
     }
 }

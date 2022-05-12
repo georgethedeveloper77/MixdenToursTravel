@@ -38,7 +38,7 @@
                 @if($row->is_instant)
                     <i class="fa fa-bolt d-none"></i>
                 @endif
-                    {!! clean($translation->title) !!}
+                {!! clean($translation->title) !!}
             </a>
         </div>
         @if(!empty($attribute = $row->getAttributeInListingPage()))
@@ -64,24 +64,25 @@
             @endif
         </div>
     </div>
-    <div class="g-rate-price">
-        @if(setting_item('hotel_enable_review'))
-            @php  $reviewData = $row->getScoreReview(); @endphp
-            <div class="service-review-pc">
-                <div class="head">
-                    <div class="left">
-                        <span class="head-rating">{{$reviewData['review_text']}}</span>
-                        <span class="text-rating">{{__(":number reviews",['number'=>$reviewData['total_review']])}}</span>
-                    </div>
-                    <div class="score">
-                        {{$reviewData['score_total']}}<span>/5</span>
+        <div class="g-rate-price">
+            @if(setting_item('hotel_enable_review'))
+                @php  $reviewData = $row->getScoreReview(); @endphp
+                <div class="service-review-pc">
+                    <div class="head">
+                        <div class="left">
+                            <span class="head-rating">{{$reviewData['review_text']}}</span>
+                            <span
+                                class="text-rating">{{__(":number reviews",['number'=>$reviewData['total_review']])}}</span>
+                        </div>
+                        <div class="score">
+                            {{$reviewData['score_total']}}<span>/5</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        @endif
-        <div class="g-price">
-            <div class="prefix">
-                <span class="fr_text">{{__("from")}}</span>
+            @endif
+            <div class="g-price">
+                <div class="prefix">
+                    <span class="fr_text">{{__("from")}}</span>
             </div>
             <div class="price">
                 <span class="text-price">{{ $row->display_price }} <span class="unit">{{__("/night")}}</span></span>

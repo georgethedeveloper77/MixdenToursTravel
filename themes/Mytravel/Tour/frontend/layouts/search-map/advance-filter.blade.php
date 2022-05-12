@@ -11,7 +11,7 @@
 @endphp
 <div id="advance_filters" class="d-none">
     <div class="ad-filter-b">
-         @foreach ($attributes as $item)
+        @foreach ($attributes as $item)
             @if(empty($item['hide_in_filter_search']))
                 @php
                     if(in_array($item->id,$usedAttrs)) continue;
@@ -23,14 +23,15 @@
                         @foreach($item->terms as $term)
                             @php $translate = $term->translateOrOrigin(app()->getLocale()); @endphp
                             <li class="filter-term-item col-xs-6 col-md-4">
-                                <label><input @if(in_array($term->id,$selected)) checked @endif type="checkbox" name="terms[]" value="{{$term->id}}"> {{$translate->name}}
+                                <label><input @if(in_array($term->id,$selected)) checked @endif type="checkbox"
+                                              name="terms[]" value="{{$term->id}}"> {{$translate->name}}
                                 </label>
                             </li>
                         @endforeach
                     </ul>
                 </div>
             @endif
-         @endforeach
+        @endforeach
     </div>
     <div class="ad-filter-f text-right">
         <a href="#" onclick="return false" class="btn btn-primary btn-sm btn-apply-advances">{{__("Apply Filters")}}</a>

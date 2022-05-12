@@ -6,15 +6,15 @@
             </div>
         @endif
         <div class="travel-slick-carousel u-slick u-slick--gutters-3"
-                 data-arrows-classes="d-md-inline-block u-slick__arrow-classic u-slick__arrow-centered--y rounded-circle"
-                 data-arrow-left-classes="flaticon-back u-slick__arrow-classic-inner u-slick__arrow-classic-inner--left shadow-5 d-lg-inline-block"
-                 data-arrow-right-classes="flaticon-next u-slick__arrow-classic-inner u-slick__arrow-classic-inner--right shadow-5 d-lg-inline-block"
-                 data-infinite="true"
-                 data-slides-show="5"
-                 data-slides-scroll="5"
-                 data-center-mode="false"
-                 data-pagi-classes="text-center u-slick__pagination mt-5 mb-0"
-                 data-responsive='[{
+             data-arrows-classes="d-md-inline-block u-slick__arrow-classic u-slick__arrow-centered--y rounded-circle"
+             data-arrow-left-classes="flaticon-back u-slick__arrow-classic-inner u-slick__arrow-classic-inner--left shadow-5 d-lg-inline-block"
+             data-arrow-right-classes="flaticon-next u-slick__arrow-classic-inner u-slick__arrow-classic-inner--right shadow-5 d-lg-inline-block"
+             data-infinite="true"
+             data-slides-show="5"
+             data-slides-scroll="5"
+             data-center-mode="false"
+             data-pagi-classes="text-center u-slick__pagination mt-5 mb-0"
+             data-responsive='[{
                         "breakpoint": 1025,
                         "settings": {
                         "slidesToShow": 3,
@@ -34,9 +34,9 @@
                         "dots": false
                     }
                     }]'>
-                @foreach($rows as $row)
-                    @include('Hotel::frontend.layouts.search.loop-grid')
-                @endforeach
+            @foreach($rows as $row)
+                @include('Hotel::frontend.layouts.search.loop-grid')
+            @endforeach
         </div>
     </div>
 </div>

@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTableCorePages extends Migration
 {
@@ -12,13 +13,13 @@ class CreateTableCorePages extends Migration
      */
     public function up()
     {
-        Schema::create('core_pages', function (\Illuminate\Database\Schema\Blueprint $table) {
+        Schema::create('core_pages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('slug',255)->charset('utf8')->index();
-            $table->string('title',255)->nullable();
+            $table->string('slug', 255)->charset('utf8')->index();
+            $table->string('title', 255)->nullable();
             $table->text('content')->nullable();
             $table->text('short_desc')->nullable();
-            $table->string('status',50)->nullable();
+            $table->string('status', 50)->nullable();
             $table->dateTime('publish_date')->nullable();
             $table->integer('image_id')->nullable();
             $table->integer('template_id')->nullable();
@@ -29,7 +30,7 @@ class CreateTableCorePages extends Migration
 
             //Languages
             $table->bigInteger('origin_id')->nullable();
-            $table->string('lang',10)->nullable();
+            $table->string('lang', 10)->nullable();
 
             $table->timestamps();
         });

@@ -1,4 +1,4 @@
-jQuery(document).ready(function($){
+jQuery(document).ready(function ($) {
     $('.st-testimonial-landing').each(function () {
         $(this).owlCarousel({
             loop: false,
@@ -29,7 +29,7 @@ jQuery(document).ready(function($){
 
 });
 
-$(window).on('load', function(){
+$(window).on('load', function () {
     $('.inner-scroll').marquee({
         //speed in milliseconds of the marquee
         duration: 25000,
@@ -46,52 +46,91 @@ $(window).on('load', function(){
 });
 
 /*Scroll*/
-jQuery(function($){
-    ScrollReveal().reveal('.header .heading', { origin: 'bottom', distance: '69px', duration: 750, opacity: 0 }, 750);
+jQuery(function ($) {
+    ScrollReveal().reveal('.header .heading', {origin: 'bottom', distance: '69px', duration: 750, opacity: 0}, 750);
 
-    ScrollReveal().reveal('.full-demo .text-heading', { origin: 'bottom', distance: '69px', duration: 1500, opacity: 0 }, 1500);
-    ScrollReveal().reveal('.full-demo .demo-grid .col-lg-4', { origin: 'bottom', distance: '69px', duration: 1500, opacity: 0 }, 1500);
+    ScrollReveal().reveal('.full-demo .text-heading', {
+        origin: 'bottom',
+        distance: '69px',
+        duration: 1500,
+        opacity: 0
+    }, 1500);
+    ScrollReveal().reveal('.full-demo .demo-grid .col-lg-4', {
+        origin: 'bottom',
+        distance: '69px',
+        duration: 1500,
+        opacity: 0
+    }, 1500);
 
-    ScrollReveal().reveal('.demo-plugin h3', { origin: 'bottom', distance: '69px', duration: 1500, opacity: 0 }, 1500);
-    ScrollReveal().reveal('.demo-plugin .demo-plugin-content .col-lg-6', { origin: 'bottom', distance: '69px', duration: 1500, opacity: 0 }, 1500);
+    ScrollReveal().reveal('.demo-plugin h3', {origin: 'bottom', distance: '69px', duration: 1500, opacity: 0}, 1500);
+    ScrollReveal().reveal('.demo-plugin .demo-plugin-content .col-lg-6', {
+        origin: 'bottom',
+        distance: '69px',
+        duration: 1500,
+        opacity: 0
+    }, 1500);
 
-    ScrollReveal().reveal('.demo-theme-option .feature-theme-option .col-left', { origin: 'bottom', distance: '100px', duration: 1500, opacity: 0 }, 1500);
-    ScrollReveal().reveal('.demo-theme-option .feature-theme-option .col-right', { origin: 'bottom', distance: '69px', duration: 1500, opacity: 0 }, 1500);
-    ScrollReveal().reveal('.demo-theme-option .feature-services .col-left', { origin: 'bottom', distance: '69px', duration: 1500, opacity: 0 }, 1500);
-    ScrollReveal().reveal('.demo-theme-option .feature-services .col-right', { origin: 'bottom', distance: '100px', duration: 1500, opacity: 0 }, 1500);
+    ScrollReveal().reveal('.demo-theme-option .feature-theme-option .col-left', {
+        origin: 'bottom',
+        distance: '100px',
+        duration: 1500,
+        opacity: 0
+    }, 1500);
+    ScrollReveal().reveal('.demo-theme-option .feature-theme-option .col-right', {
+        origin: 'bottom',
+        distance: '69px',
+        duration: 1500,
+        opacity: 0
+    }, 1500);
+    ScrollReveal().reveal('.demo-theme-option .feature-services .col-left', {
+        origin: 'bottom',
+        distance: '69px',
+        duration: 1500,
+        opacity: 0
+    }, 1500);
+    ScrollReveal().reveal('.demo-theme-option .feature-services .col-right', {
+        origin: 'bottom',
+        distance: '100px',
+        duration: 1500,
+        opacity: 0
+    }, 1500);
 
-    ScrollReveal().reveal('.other-feature h3', { origin: 'bottom', distance: '69px', duration: 1500, opacity: 0 }, 1500);
-    ScrollReveal().reveal('.other-feature .other-content .col-lg-4', { origin: 'bottom', distance: '69px', duration: 1500, opacity: 0 }, 1500);
+    ScrollReveal().reveal('.other-feature h3', {origin: 'bottom', distance: '69px', duration: 1500, opacity: 0}, 1500);
+    ScrollReveal().reveal('.other-feature .other-content .col-lg-4', {
+        origin: 'bottom',
+        distance: '69px',
+        duration: 1500,
+        opacity: 0
+    }, 1500);
 
-    ScrollReveal().reveal('.footer h3', { origin: 'bottom', distance: '69px', duration: 750, opacity: 0 }, 750);
-    ScrollReveal().reveal('.footer a', { origin: 'bottom', distance: '69px', duration: 750, opacity: 0 }, 750);
+    ScrollReveal().reveal('.footer h3', {origin: 'bottom', distance: '69px', duration: 750, opacity: 0}, 750);
+    ScrollReveal().reveal('.footer a', {origin: 'bottom', distance: '69px', duration: 750, opacity: 0}, 750);
 
-    ScrollReveal().reveal('.testimonial', { origin: 'bottom', distance: '69px', duration: 750, opacity: 0 }, 750);
+    ScrollReveal().reveal('.testimonial', {origin: 'bottom', distance: '69px', duration: 750, opacity: 0}, 750);
 
 });
 
 
-
-$(document).ready(function() {
+$(document).ready(function () {
     // grab the initial top offset of the navigation
     var stickyNavTop = 20;
 
     // our function that decides weather the navigation bar should have "fixed" css position or not.
-    var stickyNav = function(){
+    var stickyNav = function () {
         var scrollTop = $(window).scrollTop(); // our current vertical position from the top
         if (scrollTop >= stickyNavTop || scrollTop <= 26) {
             $('#main-menu').removeClass('sticky');
-            $('.header').css({'padding-top' : '20px'});
+            $('.header').css({'padding-top': '20px'});
         } else {
             $('#main-menu').addClass('sticky');
-            $('.header').css({'padding-top' : '80px'});
+            $('.header').css({'padding-top': '80px'});
         }
         stickyNavTop = scrollTop;
     };
 
     stickyNav();
     // and run it again every time you scroll
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         stickyNav();
     });
 
@@ -103,6 +142,6 @@ $(document).ready(function() {
         var dataTab = $(this).data('tab');
 
         $('.demo-tab-wrapper .item-tab').removeClass('active');
-        $('.demo-tab-wrapper .item-tab[data-tab="'+ dataTab +'"]').addClass('active');
+        $('.demo-tab-wrapper .item-tab[data-tab="' + dataTab + '"]').addClass('active');
     });
 });

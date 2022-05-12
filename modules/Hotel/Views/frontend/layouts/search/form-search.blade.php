@@ -12,19 +12,19 @@
                     <div class="col-md-{{ $field['size'] ?? "6" }} border-right">
                         @switch($field['field'])
                             @case ('service_name')
-                                @include('Hotel::frontend.layouts.search.fields.service_name')
+                            @include('Hotel::frontend.layouts.search.fields.service_name')
                             @break
                             @case ('location')
-                                @include('Hotel::frontend.layouts.search.fields.location')
+                            @include('Hotel::frontend.layouts.search.fields.location')
                             @break
                             @case ('date')
-                                @include('Hotel::frontend.layouts.search.fields.date')
+                            @include('Hotel::frontend.layouts.search.fields.date')
                             @break
                             @case ('attr')
-                                @include('Hotel::frontend.layouts.search.fields.attr')
+                            @include('Hotel::frontend.layouts.search.fields.attr')
                             @break
                             @case ('guests')
-                                @include('Hotel::frontend.layouts.search.fields.guests')
+                            @include('Hotel::frontend.layouts.search.fields.guests')
                             @break
                         @endswitch
                     </div>

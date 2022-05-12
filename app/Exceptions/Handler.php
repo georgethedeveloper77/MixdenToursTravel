@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -27,10 +26,11 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
     public function register()
-{
-    $this->reportable(function (Throwable $e) {
-        //
-    });
-}
+    {
+        $this->reportable(function (Throwable $e) {
+            //
+        });
+    }
 }

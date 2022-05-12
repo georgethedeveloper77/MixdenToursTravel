@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTableUserUpgradeRequests extends Migration
 {
@@ -19,7 +19,7 @@ class CreateTableUserUpgradeRequests extends Migration
             $table->integer('user_id')->nullable();
             $table->integer('role_request')->nullable();
             $table->dateTime('approved_time')->nullable();
-            $table->string('status',50)->nullable();
+            $table->string('status', 50)->nullable();
             $table->integer('approved_by')->nullable();
             $table->integer('create_user')->nullable();
             $table->integer('update_user')->nullable();

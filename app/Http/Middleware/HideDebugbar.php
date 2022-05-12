@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -10,22 +11,23 @@ class HideDebugbar
         '*/messenger/*',
         '*/chatify/*',
     ];
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @param  string|null $guard
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param string|null $guard
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if(strpos($request->path(),'install') === false){
+        if (strpos($request->path(), 'install') === false) {
 
             if (!Auth::user() || !Auth::user()->hasPermissionTo('system_log_view')) {
                 //\Debugbar::disable();
             }
-            if($this->inExceptArray($request)){
+            if ($this->inExceptArray($request)) {
                 \Debugbar::disable();
             }
         }
@@ -35,7 +37,7 @@ class HideDebugbar
     /**
      * Determine if the request has a URI that should pass through CSRF verification.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
     protected function inExceptArray($request)

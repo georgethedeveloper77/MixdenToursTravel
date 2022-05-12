@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Vendor\Admin;
 
 use Illuminate\Http\Request;
@@ -23,14 +24,14 @@ class PlanController extends AdminController
         }
         $plans = $query->orderBy('name', 'asc');
         $data = [
-            'rows'        => $plans->with("getAuthor")->paginate(20),
+            'rows' => $plans->with("getAuthor")->paginate(20),
             'breadcrumbs' => [
                 [
                     'name' => __('Vendor Plans'),
-                    'url'  => route('vendor.admin.plan.index')
+                    'url' => route('vendor.admin.plan.index')
                 ],
                 [
-                    'name'  => __('All'),
+                    'name' => __('All'),
                     'class' => 'active'
                 ],
             ]
@@ -57,14 +58,14 @@ class PlanController extends AdminController
             ]);
         }
         $data = [
-            'row'         => $row,
+            'row' => $row,
             'breadcrumbs' => [
                 [
                     'name' => __('Vendor Plans'),
-                    'url'  => route('vendor.admin.plan.index')
+                    'url' => route('vendor.admin.plan.index')
                 ],
                 [
-                    'name'  => __('Add Plan'),
+                    'name' => __('Add Plan'),
                     'class' => 'active'
                 ],
             ]
@@ -98,14 +99,14 @@ class PlanController extends AdminController
             }
         }
         $data = [
-            'row'         => $row,
+            'row' => $row,
             'breadcrumbs' => [
                 [
                     'name' => __('Vendor Plans'),
-                    'url'  => route('vendor.admin.plan.index')
+                    'url' => route('vendor.admin.plan.index')
                 ],
                 [
-                    'name'  => __('Edit Page'),
+                    'name' => __('Edit Page'),
                     'class' => 'active'
                 ],
             ]
@@ -144,7 +145,7 @@ class PlanController extends AdminController
                     $this->checkPermission('page_delete');
                 }
                 $query->first();
-                if(!empty($query)){
+                if (!empty($query)) {
                     $query->delete();
                 }
             }

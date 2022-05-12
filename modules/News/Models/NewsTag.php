@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\News\Models;
 
 use App\BaseModel;
@@ -7,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class NewsTag extends BaseModel
 {
     use SoftDeletes;
+
     protected $table = 'core_news_tag';
     protected $fillable = [
         'news_id',
@@ -21,11 +23,6 @@ class NewsTag extends BaseModel
     public static function searchForMenu($q = false)
     {
 
-    }
-
-    public function tag()
-    {
-        return $this->belongsTo('Modules\News\Models\NewsTag');
     }
 
     public static function getAll()
@@ -49,16 +46,22 @@ class NewsTag extends BaseModel
         }
     }
 
-    public static function getTags(){
+    public static function getTags()
+    {
 
         $query = Tag::query()->with('translations');
 
         $query->select(['core_tags.*']);
 
         return $query
-            ->join('core_news_tag as nt','nt.tag_id','=','core_tags.id')->orderByRaw('RAND()')
+            ->join('core_news_tag as nt', 'nt.tag_id', '=', 'core_tags.id')->orderByRaw('RAND()')
             ->groupBy('core_tags.id')
             ->get(10);
 
+    }
+
+    public function tag()
+    {
+        return $this->belongsTo('Modules\News\Models\NewsTag');
     }
 }

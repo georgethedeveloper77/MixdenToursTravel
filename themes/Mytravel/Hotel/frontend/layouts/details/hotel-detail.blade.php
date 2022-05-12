@@ -25,7 +25,9 @@
             @if($translation->address)
                 <i class="icon flaticon-placeholder mr-2 font-size-20"></i>{{$translation->address}}
                 @if($row->map_lat && $row->map_lng)
-                    <a target="_blank" href="https://www.google.com/maps/place/{{$row->map_lat}},{{$row->map_lng}}/@<?php echo $row->map_lat ?>,{{$row->map_lng}},{{!empty($row->map_zoom) ? $row->map_zoom : 12}}z" class="ml-1 d-block d-md-inline">
+                    <a target="_blank"
+                       href="https://www.google.com/maps/place/{{$row->map_lat}},{{$row->map_lng}}/@<?php echo $row->map_lat ?>,{{$row->map_lng}},{{!empty($row->map_zoom) ? $row->map_zoom : 12}}z"
+                       class="ml-1 d-block d-md-inline">
                         - {{__('View on map')}}
                     </a>
                 @endif
@@ -51,7 +53,8 @@
             </div>
             <div class="position-absolute right-0 mr-3 mt-md-n11 mt-n9">
                 <div class="flex-horizontal-center">
-                    <a class="travel-fancybox btn btn-white transition-3d-hover py-2 px-md-5 px-3 shadow-6 mr-1" href="javascript:;"
+                    <a class="travel-fancybox btn btn-white transition-3d-hover py-2 px-md-5 px-3 shadow-6 mr-1"
+                       href="javascript:;"
                        data-src="{{ handleVideoUrl($row->video) }}"
                        data-speed="700">
                         <i class="flaticon-movie mr-md-2 font-size-18 text-primary"></i>
@@ -82,7 +85,8 @@
                                     }]'>
                 @foreach($row->getGallery() as $key=>$item)
                     <div class="js-slide" style="cursor: pointer;">
-                        <img class="img-fluid border-radius-3 height-110" src="{{$item['thumb']}}" alt="{{ __("Gallery") }}">
+                        <img class="img-fluid border-radius-3 height-110" src="{{$item['thumb']}}"
+                             alt="{{ __("Gallery") }}">
                     </div>
                 @endforeach
             </div>

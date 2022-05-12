@@ -1,8 +1,9 @@
 <?php
+
 namespace Modules\Template\Models;
 
 use App\BaseModel;
-use PhpParser\Node\Expr\Cast\Object_;
+use Custom\ServiceProvider;
 
 class Template extends BaseModel
 {
@@ -35,7 +36,7 @@ class Template extends BaseModel
 
     public function getEditUrlAttribute()
     {
-        return route('template.admin.edit',['id'=>$this->id]);
+        return route('template.admin.edit', ['id' => $this->id]);
     }
 
     public function getContentJsonAttribute()
@@ -79,6 +80,18 @@ class Template extends BaseModel
         $json = array_values((array)$json);
     }
 
+    public function getBlockByType($type)
+    {
+        $all = $this->getBlocks();
+        if (!empty($all)) {
+            foreach ($all as $block) {
+                if ($type == $block['id'])
+                    return $block;
+            }
+        }
+        return false;
+    }
+
     public function getBlocks()
     {
         $blocks = $this->getAllBlocks();
@@ -99,16 +112,50 @@ class Template extends BaseModel
         return $res;
     }
 
-    public function getBlockByType($type)
+    public function getAllBlocks()
     {
-        $all = $this->getBlocks();
-        if (!empty($all)) {
-            foreach ($all as $block) {
-                if ($type == $block['id'])
-                    return $block;
+        $blocks = config('template.blocks');
+        // Modules
+        $custom_modules = \Modules\ServiceProvider::getModules();
+        if (!empty($custom_modules)) {
+            foreach ($custom_modules as $module) {
+                $moduleClass = "\\Modules\\" . ucfirst($module) . "\\ModuleProvider";
+                if (class_exists($moduleClass)) {
+                    $blockConfig = call_user_func([$moduleClass, 'getTemplateBlocks']);
+                    if (!empty($blockConfig)) {
+                        $blocks = array_merge($blocks, $blockConfig);
+                    }
+                }
             }
         }
-        return false;
+        //Plugins
+        $plugins_modules = \Plugins\ServiceProvider::getModules();
+        if (!empty($plugins_modules)) {
+            foreach ($plugins_modules as $module) {
+                $moduleClass = "\\Plugins\\" . ucfirst($module) . "\\ModuleProvider";
+                if (class_exists($moduleClass)) {
+                    $blockConfig = call_user_func([$moduleClass, 'getTemplateBlocks']);
+                    if (!empty($blockConfig)) {
+                        $blocks = array_merge($blocks, $blockConfig);
+                    }
+                }
+            }
+        }
+
+        //Custom
+        $custom_modules = ServiceProvider::getModules();
+        if (!empty($custom_modules)) {
+            foreach ($custom_modules as $module) {
+                $moduleClass = "\\Custom\\" . ucfirst($module) . "\\ModuleProvider";
+                if (class_exists($moduleClass)) {
+                    $blockConfig = call_user_func([$moduleClass, 'getTemplateBlocks']);
+                    if (!empty($blockConfig)) {
+                        $blocks = array_merge($blocks, $blockConfig);
+                    }
+                }
+            }
+        }
+        return $blocks;
     }
 
     protected function parseBlockOptions(&$options)
@@ -130,54 +177,6 @@ class Template extends BaseModel
                 $options['model'][$setting['id']] = $val;
             }
         }
-    }
-
-    public function getAllBlocks(){
-        $blocks = config('template.blocks');
-        // Modules
-        $custom_modules = \Modules\ServiceProvider::getModules();
-        if(!empty($custom_modules)){
-            foreach($custom_modules as $module){
-                $moduleClass = "\\Modules\\".ucfirst($module)."\\ModuleProvider";
-                if(class_exists($moduleClass))
-                {
-                    $blockConfig = call_user_func([$moduleClass,'getTemplateBlocks']);
-                    if(!empty($blockConfig)){
-                        $blocks = array_merge($blocks,$blockConfig);
-                    }
-                }
-            }
-        }
-        //Plugins
-        $plugins_modules = \Plugins\ServiceProvider::getModules();
-        if(!empty($plugins_modules)){
-            foreach($plugins_modules as $module){
-                $moduleClass = "\\Plugins\\".ucfirst($module)."\\ModuleProvider";
-                if(class_exists($moduleClass))
-                {
-                    $blockConfig = call_user_func([$moduleClass,'getTemplateBlocks']);
-                    if(!empty($blockConfig)){
-                        $blocks = array_merge($blocks,$blockConfig);
-                    }
-                }
-            }
-        }
-
-        //Custom
-        $custom_modules = \Custom\ServiceProvider::getModules();
-        if(!empty($custom_modules)){
-            foreach($custom_modules as $module){
-                $moduleClass = "\\Custom\\".ucfirst($module)."\\ModuleProvider";
-                if(class_exists($moduleClass))
-                {
-                    $blockConfig = call_user_func([$moduleClass,'getTemplateBlocks']);
-                    if(!empty($blockConfig)){
-                        $blocks = array_merge($blocks,$blockConfig);
-                    }
-                }
-            }
-        }
-        return $blocks;
     }
 
     public function getProcessedContent()
@@ -204,7 +203,8 @@ class Template extends BaseModel
         return $html;
     }
 
-    public function getProcessedContentAPI(){
+    public function getProcessedContentAPI()
+    {
         $res = [];
         $blocks = $this->getAllBlocks();
         $items = json_decode($this->content, true);

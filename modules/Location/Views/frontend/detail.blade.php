@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('head')
-    <link href="{{ asset('dist/frontend/module/location/css/location.css?_ver='.config('app.asset_version')) }}" rel="stylesheet">
+    <link href="{{ asset('dist/frontend/module/location/css/location.css?_ver='.config('app.asset_version')) }}"
+          rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset("libs/ion_rangeslider/css/ion.rangeSlider.min.css") }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset("libs/fotorama/fotorama.css") }}"/>
 @endsection
@@ -17,7 +18,8 @@
                     <div class="col-md-12 col-lg-4">
                         @if($row->image_id)
                             <div class="g-thumbnail m-3">
-                                <img data-src="<?php echo $row->getImageUrl() ?>" class="img-fluid lazy" alt="{{$translation->name}}">
+                                <img data-src="<?php echo $row->getImageUrl() ?>" class="img-fluid lazy"
+                                     alt="{{$translation->name}}">
                             </div>
                         @endif
                     </div>
@@ -46,7 +48,8 @@
                                         @endphp
                                         @if($data[$type]->count()>0)
                                             <li>
-                                                <a class="{{$i==0?'active':""}}" href="#module-{{$type}}" data-toggle="tab">{{call_user_func([$moduleClass,'getModelName'])}}</a>
+                                                <a class="{{$i==0?'active':""}}" href="#module-{{$type}}"
+                                                   data-toggle="tab">{{call_user_func([$moduleClass,'getModelName'])}}</a>
                                             </li>
                                             @php $i++ @endphp
                                         @endif
@@ -63,7 +66,9 @@
                                     @if($data[$type]->count()>0)
                                         <div class="tab-pane {{$i==0?'active':""}}" id="module-{{$type}}">
                                             @include($view,['title'=>"",'style_list'=>'normal','desc'=>'','rows'=> $data[$type]])
-                                            <p class="text-center"><a class="btn btn-primary btn-search" href="{{$row->getLinkForPageSearch($type)}}">{{__('View More')}}</a></p>
+                                            <p class="text-center"><a class="btn btn-primary btn-search"
+                                                                      href="{{$row->getLinkForPageSearch($type)}}">{{__('View More')}}</a>
+                                            </p>
                                         </div>
                                         @php $i++ @endphp
                                     @endif

@@ -9968,6 +9968,7 @@ a.badge-purple-1:focus, a.badge-purple-1.focus {
         background-position: 0 0;
     }
 }
+
 @keyframes progress-bar-stripes {
     from {
         background-position: 1rem 0;
@@ -11778,6 +11779,7 @@ a.close.disabled {
         transform: rotate(360deg);
     }
 }
+
 @keyframes spinner-border {
     to {
         -webkit-transform: rotate(360deg);
@@ -42188,6 +42190,7 @@ Letter Spacing
         transform: none;
     }
 }
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -42849,11 +42852,11 @@ Letter Spacing
 .service-wishlist:hover i,
 .service-wishlist.loading i,
 .service-wishlist:hover .flaticon-heart-1,
-.service-wishlist.loading .flaticon-heart-1{
+.service-wishlist.loading .flaticon-heart-1 {
     color: #ff9290;
 }
 
-.service-wishlist.active i,.service-wishlist.active .flaticon-heart-1 {
+.service-wishlist.active i, .service-wishlist.active .flaticon-heart-1 {
     color: #ff0000;
 }
 
@@ -42886,7 +42889,7 @@ Letter Spacing
     color: #5191fa;
 }
 
-.sfeedbacks_form .sspd_review .far.selected, .sfeedbacks_form .sspd_review .far.hovered{
+.sfeedbacks_form .sspd_review .far.selected, .sfeedbacks_form .sspd_review .far.hovered {
     color: #5191fa;
 }
 
@@ -42894,10 +42897,10 @@ Letter Spacing
     cursor: pointer;
     width: 40px;
     height: 40px;
-    padding : 10px;
+    padding: 10px;
 }
 
-.avatar-text{
+.avatar-text {
     border: 1px solid;
     padding: 25px 30px;
     font-size: 26px;
@@ -42907,6 +42910,7 @@ Letter Spacing
     opacity: 1;
     visibility: visible;
 }
+
 .smart-search .bravo-autocomplete, .input-search .bravo-autocomplete {
     opacity: 0;
     visibility: hidden;
@@ -42963,15 +42967,15 @@ Letter Spacing
     width: auto;
 }
 
-.date-wrapper .check-in-wrapper{
+.date-wrapper .check-in-wrapper {
     line-height: 60px
 }
 
 .select-guests-dropdown {
-    transform: none!important;
+    transform: none !important;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    top: 100%!important;
+    top: 100% !important;
     margin-top: 0;
     right: 0 !important;
     border-color: #dee2e6;

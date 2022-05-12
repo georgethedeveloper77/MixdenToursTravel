@@ -38,12 +38,12 @@ import TemplateDetail from '../../module/template/admin/detail.js';
 import MediaManagement from '../../module/media/admin/js/media-management';
 
 // Template
-if(document.getElementById('media-management')){
+if (document.getElementById('media-management')) {
     MediaManagement();
 }
 
 // Template
-if(document.getElementById('booking-core-template-detail')){
+if (document.getElementById('booking-core-template-detail')) {
     TemplateDetail();
 }
 
@@ -51,65 +51,61 @@ $(document).on('hidden.bs.modal', '.modal', function () {
     $('.modal:visible').length && $(document.body).addClass('modal-open');
 });
 
-window.bookingCoreApp ={
-    showSuccess:function (configs){
+window.bookingCoreApp = {
+    showSuccess: function (configs) {
         var args = {};
-        if(typeof configs == 'object')
-        {
+        if (typeof configs == 'object') {
             args = configs;
-        }else{
+        } else {
             args.message = configs;
         }
-        if(!args.title){
+        if (!args.title) {
             args.title = i18n.success;
         }
         args.centerVertical = true;
         bootbox.alert(args);
     },
-    showError:function (configs) {
+    showError: function (configs) {
         var args = {};
-        if(typeof configs == 'object')
-        {
+        if (typeof configs == 'object') {
             args = configs;
-        }else{
+        } else {
             args.message = configs;
         }
-        if(!args.title){
+        if (!args.title) {
             args.title = i18n.warning;
         }
         args.centerVertical = true;
         bootbox.alert(args);
     },
-    showAjaxError:function (e) {
-        if(typeof e.responseJSON !='undefined' && e.responseJSON.message){
+    showAjaxError: function (e) {
+        if (typeof e.responseJSON != 'undefined' && e.responseJSON.message) {
             return this.showError(e.responseJSON.message);
         }
-        if(e.responseText){
+        if (e.responseText) {
             return this.showError(e.responseText);
         }
     },
-    showAjaxMessage:function (json) {
-       if(json.message)
-       {
-           if(json.status){
-               this.showSuccess(json);
-           }else{
-               this.showError(json);
-           }
-       }
+    showAjaxMessage: function (json) {
+        if (json.message) {
+            if (json.status) {
+                this.showSuccess(json);
+            } else {
+                this.showError(json);
+            }
+        }
     },
-    showConfirm:function (configs) {
+    showConfirm: function (configs) {
         var args = {};
-        if(typeof configs == 'object')
-        {
+        if (typeof configs == 'object') {
             args = configs;
         }
         args.buttons = {
             confirm: {
-                label: '<i class="fa fa-check"></i> '+i18n.confirm,
+                label: '<i class="fa fa-check"></i> ' + i18n.confirm,
             },
             cancel: {
-                label: '<i class="fa fa-times"></i> '+i18n.cancel,
+                label: '<i class="fa fa-times"></i> ' + i18n.cancel,
             }
         }
         args.centerVertical = true;

@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="container">
             @include('Flight::frontend.layouts.search.list-item')
         </div>

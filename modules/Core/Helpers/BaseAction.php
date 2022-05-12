@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Core\Helpers;
 abstract class BaseAction
 {
@@ -8,36 +9,39 @@ abstract class BaseAction
      * @var array
      */
     protected $listeners = null;
+
     public function __construct()
     {
         $this->listeners = collect([]);
     }
+
     /**
      * Adds a listener.
      *
-     * @param string $hook      Hook name
-     * @param mixed  $callback  Function to execute
-     * @param int    $priority  Priority of the action
-     * @param int    $arguments Number of arguments to accept
+     * @param string $hook Hook name
+     * @param mixed $callback Function to execute
+     * @param int $priority Priority of the action
+     * @param int $arguments Number of arguments to accept
      *
      * @return $this
      */
     public function listen($hook, $callback, $priority = 20, $arguments = 1)
     {
         $this->listeners->push([
-            'hook'      => $hook,
-            'callback'  => $callback,
-            'priority'  => $priority,
+            'hook' => $hook,
+            'callback' => $callback,
+            'priority' => $priority,
             'arguments' => $arguments,
         ]);
         return $this;
     }
+
     /**
      * Removes a listener.
      *
-     * @param string $hook     Hook name
-     * @param mixed  $callback Function to execute
-     * @param int    $priority Priority of the action
+     * @param string $hook Hook name
+     * @param mixed $callback Function to execute
+     * @param int $priority Priority of the action
      */
     public function remove($hook, $callback, $priority = 20)
     {
@@ -53,6 +57,7 @@ abstract class BaseAction
                 });
         }
     }
+
     /**
      * Remove all listeners with given hook in collection. If no hook, clear all listeners.
      *
@@ -71,6 +76,7 @@ abstract class BaseAction
             $this->listeners = collect([]);
         }
     }
+
     /**
      * Gets a sorted list of all listeners.
      *
@@ -85,6 +91,15 @@ abstract class BaseAction
         // });
         return $this->listeners->sortBy('priority');
     }
+
+    /**
+     * Fires a new action.
+     *
+     * @param string $action Name of action
+     * @param array $args Arguments passed to the action
+     */
+    abstract public function fire($action, $args);
+
     /**
      * Gets the function.
      *
@@ -98,18 +113,11 @@ abstract class BaseAction
     {
         if (is_string($callback) && strpos($callback, '@')) {
             $callback = explode('@', $callback);
-            return [app('\\'.$callback[0]), $callback[1]];
+            return [app('\\' . $callback[0]), $callback[1]];
         } elseif (is_callable($callback)) {
             return $callback;
         } else {
             throw new \Exception('$callback is not a Callable', 1);
         }
     }
-    /**
-     * Fires a new action.
-     *
-     * @param string $action Name of action
-     * @param array  $args   Arguments passed to the action
-     */
-    abstract public function fire($action, $args);
 }

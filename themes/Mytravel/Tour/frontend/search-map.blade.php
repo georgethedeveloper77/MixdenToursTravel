@@ -3,7 +3,7 @@
     <link href="{{ asset('dist/frontend/module/tour/css/tour.css?_ver='.config('app.version')) }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset("libs/ion_rangeslider/css/ion.rangeSlider.min.css") }}"/>
     <style type="text/css">
-       .bravo_footer {
+        .bravo_footer {
             display: none
         }
     </style>

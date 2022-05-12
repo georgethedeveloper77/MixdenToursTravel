@@ -8,7 +8,8 @@
                     {{ __(":count event found",['count'=>$rows->total()]) }}
                 @endif
             </h2>
-            <span class="count-string">{{ __("Showing :from - :to of :total Events",["from"=>$rows->firstItem(),"to"=>$rows->lastItem(),"total"=>$rows->total()]) }}</span>
+            <span
+                class="count-string">{{ __("Showing :from - :to of :total Events",["from"=>$rows->firstItem(),"to"=>$rows->lastItem(),"total"=>$rows->total()]) }}</span>
         </div>
         <div class="list-item">
             <div class="row">

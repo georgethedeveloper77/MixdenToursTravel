@@ -1,7 +1,7 @@
 import Vue from 'vue';
 // import {VueNestableHandle, VueNestable} from 'vue-nestable'
 // import {DraggableTree} from 'vue-draggable-nested-tree'
-import {Tree,Draggable} from 'he-tree-vue'
+import {Draggable, Tree} from 'he-tree-vue'
 // import draggable from 'vuedraggable'
 // import NestedDraggable from './components/nested-draggable.vue'
 
@@ -17,7 +17,7 @@ import {Tree,Draggable} from 'he-tree-vue'
         components: {
             // VueNestable,
             // VueNestableHandle,
-            DraggableTree:Tree.mixPlugins([Draggable]),
+            DraggableTree: Tree.mixPlugins([Draggable]),
             // draggable,
             // NestedDraggable
         },
@@ -34,7 +34,7 @@ import {Tree,Draggable} from 'he-tree-vue'
             custom_show: false,
             locations: current_menu_locations,
             currentIndex: current_items_index + 1,
-            triggerClass: { default: "drag-trigger" }
+            triggerClass: {default: "drag-trigger"}
         },
         mounted() {
             this.reloadTypes();
@@ -143,12 +143,12 @@ import {Tree,Draggable} from 'he-tree-vue'
                 this.custom_name = '';
                 this.custom_url = '';
             },
-            parseMenuItems:function(origins){
+            parseMenuItems: function (origins) {
                 var items = [];
 
-                for(var i  = 0; i < origins.length; i++){
+                for (var i = 0; i < origins.length; i++) {
                     var item = origins[i];
-                    var tmp = Object.assign({},item);
+                    var tmp = Object.assign({}, item);
 
                     delete tmp._vm;
                     delete tmp.parent;
@@ -159,7 +159,7 @@ import {Tree,Draggable} from 'he-tree-vue'
                     delete tmp.innerBackClass;
                     delete tmp.innerBackStyle;
 
-                    if(item.children){
+                    if (item.children) {
                         tmp.children = this.parseMenuItems(item.children);
                     }
 
@@ -184,7 +184,7 @@ import {Tree,Draggable} from 'he-tree-vue'
                         items: JSON.stringify(items),
                         name: this.name,
                         locations: this.locations,
-                        lang:current_menu_lang
+                        lang: current_menu_lang
                     },
                     success: function (res) {
                         if (res.message) {
@@ -208,7 +208,7 @@ import {Tree,Draggable} from 'he-tree-vue'
                     }
                 })
             },
-            deleteMenuItem(e, item,tree,path) {
+            deleteMenuItem(e, item, tree, path) {
                 e.preventDefault();
                 tree.removeNodeByPath(path);
             }

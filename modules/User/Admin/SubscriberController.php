@@ -1,8 +1,7 @@
 <?php
+
 namespace Modules\User\Admin;
 
-use App\User;
-use function Clue\StreamFilter\fun;
 use Illuminate\Http\Request;
 use Modules\AdminController;
 use Modules\User\Exports\SubscriberExport;
@@ -29,15 +28,15 @@ class SubscriberController extends AdminController
         }
         $listCategory = $listCategory->orderBy('created_at', 'asc');
         $data = [
-            'rows'        => $listCategory->paginate(20),
-            'row'         => new Subscriber(),
+            'rows' => $listCategory->paginate(20),
+            'row' => new Subscriber(),
             'breadcrumbs' => [
                 [
                     'name' => __('User'),
-                    'url'  => route('user.admin.index')
+                    'url' => route('user.admin.index')
                 ],
                 [
-                    'name'  => __('Subscribers'),
+                    'name' => __('Subscribers'),
                     'class' => 'active'
                 ],
             ]
@@ -53,18 +52,18 @@ class SubscriberController extends AdminController
             return redirect()->back();
         }
         $data = [
-            'row'         => $row,
+            'row' => $row,
             'breadcrumbs' => [
                 [
                     'name' => __('User'),
-                    'url'  => route('user.admin.index')
+                    'url' => route('user.admin.index')
                 ],
                 [
                     'name' => __('Subscribers'),
-                    'url'  => route('user.admin.subscriber.index')
+                    'url' => route('user.admin.subscriber.index')
                 ],
                 [
-                    'name'  => __('Edit: :email', ['email' => $row->email]),
+                    'name' => __('Edit: :email', ['email' => $row->email]),
                     'class' => 'active'
                 ],
             ]
@@ -76,9 +75,9 @@ class SubscriberController extends AdminController
     {
         $this->checkPermission('newsletter_manage');
         $request->validate([
-            'email'      => 'required|email|max:255',
+            'email' => 'required|email|max:255',
             'first_name' => 'max:255',
-            'last_name'  => 'max:255',
+            'last_name' => 'max:255',
         ]);
         if ($request->input('id')) {
             $row = Subscriber::find($request->input('id'));
@@ -111,7 +110,7 @@ class SubscriberController extends AdminController
                 foreach ($ids as $id) {
                     $query = Subscriber::where("id", $id);
                     $query->first();
-                    if(!empty($query)){
+                    if (!empty($query)) {
                         $query->delete();
                     }
                 }

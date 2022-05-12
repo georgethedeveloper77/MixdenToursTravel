@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use App\UserMeta;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Laravel\Socialite\Facades\Socialite;
 use Matrix\Exception;
 use Modules\User\Events\SendMailUserRegistered;
-use \Laravel\Socialite\Facades\Socialite;
-use App\User;
-use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -47,16 +47,16 @@ class LoginController extends Controller
 
     public function redirectTo()
     {
-        if(Auth::user()->hasPermissionTo('dashboard_access')){
+        if (Auth::user()->hasPermissionTo('dashboard_access')) {
             return '/admin';
-        }else{
+        } else {
             return $this->redirectTo;
         }
     }
 
     public function showLoginForm()
     {
-        return view('auth.login',['page_title'=> __("Login")]);
+        return view('auth.login', ['page_title' => __("Login")]);
     }
 
     public function socialLogin($provider)
@@ -67,16 +67,16 @@ class LoginController extends Controller
 
     protected function initConfigs($provider)
     {
-        switch($provider){
+        switch ($provider) {
             case "facebook":
             case "google":
             case "twitter":
                 config()->set([
-                    'services.'.$provider.'.client_id'=>setting_item($provider.'_client_id'),
-                    'services.'.$provider.'.client_secret'=>setting_item($provider.'_client_secret'),
-                    'services.'.$provider.'.redirect'=>'/social-callback/'.$provider,
+                    'services.' . $provider . '.client_id' => setting_item($provider . '_client_id'),
+                    'services.' . $provider . '.client_secret' => setting_item($provider . '_client_secret'),
+                    'services.' . $provider . '.redirect' => '/social-callback/' . $provider,
                 ]);
-            break;
+                break;
         }
     }
 
@@ -152,13 +152,12 @@ class LoginController extends Controller
 
                 return redirect('/');
             }
-        }catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $message = $exception->getMessage();
-            if(empty($message) and request()->get('error_message')) $message = request()->get('error_message');
-            if(empty($message)) $message = $exception->getCode();
+            if (empty($message) and request()->get('error_message')) $message = request()->get('error_message');
+            if (empty($message)) $message = $exception->getCode();
 
-            return redirect()->route('login')->with('error',$message);
+            return redirect()->route('login')->with('error', $message);
         }
     }
 

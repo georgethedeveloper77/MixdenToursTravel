@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="nav-enquiry" v-if="is_form_enquiry_and_book">
-                    <div class="enquiry-item active" >
+                    <div class="enquiry-item active">
                         <span>{{ __("Book") }}</span>
                     </div>
                     <div class="enquiry-item" data-toggle="modal" data-target="#enquiry_form_modal">
@@ -20,13 +20,17 @@
                 </div>
                 <div class="form-book" :class="{'d-none':enquiry_type!='book'}">
                     <div class="p-4">
-                        <span class="d-block text-gray-1 font-weight-normal mb-0 text-left">{{ __("Start Date") }}</span>
+                        <span
+                            class="d-block text-gray-1 font-weight-normal mb-0 text-left">{{ __("Start Date") }}</span>
                         <div class="mb-4">
-                            <div class="border-bottom border-width-2 border-color-1 position-relative" data-format="{{get_moment_date_format()}}">
-                                <div  @click="openStartDate" class="start_date d-flex align-items-center w-auto height-40 font-size-16 shadow-none font-weight-bold form-control hero-form bg-transparent border-0 flatpickr-input p-0">
+                            <div class="border-bottom border-width-2 border-color-1 position-relative"
+                                 data-format="{{get_moment_date_format()}}">
+                                <div @click="openStartDate"
+                                     class="start_date d-flex align-items-center w-auto height-40 font-size-16 shadow-none font-weight-bold form-control hero-form bg-transparent border-0 flatpickr-input p-0">
                                     @{{start_date_html}}
                                 </div>
-                                <input type="text" class="start_date" ref="start_date" style="height: 1px;visibility: hidden;position: absolute;bottom: 0;width: 100%;">
+                                <input type="text" class="start_date" ref="start_date"
+                                       style="height: 1px;visibility: hidden;position: absolute;bottom: 0;width: 100%;">
                             </div>
                         </div>
                         <div v-if="ticket_types">
@@ -39,13 +43,17 @@
                                                 <small>@{{type.display_price}} {{__("per ticket")}}</small>
                                             </span>
                                             <div class="flex-horizontal-center">
-                                                <a class="font-size-10 text-dark" href="javascript:;" @click="minusPersonType(type)">
+                                                <a class="font-size-10 text-dark" href="javascript:;"
+                                                   @click="minusPersonType(type)">
                                                     <i class="fa fa-chevron-down"></i>
                                                 </a>
-                                                <input class="form-control h-auto width-30 font-weight-bold font-size-16 shadow-none bg-tranparent border-0 rounded p-0 mx-1 text-center"
-                                                       type="text"  v-model="type.number" min="1" @change="changePersonType(type)">
+                                                <input
+                                                    class="form-control h-auto width-30 font-weight-bold font-size-16 shadow-none bg-tranparent border-0 rounded p-0 mx-1 text-center"
+                                                    type="text" v-model="type.number" min="1"
+                                                    @change="changePersonType(type)">
 
-                                                <a class="font-size-10 text-dark" href="javascript:;" @click="addPersonType(type)">
+                                                <a class="font-size-10 text-dark" href="javascript:;"
+                                                   @click="addPersonType(type)">
                                                     <i class="fa fa-chevron-up"></i>
                                                 </a>
                                             </div>
@@ -54,10 +62,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-section-group form-group border-bottom border-width-2 border-color-1 pb-1" v-if="booking_time_slots">
-                            <span class="flex-center-between mb-1 font-size-16 text-dark font-weight-bold">{{__('Start Time:')}}</span>
+                        <div class="form-section-group form-group border-bottom border-width-2 border-color-1 pb-1"
+                             v-if="booking_time_slots">
+                            <span
+                                class="flex-center-between mb-1 font-size-16 text-dark font-weight-bold">{{__('Start Time:')}}</span>
                             <div class="slots-wrapper d-flex justify-content-start flex-wrap">
-                                <div @click="selectStartTime(time)" :class="{'btn-success':isInArray(time) == true}" v-for="(time,index) in booking_time_slots" class="btn btn-sm mr-2 mb-2 w-25">@{{time}}</div>
+                                <div @click="selectStartTime(time)" :class="{'btn-success':isInArray(time) == true}"
+                                     v-for="(time,index) in booking_time_slots" class="btn btn-sm mr-2 mb-2 w-25">
+                                    @{{time}}
+                                </div>
                             </div>
                         </div>
                         <div class="mb-4 border-bottom border-width-2 border-color-1 pb-1" v-if="extra_price.length">
@@ -73,10 +86,12 @@
                             </div>
                         </div>
                         <div class="mb-2" v-if="buyer_fees.length">
-                            <div class="extra-price-wrap d-flex justify-content-between" v-for="(type,index) in buyer_fees">
+                            <div class="extra-price-wrap d-flex justify-content-between"
+                                 v-for="(type,index) in buyer_fees">
                                 <div class="flex-grow-1">
                                     <label>@{{type.type_name}}
-                                        <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip" data-placement="top" :title="type.type_desc"></i>
+                                        <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip"
+                                           data-placement="top" :title="type.type_desc"></i>
                                     </label>
                                     <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
                                 </div>
@@ -84,7 +99,7 @@
                                     <div class="unit" v-if='type.unit == "percent"'>
                                         @{{ type.price }}%
                                     </div>
-                                    <div class="unit" v-else >
+                                    <div class="unit" v-else>
                                         @{{ formatMoney(type.price) }}
                                     </div>
                                 </div>
@@ -102,11 +117,16 @@
                         </ul>
                         <div v-html="html"></div>
                         <div class="text-center">
-                            <button class="btn btn-primary d-flex align-items-center justify-content-center  height-60 w-100 mb-xl-0 mb-lg-1 transition-3d-hover font-weight-bold" @click="doSubmit($event)" :class="{'disabled':onSubmit,'btn-success':(step == 2),'btn-primary':step == 1}" name="submit">
+                            <button
+                                class="btn btn-primary d-flex align-items-center justify-content-center  height-60 w-100 mb-xl-0 mb-lg-1 transition-3d-hover font-weight-bold"
+                                @click="doSubmit($event)"
+                                :class="{'disabled':onSubmit,'btn-success':(step == 2),'btn-primary':step == 1}"
+                                name="submit">
                                 <span class="stop-color-white">{{__("Book Now")}}</span>
                                 <i v-show="onSubmit" class="fa fa-spinner fa-spin ml-1"></i>
                             </button>
-                            <div class="alert-text mt-3 text-left" v-show="message.content" v-html="message.content" :class="{'danger':!message.type,'success':message.type}"></div>
+                            <div class="alert-text mt-3 text-left" v-show="message.content" v-html="message.content"
+                                 :class="{'danger':!message.type,'success':message.type}"></div>
                         </div>
                     </div>
                 </div>

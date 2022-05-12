@@ -12,4 +12,4 @@ mix.setPublicPath("public/dist/admin");
 mix.sass("resources/admin/scss/vendors.scss", "css")
     .sass("resources/admin/scss/app.scss", "css")
     .sass("public/module/page/admin/scss/builder.scss", "module/page/css");
-mix.js("resources/admin/js/app.js", "js").extract(["vue"]).vue({ version: 2 });
+mix.js("resources/admin/js/app.js", "js").extract(["vue"]).vue({version: 2});

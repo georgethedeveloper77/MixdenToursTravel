@@ -7,7 +7,8 @@
                 <div>
                     @if($image_url = $service->airline->image_url)
                         @if(!empty($disable_lazyload))
-                            <img src="{{$image_url}}" class="img-responsive" alt="{!! clean($service->airline->name) !!}">
+                            <img src="{{$image_url}}" class="img-responsive"
+                                 alt="{!! clean($service->airline->name) !!}">
                         @else
                             {!! get_image_tag($service->airline->image_id,'medium',['class'=>'img-responsive','alt'=>$service->airline->name]) !!}
                         @endif
@@ -30,7 +31,8 @@
                         </div>
                         <div class="text-lh-sm ml-1">
                             <h6 class="font-weight-bold font-size-21 text-gray-5 mb-0">{{$service->departure_time->format('H:i')}}</h6>
-                            <span class="font-size-14 font-weight-normal text-gray-1">{{$service->airportFrom->name}}</span>
+                            <span
+                                class="font-size-14 font-weight-normal text-gray-1">{{$service->airportFrom->name}}</span>
                         </div>
                     </div>
                     <div class="text-center d-none d-md-block d-lg-none">
@@ -44,7 +46,8 @@
                         </div>
                         <div class="text-lh-sm ml-1">
                             <h6 class="font-weight-bold font-size-21 text-gray-5 mb-0">{{$service->arrival_time->format("H:i")}}</h6>
-                            <span class="font-size-14 font-weight-normal text-gray-1">{{$service->airportTo->name}}</span>
+                            <span
+                                class="font-size-14 font-weight-normal text-gray-1">{{$service->airportTo->name}}</span>
                         </div>
                     </div>
                 </div>
@@ -89,7 +92,8 @@
                     @foreach($flight_seat as $type)
                         @if(!empty($type['number']))
                             <li>
-                                <div class="label">{{ $type['seat_type']['name']}}: {{$type['number']}} * {{format_money($type['price'])}}</div>
+                                <div class="label">{{ $type['seat_type']['name']}}: {{$type['number']}}
+                                    * {{format_money($type['price'])}}</div>
                                 <div class="val">
                                     {{format_money($type['price'] * $type['number'])}}
                                 </div>
@@ -134,7 +138,8 @@
                         <li>
                             <div class="label">
                                 {{$item['name_'.$lang_local] ?? $item['name']}}
-                                <i class="icofont-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $item['desc_'.$lang_local] ?? $item['desc'] }}"></i>
+                                <i class="icofont-info-circle" data-toggle="tooltip" data-placement="top"
+                                   title="{{ $item['desc_'.$lang_local] ?? $item['desc'] }}"></i>
                                 @if(!empty($item['per_person']) and $item['per_person'] == "on")
                                     : {{$booking->total_guests}} * {{format_money( $fee_price )}}
                                 @endif

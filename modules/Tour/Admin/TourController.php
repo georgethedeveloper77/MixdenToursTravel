@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Tour\Admin;
 
 use Illuminate\Http\Request;
@@ -7,12 +8,12 @@ use Modules\AdminController;
 use Modules\Core\Events\CreatedServicesEvent;
 use Modules\Core\Events\UpdatedServiceEvent;
 use Modules\Core\Models\Attributes;
+use Modules\Location\Models\Location;
 use Modules\Location\Models\LocationCategory;
-use Modules\Tour\Models\TourTerm;
 use Modules\Tour\Models\Tour;
 use Modules\Tour\Models\TourCategory;
+use Modules\Tour\Models\TourTerm;
 use Modules\Tour\Models\TourTranslation;
-use Modules\Location\Models\Location;
 
 class TourController extends AdminController
 {
@@ -66,20 +67,20 @@ class TourController extends AdminController
             $query->where('create_user', Auth::id());
         }
         $data = [
-            'rows'               => $query->with([
+            'rows' => $query->with([
                 'getAuthor',
                 'category_tour'
             ])->paginate(20),
-            'tour_categories'    => $this->tourCategoryClass::where('status', 'publish')->get()->toTree(),
+            'tour_categories' => $this->tourCategoryClass::where('status', 'publish')->get()->toTree(),
             'tour_manage_others' => $this->hasPermission('tour_manage_others'),
-            'page_title'         => __("Tour Management"),
-            'breadcrumbs'        => [
+            'page_title' => __("Tour Management"),
+            'breadcrumbs' => [
                 [
                     'name' => __('Tours'),
-                    'url'  => route('tour.admin.index')
+                    'url' => route('tour.admin.index')
                 ],
                 [
-                    'name'  => __('All'),
+                    'name' => __('All'),
                     'class' => 'active'
                 ],
             ]
@@ -107,21 +108,21 @@ class TourController extends AdminController
             $query->where('create_user', Auth::id());
         }
         $data = [
-            'rows'               => $query->with([
+            'rows' => $query->with([
                 'getAuthor',
                 'category_tour'
             ])->paginate(20),
-            'tour_categories'    => $this->tourCategoryClass::where('status', 'publish')->get()->toTree(),
+            'tour_categories' => $this->tourCategoryClass::where('status', 'publish')->get()->toTree(),
             'tour_manage_others' => $this->hasPermission('tour_manage_others'),
-            'page_title'         => __("Recovery Tour Management"),
-            'recovery'           => 1,
-            'breadcrumbs'        => [
+            'page_title' => __("Recovery Tour Management"),
+            'recovery' => 1,
+            'breadcrumbs' => [
                 [
                     'name' => __('Tours'),
-                    'url'  => route('tour.admin.index')
+                    'url' => route('tour.admin.index')
                 ],
                 [
-                    'name'  => __('Recovery'),
+                    'name' => __('Recovery'),
                     'class' => 'active'
                 ],
             ]
@@ -137,19 +138,19 @@ class TourController extends AdminController
             'status' => 'publish'
         ]);
         $data = [
-            'row'               => $row,
-            'attributes'        => $this->attributesClass::where('service', 'tour')->get(),
-            'tour_category'     => $this->tourCategoryClass::where('status', 'publish')->get()->toTree(),
-            'tour_location'     => $this->locationClass::where('status', 'publish')->get()->toTree(),
+            'row' => $row,
+            'attributes' => $this->attributesClass::where('service', 'tour')->get(),
+            'tour_category' => $this->tourCategoryClass::where('status', 'publish')->get()->toTree(),
+            'tour_location' => $this->locationClass::where('status', 'publish')->get()->toTree(),
             'location_category' => $this->locationCategoryClass::where("status", "publish")->get(),
-            'translation'       => new $this->tourTranslationClass(),
-            'breadcrumbs'       => [
+            'translation' => new $this->tourTranslationClass(),
+            'breadcrumbs' => [
                 [
                     'name' => __('Tours'),
-                    'url'  => route('tour.admin.index')
+                    'url' => route('tour.admin.index')
                 ],
                 [
-                    'name'  => __('Add Tour'),
+                    'name' => __('Add Tour'),
                     'class' => 'active'
                 ],
             ]
@@ -171,21 +172,21 @@ class TourController extends AdminController
             }
         }
         $data = [
-            'row'               => $row,
-            'translation'       => $translation,
-            "selected_terms"    => $row->tour_term->pluck('term_id'),
-            'attributes'        => $this->attributesClass::where('service', 'tour')->get(),
-            'tour_category'     => $this->tourCategoryClass::where('status', 'publish')->get()->toTree(),
-            'tour_location'     => $this->locationClass::where('status', 'publish')->get()->toTree(),
+            'row' => $row,
+            'translation' => $translation,
+            "selected_terms" => $row->tour_term->pluck('term_id'),
+            'attributes' => $this->attributesClass::where('service', 'tour')->get(),
+            'tour_category' => $this->tourCategoryClass::where('status', 'publish')->get()->toTree(),
+            'tour_location' => $this->locationClass::where('status', 'publish')->get()->toTree(),
             'location_category' => $this->locationCategoryClass::where("status", "publish")->get(),
             'enable_multi_lang' => true,
-            'breadcrumbs'       => [
+            'breadcrumbs' => [
                 [
                     'name' => __('Tours'),
-                    'url'  => route('tour.admin.index')
+                    'url' => route('tour.admin.index')
                 ],
                 [
-                    'name'  => __('Edit Tour'),
+                    'name' => __('Edit Tour'),
                     'class' => 'active'
                 ],
             ]

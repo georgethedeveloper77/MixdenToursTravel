@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Social\Admin;
 
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Modules\Social\Models\SocialforumTranslation;
 class ForumController extends AdminController
 {
     protected $forumClass;
+
     public function __construct()
     {
         parent::__construct();
@@ -25,15 +27,15 @@ class ForumController extends AdminController
         }
         $listforum->orderBy('created_at', 'desc');
         $data = [
-            'rows'        => $listforum->paginate(20),
-            'row'         => new $this->forumClass(),
+            'rows' => $listforum->paginate(20),
+            'row' => new $this->forumClass(),
             'breadcrumbs' => [
                 [
                     'name' => __('Social'),
-                    'url'  => route('social.admin.index')
+                    'url' => route('social.admin.index')
                 ],
                 [
-                    'name'  => __('Forum'),
+                    'name' => __('Forum'),
                     'class' => 'active'
                 ],
             ]
@@ -50,17 +52,17 @@ class ForumController extends AdminController
         }
         $translation = $row->translateOrOrigin($request->query('lang'));
         $data = [
-            'translation'    => $translation,
-            'enable_multi_lang'=>true,
-            'row'         => $row,
-            'parents'     => $this->forumClass::get()->toTree(),
+            'translation' => $translation,
+            'enable_multi_lang' => true,
+            'row' => $row,
+            'parents' => $this->forumClass::get()->toTree(),
             'breadcrumbs' => [
                 [
                     'name' => __('Social'),
-                    'url'  => route('social.admin.index')
+                    'url' => route('social.admin.index')
                 ],
                 [
-                    'name'  => __('Forum'),
+                    'name' => __('Forum'),
                     'class' => 'active'
                 ],
             ]
@@ -68,18 +70,18 @@ class ForumController extends AdminController
         return view('Social::admin.forum.detail', $data);
     }
 
-    public function store(Request $request , $id)
+    public function store(Request $request, $id)
     {
         $this->checkPermission('social_manage_forum');
         $this->validate($request, [
             'name' => 'required'
         ]);
-        if($id>0){
+        if ($id > 0) {
             $row = $this->forumClass::find($id);
             if (empty($row)) {
                 return redirect(route('Social.admin.forum.index'));
             }
-        }else{
+        } else {
             $row = new $this->forumClass();
             $row->status = "publish";
         }
@@ -88,7 +90,7 @@ class ForumController extends AdminController
         $res = $row->save();
 
         if ($res) {
-            return back()->with('success',  __('forum saved') );
+            return back()->with('success', __('forum saved'));
         }
     }
 
@@ -106,11 +108,11 @@ class ForumController extends AdminController
         if ($action == "delete") {
             foreach ($ids as $id) {
                 $query = $this->forumClass::where("id", $id)->first();
-                if(!empty($query)){
+                if (!empty($query)) {
                     //Sync child forum
                     $list_childs = $this->forumClass::where("parent_id", $id)->get();
-                    if(!empty($list_childs)){
-                        foreach ($list_childs as $child){
+                    if (!empty($list_childs)) {
+                        foreach ($list_childs as $child) {
                             $child->parent_id = null;
                             $child->save();
                         }

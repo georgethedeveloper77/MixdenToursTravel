@@ -179,8 +179,7 @@ fotoramaVersion = '4.6.4';
             hasOwnProp = function (object, property) {
                 return _hasOwnProperty.call(object, property);
             };
-        }
-        else {
+        } else {
             hasOwnProp = function (object, property) {
                 return ((property in object) && is(object.constructor.prototype[property], 'undefined'));
             };
@@ -188,7 +187,7 @@ fotoramaVersion = '4.6.4';
 
 
         if (!Function.prototype.bind) {
-            Function.prototype.bind = function bind (that) {
+            Function.prototype.bind = function bind(that) {
 
                 var target = this;
 
@@ -230,23 +229,23 @@ fotoramaVersion = '4.6.4';
             };
         }
 
-        function setCss (str) {
+        function setCss(str) {
             mStyle.cssText = str;
         }
 
-        function setCssAll (str1, str2) {
-            return setCss(prefixes.join(str1 + ';') + ( str2 || '' ));
+        function setCssAll(str1, str2) {
+            return setCss(prefixes.join(str1 + ';') + (str2 || ''));
         }
 
-        function is (obj, type) {
+        function is(obj, type) {
             return typeof obj === type;
         }
 
-        function contains (str, substr) {
+        function contains(str, substr) {
             return !!~('' + str).indexOf(substr);
         }
 
-        function testProps (props, prefixed) {
+        function testProps(props, prefixed) {
             for (var i in props) {
                 var prop = props[i];
                 if (!contains(prop, "-") && mStyle[prop] !== undefined) {
@@ -256,7 +255,7 @@ fotoramaVersion = '4.6.4';
             return false;
         }
 
-        function testDOMProps (props, obj, elem) {
+        function testDOMProps(props, obj, elem) {
             for (var i in props) {
                 var item = obj[props[i]];
                 if (item !== undefined) {
@@ -273,7 +272,7 @@ fotoramaVersion = '4.6.4';
             return false;
         }
 
-        function testPropsAll (prop, prefixed, elem) {
+        function testPropsAll(prop, prefixed, elem) {
 
             var ucProp = prop.charAt(0).toUpperCase() + prop.slice(1),
                 props = (prop + ' ' + cssomPrefixes.join(ucProp + ' ') + ucProp).split(' ');
@@ -314,7 +313,7 @@ fotoramaVersion = '4.6.4';
             if (typeof feature == 'object') {
                 for (var key in feature) {
                     if (hasOwnProp(feature, key)) {
-                        Modernizr.addTest(key, feature[ key ]);
+                        Modernizr.addTest(key, feature[key]);
                     }
                 }
             } else {
@@ -386,7 +385,7 @@ fotoramaVersion = '4.6.4';
         // check for fullscreen support by vendor prefix
         for (var i = 0, il = browserPrefixes.length; i < il; i++) {
             fullScreenApi.prefix = browserPrefixes[i];
-            if (typeof document[fullScreenApi.prefix + 'CancelFullScreen' ] != 'undefined') {
+            if (typeof document[fullScreenApi.prefix + 'CancelFullScreen'] != 'undefined') {
                 fullScreenApi.ok = true;
                 break;
             }
@@ -437,7 +436,7 @@ fotoramaVersion = '4.6.4';
             className: ''
         };
 
-    (function(root, factory) {
+    (function (root, factory) {
 
         /* CommonJS */
         //if (typeof exports == 'object')  module.exports = factory()
@@ -450,7 +449,7 @@ fotoramaVersion = '4.6.4';
 
         Spinner = factory();
     }
-    (this, function() {
+    (this, function () {
         "use strict";
 
         var prefixes = ['webkit', 'Moz', 'ms', 'O'] /* Vendor prefixes */
@@ -465,7 +464,7 @@ fotoramaVersion = '4.6.4';
             var el = document.createElement(tag || 'div')
                 , n
 
-            for(n in prop) el[n] = prop[n]
+            for (n in prop) el[n] = prop[n]
             return el
         }
 
@@ -473,7 +472,7 @@ fotoramaVersion = '4.6.4';
          * Appends children and returns the parent.
          */
         function ins(parent /* child1, child2, ...*/) {
-            for (var i=1, n=arguments.length; i<n; i++)
+            for (var i = 1, n = arguments.length; i < n; i++)
                 parent.appendChild(arguments[i])
 
             return parent
@@ -482,8 +481,8 @@ fotoramaVersion = '4.6.4';
         /**
          * Insert a new stylesheet to hold the @keyframe or VML rules.
          */
-        var sheet = (function() {
-            var el = createEl('style', {type : 'text/css'})
+        var sheet = (function () {
+            var el = createEl('style', {type: 'text/css'})
             ins(document.getElementsByTagName('head')[0], el)
             return el.sheet || el.styleSheet
         }())
@@ -494,9 +493,9 @@ fotoramaVersion = '4.6.4';
          * we create separate rules for each line/segment.
          */
         function addAnimation(alpha, trail, i, lines) {
-            var name = ['opacity', trail, ~~(alpha*100), i, lines].join('-')
-                , start = 0.01 + i/lines * 100
-                , z = Math.max(1 - (1-alpha) / trail * (100-start), alpha)
+            var name = ['opacity', trail, ~~(alpha * 100), i, lines].join('-')
+                , start = 0.01 + i / lines * 100
+                , z = Math.max(1 - (1 - alpha) / trail * (100 - start), alpha)
                 , prefix = useCssAnimations.substring(0, useCssAnimations.indexOf('Animation')).toLowerCase()
                 , pre = prefix && '-' + prefix + '-' || ''
 
@@ -505,8 +504,8 @@ fotoramaVersion = '4.6.4';
                     '@' + pre + 'keyframes ' + name + '{' +
                     '0%{opacity:' + z + '}' +
                     start + '%{opacity:' + alpha + '}' +
-                    (start+0.01) + '%{opacity:1}' +
-                    (start+trail) % 100 + '%{opacity:' + alpha + '}' +
+                    (start + 0.01) + '%{opacity:1}' +
+                    (start + trail) % 100 + '%{opacity:' + alpha + '}' +
                     '100%{opacity:' + z + '}' +
                     '}', sheet.cssRules.length)
 
@@ -525,11 +524,11 @@ fotoramaVersion = '4.6.4';
                 , i
 
             prop = prop.charAt(0).toUpperCase() + prop.slice(1)
-            for(i=0; i<prefixes.length; i++) {
-                pp = prefixes[i]+prop
-                if(s[pp] !== undefined) return pp
+            for (i = 0; i < prefixes.length; i++) {
+                pp = prefixes[i] + prop
+                if (s[pp] !== undefined) return pp
             }
-            if(s[prop] !== undefined) return prop
+            if (s[prop] !== undefined) return prop
         }
 
         /**
@@ -537,7 +536,7 @@ fotoramaVersion = '4.6.4';
          */
         function css(el, prop) {
             for (var n in prop)
-                el.style[vendor(el, n)||n] = prop[n]
+                el.style[vendor(el, n) || n] = prop[n]
 
             return el
         }
@@ -546,7 +545,7 @@ fotoramaVersion = '4.6.4';
          * Fills in default values.
          */
         function merge(obj) {
-            for (var i=1; i < arguments.length; i++) {
+            for (var i = 1; i < arguments.length; i++) {
                 var def = arguments[i]
                 for (var n in def)
                     if (obj[n] === undefined) obj[n] = def[n]
@@ -558,9 +557,9 @@ fotoramaVersion = '4.6.4';
          * Returns the absolute page-offset of the given element.
          */
         function pos(el) {
-            var o = { x:el.offsetLeft, y:el.offsetTop }
-            while((el = el.offsetParent))
-                o.x+=el.offsetLeft, o.y+=el.offsetTop
+            var o = {x: el.offsetLeft, y: el.offsetTop}
+            while ((el = el.offsetParent))
+                o.x += el.offsetLeft, o.y += el.offsetTop
 
             return o
         }
@@ -585,7 +584,7 @@ fotoramaVersion = '4.6.4';
             direction: 1,         // 1: clockwise, -1: counterclockwise
             speed: 1,             // Rounds per second
             trail: 100,           // Afterglow percentage
-            opacity: 1/4,         // Opacity of the lines
+            opacity: 1 / 4,         // Opacity of the lines
             fps: 20,              // Frames per second when using setTimeout()
             zIndex: 2e9,          // Use a high z-index by default
             className: 'spinner', // CSS class to assign to the element
@@ -610,23 +609,27 @@ fotoramaVersion = '4.6.4';
              * spinning, it is automatically removed from its previous target b calling
              * stop() internally.
              */
-            spin: function(target) {
+            spin: function (target) {
                 this.stop()
 
                 var self = this
                     , o = self.opts
-                    , el = self.el = css(createEl(0, {className: o.className}), {position: o.position, width: 0, zIndex: o.zIndex})
-                    , mid = o.radius+o.length+o.width
+                    , el = self.el = css(createEl(0, {className: o.className}), {
+                    position: o.position,
+                    width: 0,
+                    zIndex: o.zIndex
+                })
+                    , mid = o.radius + o.length + o.width
                     , ep // element position
                     , tp // target position
 
                 if (target) {
-                    target.insertBefore(el, target.firstChild||null)
+                    target.insertBefore(el, target.firstChild || null)
                     tp = pos(target)
                     ep = pos(el)
                     css(el, {
-                        left: (o.left == 'auto' ? tp.x-ep.x + (target.offsetWidth >> 1) : parseInt(o.left, 10) + mid) + 'px',
-                        top: (o.top == 'auto' ? tp.y-ep.y + (target.offsetHeight >> 1) : parseInt(o.top, 10) + mid)  + 'px'
+                        left: (o.left == 'auto' ? tp.x - ep.x + (target.offsetWidth >> 1) : parseInt(o.left, 10) + mid) + 'px',
+                        top: (o.top == 'auto' ? tp.y - ep.y + (target.offsetHeight >> 1) : parseInt(o.top, 10) + mid) + 'px'
                     })
                 }
 
@@ -639,9 +642,9 @@ fotoramaVersion = '4.6.4';
                         , start = (o.lines - 1) * (1 - o.direction) / 2
                         , alpha
                         , fps = o.fps
-                        , f = fps/o.speed
-                        , ostep = (1-o.opacity) / (f*o.trail / 100)
-                        , astep = f/o.lines
+                        , f = fps / o.speed
+                        , ostep = (1 - o.opacity) / (f * o.trail / 100)
+                        , astep = f / o.lines
 
                     ;(function anim() {
                         i++;
@@ -650,7 +653,7 @@ fotoramaVersion = '4.6.4';
 
                             self.opacity(el, j * o.direction + start, alpha, o)
                         }
-                        self.timeout = self.el && setTimeout(anim, ~~(1000/fps))
+                        self.timeout = self.el && setTimeout(anim, ~~(1000 / fps))
                     })()
                 }
                 return self
@@ -659,7 +662,7 @@ fotoramaVersion = '4.6.4';
             /**
              * Stops and removes the Spinner.
              */
-            stop: function() {
+            stop: function () {
                 var el = this.el
                 if (el) {
                     clearTimeout(this.timeout)
@@ -673,7 +676,7 @@ fotoramaVersion = '4.6.4';
              * Internal method that draws the individual lines. Will be overwritten
              * in VML fallback mode below.
              */
-            lines: function(el, o) {
+            lines: function (el, o) {
                 var i = 0
                     , start = (o.lines - 1) * (1 - o.direction) / 2
                     , seg
@@ -681,26 +684,26 @@ fotoramaVersion = '4.6.4';
                 function fill(color, shadow) {
                     return css(createEl(), {
                         position: 'absolute',
-                        width: (o.length+o.width) + 'px',
+                        width: (o.length + o.width) + 'px',
                         height: o.width + 'px',
                         background: color,
                         boxShadow: shadow,
                         transformOrigin: 'left',
-                        transform: 'rotate(' + ~~(360/o.lines*i+o.rotate) + 'deg) translate(' + o.radius+'px' +',0)',
-                        borderRadius: (o.corners * o.width>>1) + 'px'
+                        transform: 'rotate(' + ~~(360 / o.lines * i + o.rotate) + 'deg) translate(' + o.radius + 'px' + ',0)',
+                        borderRadius: (o.corners * o.width >> 1) + 'px'
                     })
                 }
 
                 for (; i < o.lines; i++) {
                     seg = css(createEl(), {
                         position: 'absolute',
-                        top: 1+~(o.width/2) + 'px',
+                        top: 1 + ~(o.width / 2) + 'px',
                         transform: o.hwaccel ? 'translate3d(0,0,0)' : '',
                         opacity: o.opacity,
-                        animation: useCssAnimations && addAnimation(o.opacity, o.trail, start + i * o.direction, o.lines) + ' ' + 1/o.speed + 's linear infinite'
+                        animation: useCssAnimations && addAnimation(o.opacity, o.trail, start + i * o.direction, o.lines) + ' ' + 1 / o.speed + 's linear infinite'
                     })
 
-                    if (o.shadow) ins(seg, css(fill('#000', '0 0 4px ' + '#000'), {top: 2+'px'}))
+                    if (o.shadow) ins(seg, css(fill('#000', '0 0 4px ' + '#000'), {top: 2 + 'px'}))
                     ins(el, ins(seg, fill(getColor(o.color, i), '0 0 1px rgba(0,0,0,.1)')))
                 }
                 return el
@@ -710,7 +713,7 @@ fotoramaVersion = '4.6.4';
              * Internal method that adjusts the opacity of a single line.
              * Will be overwritten in VML fallback mode below.
              */
-            opacity: function(el, i, val) {
+            opacity: function (el, i, val) {
                 if (i < el.childNodes.length) el.childNodes[i].style.opacity = val
             }
 
@@ -727,9 +730,9 @@ fotoramaVersion = '4.6.4';
             // No CSS transforms but VML support, add a CSS rule for VML elements:
             sheet.addRule('.spin-vml', 'behavior:url(#default#VML)')
 
-            Spinner.prototype.lines = function(el, o) {
-                var r = o.length+o.width
-                    , s = 2*r
+            Spinner.prototype.lines = function (el, o) {
+                var r = o.length + o.width
+                    , s = 2 * r
 
                 function grp() {
                     return css(
@@ -737,11 +740,11 @@ fotoramaVersion = '4.6.4';
                             coordsize: s + ' ' + s,
                             coordorigin: -r + ' ' + -r
                         }),
-                        { width: s, height: s }
+                        {width: s, height: s}
                     )
                 }
 
-                var margin = -(o.width+o.length)*2 + 'px'
+                var margin = -(o.width + o.length) * 2 + 'px'
                     , g = css(grp(), {position: 'absolute', top: margin, left: margin})
                     , i
 
@@ -752,7 +755,7 @@ fotoramaVersion = '4.6.4';
                                     width: r,
                                     height: o.width,
                                     left: o.radius,
-                                    top: -o.width>>1,
+                                    top: -o.width >> 1,
                                     filter: filter
                                 }),
                                 vml('fill', {color: getColor(o.color, i), opacity: o.opacity}),
@@ -770,11 +773,13 @@ fotoramaVersion = '4.6.4';
                 return ins(el, g)
             }
 
-            Spinner.prototype.opacity = function(el, i, val, o) {
+            Spinner.prototype.opacity = function (el, i, val, o) {
                 var c = el.firstChild
                 o = o.shadow && o.lines || 0
-                if (c && i+o < c.childNodes.length) {
-                    c = c.childNodes[i+o]; c = c && c.firstChild; c = c && c.firstChild
+                if (c && i + o < c.childNodes.length) {
+                    c = c.childNodes[i + o];
+                    c = c && c.firstChild;
+                    c = c && c.firstChild
                     if (c) c.opacity = val
                 }
             }
@@ -800,7 +805,7 @@ fotoramaVersion = '4.6.4';
      * Copyright 2011 Robert Dallas Gray. All rights reserved.
      * Provided under the FreeBSD license: https://github.com/rdallasgray/bez/blob/master/LICENSE.txt
      */
-    function bez (coOrdArray) {
+    function bez(coOrdArray) {
         var encodedFuncName = "bez_" + $.makeArray(arguments).join("_").replace(".", "p");
         if (typeof $['easing'][encodedFuncName] !== "function") {
             var polyBez = function (p1, p2) {
@@ -835,6 +840,7 @@ fotoramaVersion = '4.6.4';
         }
         return encodedFuncName;
     }
+
     var $WINDOW = $(window),
         $DOCUMENT = $(document),
         $HTML,
@@ -950,17 +956,19 @@ fotoramaVersion = '4.6.4';
             home: false,
             end: false
         };
-    function noop () {}
 
-    function minMaxLimit (value, min, max) {
+    function noop() {
+    }
+
+    function minMaxLimit(value, min, max) {
         return Math.max(isNaN(min) ? -Infinity : min, Math.min(isNaN(max) ? Infinity : max, value));
     }
 
-    function readTransform (css) {
+    function readTransform(css) {
         return css.match(/ma/) && css.match(/-?\d+(?!d)/g)[css.match(/3d/) ? 12 : 4];
     }
 
-    function readPosition ($el) {
+    function readPosition($el) {
         if (CSS3) {
             return +readTransform($el.css('transform'));
         } else {
@@ -968,7 +976,7 @@ fotoramaVersion = '4.6.4';
         }
     }
 
-    function getTranslate (pos/*, _001*/) {
+    function getTranslate(pos/*, _001*/) {
         var obj = {};
         if (CSS3) {
             obj.transform = 'translate3d(' + (pos/* + (_001 ? 0.001 : 0)*/) + 'px,0,0)'; // 0.001 to remove Retina artifacts
@@ -978,42 +986,42 @@ fotoramaVersion = '4.6.4';
         return obj;
     }
 
-    function getDuration (time) {
+    function getDuration(time) {
         return {'transition-duration': time + 'ms'};
     }
 
-    function unlessNaN (value, alternative) {
+    function unlessNaN(value, alternative) {
         return isNaN(value) ? alternative : value;
     }
 
-    function numberFromMeasure (value, measure) {
+    function numberFromMeasure(value, measure) {
         return unlessNaN(+String(value).replace(measure || 'px', ''));
     }
 
-    function numberFromPercent (value) {
+    function numberFromPercent(value) {
         return /%$/.test(value) ? numberFromMeasure(value, '%') : undefined;
     }
 
-    function numberFromWhatever (value, whole) {
+    function numberFromWhatever(value, whole) {
         return unlessNaN(numberFromPercent(value) / 100 * whole, numberFromMeasure(value));
     }
 
-    function measureIsValid (value) {
+    function measureIsValid(value) {
         return (!isNaN(numberFromMeasure(value)) || !isNaN(numberFromMeasure(value, '%'))) && value;
     }
 
-    function getPosByIndex (index, side, margin, baseIndex) {
+    function getPosByIndex(index, side, margin, baseIndex) {
         ////console.log('getPosByIndex', index, side, margin, baseIndex);
         ////console.log((index - (baseIndex || 0)) * (side + (margin || 0)));
 
         return (index - (baseIndex || 0)) * (side + (margin || 0));
     }
 
-    function getIndexByPos (pos, side, margin, baseIndex) {
+    function getIndexByPos(pos, side, margin, baseIndex) {
         return -Math.round(pos / (side + (margin || 0)) - (baseIndex || 0));
     }
 
-    function bindTransitionEnd ($el) {
+    function bindTransitionEnd($el) {
         var elData = $el.data();
 
         if (elData.tEnd) return;
@@ -1032,7 +1040,7 @@ fotoramaVersion = '4.6.4';
         elData.tEnd = true;
     }
 
-    function afterTransition ($el, property, fn, time) {
+    function afterTransition($el, property, fn, time) {
         var ok,
             elData = $el.data();
 
@@ -1056,7 +1064,7 @@ fotoramaVersion = '4.6.4';
     }
 
 
-    function stop ($el, left/*, _001*/) {
+    function stop($el, left/*, _001*/) {
         if ($el.length) {
             var elData = $el.data();
             if (CSS3) {
@@ -1075,7 +1083,7 @@ fotoramaVersion = '4.6.4';
         }
     }
 
-    function getNumber () {
+    function getNumber() {
         var number;
         for (var _i = 0, _l = arguments.length; _i < _l; _i++) {
             number = _i ? arguments[_i]() : arguments[_i];
@@ -1087,22 +1095,22 @@ fotoramaVersion = '4.6.4';
         return number;
     }
 
-    function edgeResistance (pos, edge) {
+    function edgeResistance(pos, edge) {
         return Math.round(pos + ((edge - pos) / 1.5));
     }
 
-    function getProtocol () {
+    function getProtocol() {
         getProtocol.p = getProtocol.p || (location.protocol === 'https:' ? 'https://' : 'http://');
         return getProtocol.p;
     }
 
-    function parseHref (href) {
+    function parseHref(href) {
         var a = document.createElement('a');
         a.href = href;
         return a;
     }
 
-    function findVideoId (href, forceVideo) {
+    function findVideoId(href, forceVideo) {
         if (typeof href !== 'string') return href;
         href = parseHref(href);
 
@@ -1135,7 +1143,7 @@ fotoramaVersion = '4.6.4';
         return id ? {id: id, type: type, s: href.search.replace(/^\?/, ''), p: getProtocol()} : false;
     }
 
-    function getVideoThumbs (dataFrame, data, fotorama) {
+    function getVideoThumbs(dataFrame, data, fotorama) {
         var img, thumb, video = dataFrame.video;
         if (video.type === 'youtube') {
             thumb = getProtocol() + 'img.youtube.com/vi/' + video.id + '/default.jpg';
@@ -1147,7 +1155,10 @@ fotoramaVersion = '4.6.4';
                 dataType: 'jsonp',
                 success: function (json) {
                     dataFrame.thumbsReady = true;
-                    updateData(data, {img: json[0].thumbnail_large, thumb: json[0].thumbnail_small}, dataFrame.i, fotorama);
+                    updateData(data, {
+                        img: json[0].thumbnail_large,
+                        thumb: json[0].thumbnail_small
+                    }, dataFrame.i, fotorama);
                 }
             });
         } else {
@@ -1160,7 +1171,7 @@ fotoramaVersion = '4.6.4';
         }
     }
 
-    function updateData (data, _dataFrame, i, fotorama) {
+    function updateData(data, _dataFrame, i, fotorama) {
         for (var _i = 0, _l = data.length; _i < _l; _i++) {
             var dataFrame = data[_i];
 
@@ -1180,10 +1191,10 @@ fotoramaVersion = '4.6.4';
         }
     }
 
-    function getDataFromHtml ($el) {
+    function getDataFromHtml($el) {
         var data = [];
 
-        function getDataFromImg ($img, imgData, checkVideo) {
+        function getDataFromImg($img, imgData, checkVideo) {
             var $child = $img.children('img').eq(0),
                 _imgHref = $img.attr('href'),
                 _imgSrc = $img.attr('src'),
@@ -1204,15 +1215,19 @@ fotoramaVersion = '4.6.4';
             }));
         }
 
-        function getDimensions ($img, $child, imgData) {
+        function getDimensions($img, $child, imgData) {
             var separateThumbFLAG = imgData.thumb && imgData.img !== imgData.thumb,
-                width  = numberFromMeasure(imgData.width || $img.attr('width')),
+                width = numberFromMeasure(imgData.width || $img.attr('width')),
                 height = numberFromMeasure(imgData.height || $img.attr('height')),
-                alt    = $child.attr('alt'),
-                title  = $child.attr('title');
+                alt = $child.attr('alt'),
+                title = $child.attr('title');
 
-            if (alt)   { $.extend(imgData, { alt: alt }); }
-            if (title) { $.extend(imgData, { title: title }); }
+            if (alt) {
+                $.extend(imgData, {alt: alt});
+            }
+            if (title) {
+                $.extend(imgData, {title: title});
+            }
 
             $.extend(imgData, {
                 width: width,
@@ -1239,15 +1254,15 @@ fotoramaVersion = '4.6.4';
         return data;
     }
 
-    function isHidden (el) {
+    function isHidden(el) {
         return el.offsetWidth === 0 && el.offsetHeight === 0;
     }
 
-    function isDetached (el) {
+    function isDetached(el) {
         return !$.contains(document.documentElement, el);
     }
 
-    function waitFor (test, fn, timeout, i) {
+    function waitFor(test, fn, timeout, i) {
         if (!waitFor.i) {
             waitFor.i = 1;
             waitFor.ii = [true];
@@ -1274,7 +1289,7 @@ fotoramaVersion = '4.6.4';
         waitFor.ii[i] = false;
     };
 
-    function setHash (hash) {
+    function setHash(hash) {
         //////console.time('setHash ' + hash);
         location.replace(location.protocol
             + '//'
@@ -1285,7 +1300,7 @@ fotoramaVersion = '4.6.4';
         //////console.timeEnd('setHash ' + hash);
     }
 
-    function fit ($el, measuresToFit, method, position) {
+    function fit($el, measuresToFit, method, position) {
         var elData = $el.data(),
             measures = elData.measures;
 
@@ -1321,7 +1336,7 @@ fotoramaVersion = '4.6.4';
                 width: width,
                 height: height,
                 left: numberFromWhatever(pos.x, measuresToFit.w - width),
-                top: numberFromWhatever(pos.y, measuresToFit.h- height)
+                top: numberFromWhatever(pos.y, measuresToFit.h - height)
             });
 
             elData.l = {
@@ -1338,7 +1353,7 @@ fotoramaVersion = '4.6.4';
         return true;
     }
 
-    function setStyle ($el, style) {
+    function setStyle($el, style) {
         var el = $el[0];
         if (el.styleSheet) {
             el.styleSheet.cssText = style;
@@ -1347,11 +1362,11 @@ fotoramaVersion = '4.6.4';
         }
     }
 
-    function findShadowEdge (pos, min, max) {
+    function findShadowEdge(pos, min, max) {
         return min === max ? false : pos <= min ? 'left' : pos >= max ? 'right' : 'left right';
     }
 
-    function getIndexFromHash (hash, data, ok, startindex) {
+    function getIndexFromHash(hash, data, ok, startindex) {
         if (!ok) return false;
         if (!isNaN(hash)) return hash - (startindex ? 0 : 1);
 
@@ -1369,7 +1384,7 @@ fotoramaVersion = '4.6.4';
         return index;
     }
 
-    function smartClick ($el, fn, _options) {
+    function smartClick($el, fn, _options) {
         _options = _options || {};
 
         $el.each(function () {
@@ -1397,13 +1412,13 @@ fotoramaVersion = '4.6.4';
         });
     }
 
-    function div (classes, child) {
+    function div(classes, child) {
         return '<div class="' + classes + '">' + (child || '') + '</div>';
     }
 
 // Fisher–Yates Shuffle
 // http://bost.ocks.org/mike/shuffle/
-    function shuffle (array) {
+    function shuffle(array) {
         // While there remain elements to shuffle
         var l = array.length;
         while (l) {
@@ -1419,20 +1434,20 @@ fotoramaVersion = '4.6.4';
         return array;
     }
 
-    function clone (array) {
+    function clone(array) {
         return Object.prototype.toString.call(array) == '[object Array]'
             && $.map(array, function (frame) {
                 return $.extend({}, frame);
             });
     }
 
-    function lockScroll ($el, left, top) {
+    function lockScroll($el, left, top) {
         $el
             .scrollLeft(left || 0)
             .scrollTop(top || 0);
     }
 
-    function optionsToLowerCase (options) {
+    function optionsToLowerCase(options) {
         if (options) {
             var opts = {};
             $.each(options, function (key, value) {
@@ -1443,7 +1458,7 @@ fotoramaVersion = '4.6.4';
         }
     }
 
-    function getRatio (_ratio) {
+    function getRatio(_ratio) {
         if (!_ratio) return;
         var ratio = +_ratio;
         if (!isNaN(ratio)) {
@@ -1454,48 +1469,49 @@ fotoramaVersion = '4.6.4';
         }
     }
 
-    function addEvent (el, e, fn, bool) {
+    function addEvent(el, e, fn, bool) {
         if (!e) return;
-        el.addEventListener ? el.addEventListener(e, fn, !!bool) : el.attachEvent('on'+e, fn);
+        el.addEventListener ? el.addEventListener(e, fn, !!bool) : el.attachEvent('on' + e, fn);
     }
 
-    function elIsDisabled (el) {
+    function elIsDisabled(el) {
         return !!el.getAttribute('disabled');
     }
 
-    function disableAttr (FLAG) {
+    function disableAttr(FLAG) {
         return {tabindex: FLAG * -1 + '', disabled: FLAG};
     }
 
-    function addEnterUp (el, fn) {
+    function addEnterUp(el, fn) {
         addEvent(el, 'keyup', function (e) {
             elIsDisabled(el) || e.keyCode == 13 && fn.call(el, e);
         });
     }
 
-    function addFocus (el, fn) {
+    function addFocus(el, fn) {
         addEvent(el, 'focus', el.onfocusin = function (e) {
             fn.call(el, e);
         }, true);
     }
 
-    function stopEvent (e, stopPropagation) {
+    function stopEvent(e, stopPropagation) {
         e.preventDefault ? e.preventDefault() : (e.returnValue = false);
         stopPropagation && e.stopPropagation && e.stopPropagation();
     }
 
-    function getDirectionSign (forward) {
+    function getDirectionSign(forward) {
         return forward ? '>' : '<';
     }
 
-    function parsePosition (rule) {
+    function parsePosition(rule) {
         rule = (rule + '').split(/\s+/);
         return {
             x: measureIsValid(rule[0]) || FIFTYFIFTY,
             y: measureIsValid(rule[1]) || FIFTYFIFTY
         }
     }
-    function slide ($el, options) {
+
+    function slide($el, options) {
         var elData = $el.data(),
             elPos = Math.round(options.pos),
             onEndFn = function () {
@@ -1506,7 +1522,10 @@ fotoramaVersion = '4.6.4';
         if (typeof options.overPos !== 'undefined' && options.overPos !== options.pos) {
             elPos = options.overPos;
             onEndFn = function () {
-                slide($el, $.extend({}, options, {overPos: options.pos, time: Math.max(TRANSITION_DURATION, options.time / 2)}))
+                slide($el, $.extend({}, options, {
+                    overPos: options.pos,
+                    time: Math.max(TRANSITION_DURATION, options.time / 2)
+                }))
             };
         }
 
@@ -1530,7 +1549,7 @@ fotoramaVersion = '4.6.4';
         }
     }
 
-    function fade ($el1, $el2, $frames, options, fadeStack, chain) {
+    function fade($el1, $el2, $frames, options, fadeStack, chain) {
         var chainedFLAG = typeof chain !== 'undefined';
         if (!chainedFLAG) {
             fadeStack.push(arguments);
@@ -1570,19 +1589,20 @@ fotoramaVersion = '4.6.4';
 
         (_$el1 && crossfadeFLAG) || _$el2 || onEndFn();
     }
+
     var lastEvent,
         moveEventType,
         preventEvent,
         preventEventTimeout;
 
-    function extendEvent (e) {
+    function extendEvent(e) {
         var touch = (e.touches || [])[0] || e;
         e._x = touch.pageX;
         e._y = touch.clientY;
         e._now = $.now();
     }
 
-    function touch ($el, options) {
+    function touch($el, options) {
         var el = $el[0],
             tail = {},
             touchEnabledFLAG,
@@ -1595,7 +1615,7 @@ fotoramaVersion = '4.6.4';
             tolerance,
             moved;
 
-        function onStart (e) {
+        function onStart(e) {
             $target = $(e.target);
             tail.checked = targetIsSelectFLAG = targetIsLinkFlag = moved = false;
 
@@ -1624,7 +1644,7 @@ fotoramaVersion = '4.6.4';
             if (!touchFLAG || tail.go) stopEvent(e);
         }
 
-        function onMove (e) {
+        function onMove(e) {
             if ((e.touches && e.touches.length > 1)
                 || (MS_POINTER && !e.isPrimary)
                 || moveEventType !== e.type
@@ -1659,7 +1679,7 @@ fotoramaVersion = '4.6.4';
             tail.checked = tail.checked || xWin || yWin;
         }
 
-        function onEnd (e) {
+        function onEnd(e) {
             //////console.time('touch.js onEnd');
 
             (options.onTouchEnd || noop)();
@@ -1681,18 +1701,25 @@ fotoramaVersion = '4.6.4';
                 preventEvent = false;
             }, 1000);
 
-            (options.onEnd || noop).call(el, {moved: moved, $target: $target, control: controlTouch, touch: touchFLAG, startEvent: startEvent, aborted: !e || e.type === 'MSPointerCancel'});
+            (options.onEnd || noop).call(el, {
+                moved: moved,
+                $target: $target,
+                control: controlTouch,
+                touch: touchFLAG,
+                startEvent: startEvent,
+                aborted: !e || e.type === 'MSPointerCancel'
+            });
             //////console.timeEnd('touch.js onEnd');
         }
 
-        function onOtherStart () {
+        function onOtherStart() {
             if (tail.flow) return;
             setTimeout(function () {
                 tail.flow = true;
             }, 10);
         }
 
-        function onOtherEnd () {
+        function onOtherEnd() {
             if (!tail.flow) return;
             setTimeout(function () {
                 tail.flow = false;
@@ -1702,7 +1729,7 @@ fotoramaVersion = '4.6.4';
         if (MS_POINTER) {
             addEvent(el, 'MSPointerDown', onStart);
             addEvent(document, 'MSPointerMove', onMove);
-            addEvent(document,'MSPointerCancel', onEnd);
+            addEvent(document, 'MSPointerCancel', onEnd);
             addEvent(document, 'MSPointerUp', onEnd);
         } else {
             addEvent(el, 'touchstart', onStart);
@@ -1728,7 +1755,7 @@ fotoramaVersion = '4.6.4';
         return tail;
     }
 
-    function moveOnTouch ($el, options) {
+    function moveOnTouch($el, options) {
         var el = $el[0],
             elData = $el.data(),
             tail = {},
@@ -1748,7 +1775,7 @@ fotoramaVersion = '4.6.4';
             moved,
             tracked;
 
-        function startTracking (e, noStop) {
+        function startTracking(e, noStop) {
             tracked = true;
             startCoo = coo = e._x;
             startTime = e._now;
@@ -1762,7 +1789,7 @@ fotoramaVersion = '4.6.4';
             (options.onStart || noop).call(el, e);
         }
 
-        function onStart (e, result) {
+        function onStart(e, result) {
             min = tail.min;
             max = tail.max;
             snap = tail.snap;
@@ -1777,7 +1804,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function onMove (e, result) {
+        function onMove(e, result) {
             if (!tail.noSwipe) {
                 if (!tracked) {
                     startTracking(e);
@@ -1810,7 +1837,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function onEnd (result) {
+        function onEnd(result) {
             //////console.time('moveontouch.js onEnd');
             if (tail.noSwipe && result.moved) return;
 
@@ -1885,7 +1912,13 @@ fotoramaVersion = '4.6.4';
 
             time *= slowFLAG ? 10 : 1;
 
-            (options.onEnd || noop).call(el, $.extend(result, {moved: result.moved || longTouchFLAG && snap, pos: moveElPos, newPos: newPos, overPos: overPos, time: time}));
+            (options.onEnd || noop).call(el, $.extend(result, {
+                moved: result.moved || longTouchFLAG && snap,
+                pos: moveElPos,
+                newPos: newPos,
+                overPos: overPos,
+                time: time
+            }));
         }
 
         tail = $.extend(touch(options.$wrap, $.extend({}, options, {
@@ -1896,7 +1929,8 @@ fotoramaVersion = '4.6.4';
 
         return tail;
     }
-    function wheel ($el, options) {
+
+    function wheel($el, options) {
         var el = $el[0],
             lockFLAG,
             lastDirection,
@@ -1940,6 +1974,7 @@ fotoramaVersion = '4.6.4';
 
         return tail;
     }
+
     jQuery.Fotorama = function ($fotorama, opts) {
         $HTML = $('html');
         $BODY = $('body');
@@ -2059,7 +2094,7 @@ fotoramaVersion = '4.6.4';
 
         fotoramaData.fotorama = this;
 
-        function checkForVideo () {
+        function checkForVideo() {
             $.each(data, function (i, dataFrame) {
                 if (!dataFrame.i) {
                     dataFrame.i = dataFrameCount++;
@@ -2078,11 +2113,11 @@ fotoramaVersion = '4.6.4';
             });
         }
 
-        function allowKey (key) {
+        function allowKey(key) {
             return o_keyboard[key] || that.fullScreen;
         }
 
-        function bindGlobalEvents (FLAG) {
+        function bindGlobalEvents(FLAG) {
             var keydownCommon = 'keydown.' + _fotoramaClass,
                 localStamp = _fotoramaClass + stamp,
                 keydownLocal = 'keydown.' + localStamp,
@@ -2131,7 +2166,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function appendElements (FLAG) {
+        function appendElements(FLAG) {
             if (FLAG === appendElements.f) return;
 
             if (FLAG) {
@@ -2158,7 +2193,7 @@ fotoramaVersion = '4.6.4';
             appendElements.f = FLAG;
         }
 
-        function setData () {
+        function setData() {
             data = that.data = data || clone(opts.data) || getDataFromHtml($fotorama);
             size = that.size = data.length;
 
@@ -2171,7 +2206,7 @@ fotoramaVersion = '4.6.4';
             size && appendElements(true);
         }
 
-        function stageNoMove () {
+        function stageNoMove() {
             var _noMove = (size < 2 && !opts.enableifsingleframe) || $videoPlaying;
             stageShaftTouchTail.noMove = _noMove || o_fade;
             stageShaftTouchTail.noSwipe = _noMove || !opts.swipe;
@@ -2180,7 +2215,7 @@ fotoramaVersion = '4.6.4';
             MS_POINTER && $wrap.toggleClass(wrapPanYClass, !stageShaftTouchTail.noSwipe);
         }
 
-        function setAutoplayInterval (interval) {
+        function setAutoplayInterval(interval) {
             if (interval === true) interval = '';
             opts.autoplay = Math.max(+interval || AUTOPLAY_INTERVAL, o_transitionDuration * 1.5);
         }
@@ -2188,7 +2223,7 @@ fotoramaVersion = '4.6.4';
         /**
          * Options on the fly
          * */
-        function setOptions () {
+        function setOptions() {
             that.options = opts = optionsToLowerCase(opts);
 
             o_fade = (opts.transition === 'crossfade' || opts.transition === 'dissolve');
@@ -2203,7 +2238,7 @@ fotoramaVersion = '4.6.4';
 
             var classes = {add: [], remove: []};
 
-            function addOrRemoveClass (FLAG, value) {
+            function addOrRemoveClass(FLAG, value) {
                 classes[FLAG ? 'add' : 'remove'].push(value);
             }
 
@@ -2243,7 +2278,14 @@ fotoramaVersion = '4.6.4';
                 $navFrame = $navThumbFrame;
                 navFrameKey = NAV_THUMB_FRAME_KEY;
 
-                setStyle($style, $.Fotorama.jst.style({w: o_thumbSide, h: o_thumbSide2, b: opts.thumbborderwidth, m: opts.thumbmargin, s: stamp, q: !COMPAT}));
+                setStyle($style, $.Fotorama.jst.style({
+                    w: o_thumbSide,
+                    h: o_thumbSide2,
+                    b: opts.thumbborderwidth,
+                    m: opts.thumbmargin,
+                    s: stamp,
+                    q: !COMPAT
+                }));
 
                 $nav
                     .addClass(navThumbsClass)
@@ -2298,40 +2340,40 @@ fotoramaVersion = '4.6.4';
             lastOptions = $.extend({}, opts);
         }
 
-        function normalizeIndex (index) {
+        function normalizeIndex(index) {
             return index < 0 ? (size + (index % size)) % size : index >= size ? index % size : index;
         }
 
-        function limitIndex (index) {
+        function limitIndex(index) {
             return minMaxLimit(index, 0, size - 1);
         }
 
-        function edgeIndex (index) {
+        function edgeIndex(index) {
             return o_loop ? normalizeIndex(index) : limitIndex(index);
         }
 
-        function getPrevIndex (index) {
+        function getPrevIndex(index) {
             return index > 0 || o_loop ? index - 1 : false;
         }
 
-        function getNextIndex (index) {
+        function getNextIndex(index) {
             return index < size - 1 || o_loop ? index + 1 : false;
         }
 
-        function setStageShaftMinmaxAndSnap () {
+        function setStageShaftMinmaxAndSnap() {
             stageShaftTouchTail.min = o_loop ? -Infinity : -getPosByIndex(size - 1, measures.w, opts.margin, repositionIndex);
             stageShaftTouchTail.max = o_loop ? Infinity : -getPosByIndex(0, measures.w, opts.margin, repositionIndex);
             stageShaftTouchTail.snap = measures.w + opts.margin;
         }
 
-        function setNavShaftMinMax () {
+        function setNavShaftMinMax() {
             ////////console.log('setNavShaftMinMax', measures.nw);
             navShaftTouchTail.min = Math.min(0, measures.nw - $navShaft.width());
             navShaftTouchTail.max = 0;
             $navShaft.toggleClass(grabClass, !(navShaftTouchTail.noMove = navShaftTouchTail.min === navShaftTouchTail.max));
         }
 
-        function eachIndex (indexes, type, fn) {
+        function eachIndex(indexes, type, fn) {
             if (typeof indexes === 'number') {
                 indexes = new Array(indexes);
                 var rangeFLAG = true;
@@ -2351,7 +2393,7 @@ fotoramaVersion = '4.6.4';
             });
         }
 
-        function setMeasures (width, height, ratio, index) {
+        function setMeasures(width, height, ratio, index) {
             if (!measuresSetFLAG || (measuresSetFLAG === '*' && index === startIndex)) {
 
                 //////console.log('setMeasures', index, opts.width, opts.height);
@@ -2365,7 +2407,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function loadImg (indexes, type, specialMeasures, method, position, again) {
+        function loadImg(indexes, type, specialMeasures, method, position, again) {
             eachIndex(indexes, type, function (i, index, dataFrame, $frame, key, frameData) {
 
                 if (!$frame) return;
@@ -2386,7 +2428,7 @@ fotoramaVersion = '4.6.4';
 
                 if (type === 'navThumb') $frame = frameData.$wrap;
 
-                function triggerTriggerEvent (event) {
+                function triggerTriggerEvent(event) {
                     var _index = normalizeIndex(index);
                     triggerEvent(event, {
                         index: _index,
@@ -2395,7 +2437,7 @@ fotoramaVersion = '4.6.4';
                     });
                 }
 
-                function error () {
+                function error() {
                     $img.remove();
 
                     $.Fotorama.cache[src] = 'error';
@@ -2430,7 +2472,7 @@ fotoramaVersion = '4.6.4';
                     }
                 }
 
-                function loaded () {
+                function loaded() {
                     //////console.log('loaded: ' + src);
 
                     ////console.log('$.Fotorama.measures[src]', $.Fotorama.measures[src]);
@@ -2473,7 +2515,7 @@ fotoramaVersion = '4.6.4';
                     return;
                 }
 
-                function waitAndLoad () {
+                function waitAndLoad() {
                     var _i = 10;
                     waitFor(function () {
                         return !touchedFLAG || !_i-- && !SLOW;
@@ -2489,7 +2531,7 @@ fotoramaVersion = '4.6.4';
                         .on('load', waitAndLoad)
                         .on('error', error);
                 } else {
-                    (function justWait () {
+                    (function justWait() {
                         if ($.Fotorama.cache[src] === 'error') {
                             error();
                         } else if ($.Fotorama.cache[src] === 'loaded') {
@@ -2503,23 +2545,27 @@ fotoramaVersion = '4.6.4';
 
                 frameData.state = '';
 
-                if ( frameData.data.hasOwnProperty('alt')   ) { img.alt   = frameData.data.alt; }
-                if ( frameData.data.hasOwnProperty('title') ) { img.title = frameData.data.title; }
+                if (frameData.data.hasOwnProperty('alt')) {
+                    img.alt = frameData.data.alt;
+                }
+                if (frameData.data.hasOwnProperty('title')) {
+                    img.title = frameData.data.title;
+                }
 
                 img.src = src;
             });
         }
 
-        function spinnerSpin ($el) {
+        function spinnerSpin($el) {
             $spinner.append(spinner.spin().el).appendTo($el);
         }
 
-        function spinnerStop () {
+        function spinnerStop() {
             $spinner.detach();
             spinner && spinner.stop();
         }
 
-        function updateFotoramaState () {
+        function updateFotoramaState() {
             var $frame = activeFrame[STAGE_FRAME_KEY];
 
             if ($frame && !$frame.data().state) {
@@ -2531,7 +2577,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function addNavFrameEvents (frame) {
+        function addNavFrameEvents(frame) {
             addEnterUp(frame, onNavFrameClick);
             addFocus(frame, function () {
 
@@ -2542,7 +2588,7 @@ fotoramaVersion = '4.6.4';
             });
         }
 
-        function frameDraw (indexes, type) {
+        function frameDraw(indexes, type) {
             eachIndex(indexes, type, function (i, index, dataFrame, $frame, key, frameData) {
                 if ($frame) return;
 
@@ -2593,11 +2639,11 @@ fotoramaVersion = '4.6.4';
             });
         }
 
-        function callFit ($img, measuresToFit, method, position) {
+        function callFit($img, measuresToFit, method, position) {
             return $img && $img.length && fit($img, measuresToFit, method, position);
         }
 
-        function stageFramePosition (indexes) {
+        function stageFramePosition(indexes) {
             eachIndex(indexes, 'stage', function (i, index, dataFrame, $frame, key, frameData) {
                 if (!$frame) return;
 
@@ -2618,7 +2664,7 @@ fotoramaVersion = '4.6.4';
             });
         }
 
-        function thumbsDraw (pos, loadFLAG) {
+        function thumbsDraw(pos, loadFLAG) {
             if (o_nav !== 'thumbs' || isNaN(pos)) return;
 
             var leftLimit = -pos,
@@ -2649,7 +2695,7 @@ fotoramaVersion = '4.6.4';
             });
         }
 
-        function frameAppend ($frames, $shaft, type) {
+        function frameAppend($frames, $shaft, type) {
             if (!frameAppend[type]) {
 
                 var thumbsFLAG = type === 'nav' && o_navThumbs,
@@ -2694,15 +2740,15 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function getDirection (x) {
+        function getDirection(x) {
             return x - stageLeft > measures.w / 3;
         }
 
-        function disableDirrection (i) {
+        function disableDirrection(i) {
             return !o_loop && (!(activeIndex + i) || !(activeIndex - size + i)) && !$videoPlaying;
         }
 
-        function arrsUpdate () {
+        function arrsUpdate() {
             var disablePrev = disableDirrection(0),
                 disableNext = disableDirrection(1);
             $arrPrev
@@ -2713,13 +2759,13 @@ fotoramaVersion = '4.6.4';
                 .attr(disableAttr(disableNext));
         }
 
-        function stageWheelUpdate () {
+        function stageWheelUpdate() {
             if (stageWheelTail.ok) {
                 stageWheelTail.prevent = {'<': disableDirrection(0), '>': disableDirrection(1)};
             }
         }
 
-        function getNavFrameBounds ($navFrame) {
+        function getNavFrameBounds($navFrame) {
             var navFrameData = $navFrame.data(),
                 left,
                 width;
@@ -2739,7 +2785,7 @@ fotoramaVersion = '4.6.4';
             };
         }
 
-        function slideThumbBorder (time) {
+        function slideThumbBorder(time) {
             var navFrameData = activeFrame[navFrameKey].data();
             slide($thumbBorder, {
                 time: time * 1.2,
@@ -2748,7 +2794,7 @@ fotoramaVersion = '4.6.4';
             });
         }
 
-        function slideNavShaft (options) {
+        function slideNavShaft(options) {
             ////console.log('slideNavShaft', options.guessIndex, options.keep, slideNavShaft.l);
             var $guessNavFrame = data[options.guessIndex][navFrameKey];
             if ($guessNavFrame) {
@@ -2773,12 +2819,12 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function navUpdate () {
+        function navUpdate() {
             deactivateFrames(navFrameKey);
             toDeactivate[navFrameKey].push(activeFrame[navFrameKey].addClass(activeClass));
         }
 
-        function deactivateFrames (key) {
+        function deactivateFrames(key) {
             var _toDeactivate = toDeactivate[key];
 
             while (_toDeactivate.length) {
@@ -2786,7 +2832,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function detachFrames (key) {
+        function detachFrames(key) {
             var _toDetach = toDetach[key];
 
             //////console.log('_toDetach', _toDetach);
@@ -2803,7 +2849,7 @@ fotoramaVersion = '4.6.4';
             });
         }
 
-        function stageShaftReposition (skipOnEnd) {
+        function stageShaftReposition(skipOnEnd) {
 
             repositionIndex = dirtyIndex = activeIndex;
 
@@ -2823,7 +2869,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function extendMeasures (options, measuresArray) {
+        function extendMeasures(options, measuresArray) {
             if (!options) return;
 
             $.each(measuresArray, function (i, measures) {
@@ -2841,11 +2887,11 @@ fotoramaVersion = '4.6.4';
             });
         }
 
-        function triggerEvent (event, extra) {
+        function triggerEvent(event, extra) {
             $fotorama.trigger(_fotoramaClass + ':' + event, [that, extra]);
         }
 
-        function onTouchStart () {
+        function onTouchStart() {
             clearTimeout(onTouchEnd.t);
             touchedFLAG = 1;
 
@@ -2856,7 +2902,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function onTouchEnd () {
+        function onTouchEnd() {
             if (!touchedFLAG) return;
             if (!opts.stopautoplayontouch) {
                 releaseAutoplay();
@@ -2869,12 +2915,12 @@ fotoramaVersion = '4.6.4';
             //////console.timeEnd('onTouchEnd');
         }
 
-        function releaseAutoplay () {
+        function releaseAutoplay() {
             ////console.log('releaseAutoplay');
             pausedAutoplayFLAG = !!($videoPlaying || stoppedAutoplayFLAG);
         }
 
-        function changeAutoplay () {
+        function changeAutoplay() {
             ////console.log('changeAutoplay');
 
             clearTimeout(changeAutoplay.t);
@@ -3070,7 +3116,12 @@ fotoramaVersion = '4.6.4';
 
                 //////console.time('slideNavShaft');
                 var guessIndex = limitIndex(activeIndex + minMaxLimit(dirtyIndex - lastActiveIndex, -1, 1));
-                slideNavShaft({time: time, coo: guessIndex !== activeIndex && options.coo, guessIndex: typeof options.coo !== 'undefined' ? guessIndex : activeIndex, keep: silent});
+                slideNavShaft({
+                    time: time,
+                    coo: guessIndex !== activeIndex && options.coo,
+                    guessIndex: typeof options.coo !== 'undefined' ? guessIndex : activeIndex,
+                    keep: silent
+                });
                 //////console.timeEnd('slideNavShaft');
 
                 //////console.time('slideThumbBorder');
@@ -3124,7 +3175,7 @@ fotoramaVersion = '4.6.4';
             return this;
         };
 
-        function cancelFullScreen () {
+        function cancelFullScreen() {
             if (that.fullScreen) {
                 that.fullScreen = false;
 
@@ -3180,7 +3231,14 @@ fotoramaVersion = '4.6.4';
             var time = arguments[1] || 0,
                 setFLAG = arguments[2];
 
-            extendMeasures(!that.fullScreen ? optionsToLowerCase(options) : {width: '100%', maxwidth: null, minwidth: null, height: '100%', maxheight: null, minheight: null}, [measures, setFLAG || that.fullScreen || opts]);
+            extendMeasures(!that.fullScreen ? optionsToLowerCase(options) : {
+                width: '100%',
+                maxwidth: null,
+                minwidth: null,
+                height: '100%',
+                maxheight: null,
+                minheight: null
+            }, [measures, setFLAG || that.fullScreen || opts]);
 
             var width = measures.width,
                 height = measures.height,
@@ -3252,7 +3310,7 @@ fotoramaVersion = '4.6.4';
             return this;
         };
 
-        function setShadow ($el, edge) {
+        function setShadow($el, edge) {
             //////console.time('setShadow');
             if (o_shadows) {
                 $el.removeClass(shadowsLeftClass + ' ' + shadowsRightClass);
@@ -3313,7 +3371,7 @@ fotoramaVersion = '4.6.4';
             return this;
         };
 
-        function unloadVideo ($video, unloadActiveFLAG, releaseAutoplayFLAG) {
+        function unloadVideo($video, unloadActiveFLAG, releaseAutoplayFLAG) {
             if (unloadActiveFLAG) {
                 $wrap.removeClass(wrapVideoClass);
                 $videoPlaying = false;
@@ -3332,11 +3390,11 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function toggleControlsClass (FLAG) {
+        function toggleControlsClass(FLAG) {
             $wrap.toggleClass(wrapNoControlsClass, FLAG);
         }
 
-        function stageCursor (e) {
+        function stageCursor(e) {
             if (stageShaftTouchTail.flow) return;
 
             var x = e ? e.pageX : stageCursor.x,
@@ -3351,7 +3409,7 @@ fotoramaVersion = '4.6.4';
 
         $stage.on('mousemove', stageCursor);
 
-        function clickToShow (showOptions) {
+        function clickToShow(showOptions) {
             clearTimeout(clickToShow.t);
 
             if (opts.clicktransition && opts.clicktransition !== opts.transition) {
@@ -3376,7 +3434,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function onStageTap (e, toggleControlsFLAG) {
+        function onStageTap(e, toggleControlsFLAG) {
             //////console.time('onStageTap');
             var target = e.target,
                 $target = $(target);
@@ -3392,13 +3450,17 @@ fotoramaVersion = '4.6.4';
                     toggleControlsClass();
                 } else if (opts.click) {
 
-                    clickToShow({index: e.shiftKey || getDirectionSign(getDirection(e._x)), slow: e.altKey, user: true});
+                    clickToShow({
+                        index: e.shiftKey || getDirectionSign(getDirection(e._x)),
+                        slow: e.altKey,
+                        user: true
+                    });
                 }
             }
             //////console.timeEnd('onStageTap');
         }
 
-        function updateTouchTails (key, value) {
+        function updateTouchTails(key, value) {
             stageShaftTouchTail[key] = navShaftTouchTail[key] = value;
         }
 
@@ -3448,7 +3510,7 @@ fotoramaVersion = '4.6.4';
             onTouchEnd: onTouchEnd,
             onEnd: function (result) {
 
-                function onEnd () {
+                function onEnd() {
                     slideNavShaft.l = result.newPos;
                     releaseAutoplay();
                     changeAutoplay();
@@ -3518,12 +3580,12 @@ fotoramaVersion = '4.6.4';
             }
         );
 
-        function onNavFrameClick (e) {
+        function onNavFrameClick(e) {
             var index = $(this).data().eq;
             clickToShow({index: index, slow: e.altKey, user: true, coo: e._x - $nav.offset().left});
         }
 
-        function onArrClick (e) {
+        function onArrClick(e) {
             clickToShow({index: $arrs.index(this) ? '>' : '<', slow: e.altKey, user: true});
         }
 
@@ -3538,7 +3600,7 @@ fotoramaVersion = '4.6.4';
             onTouchEnd: onTouchEnd
         });
 
-        function addFocusOnControls (el) {
+        function addFocusOnControls(el) {
             addFocus(el, function () {
                 setTimeout(function () {
                     lockScroll($stage);
@@ -3557,7 +3619,7 @@ fotoramaVersion = '4.6.4';
         addEnterUp(fullscreenIcon, that.toggleFullScreen);
         addFocusOnControls(fullscreenIcon);
 
-        function reset () {
+        function reset() {
             setData();
             setOptions();
 
@@ -3590,7 +3652,7 @@ fotoramaVersion = '4.6.4';
             }
         }
 
-        function changeToRtl () {
+        function changeToRtl() {
             //////console.log('changeToRtl');
             if (!changeToRtl.f === o_rtl) {
                 changeToRtl.f = o_rtl;
@@ -3615,7 +3677,7 @@ fotoramaVersion = '4.6.4';
             }
         });
 
-        function ready () {
+        function ready() {
             if (!ready.ok) {
                 ready.ok = true;
                 triggerEvent('ready');
@@ -3659,52 +3721,57 @@ fotoramaVersion = '4.6.4';
     };
     $.Fotorama.instances = [];
 
-    function calculateIndexes () {
+    function calculateIndexes() {
         $.each($.Fotorama.instances, function (index, instance) {
             instance.index = index;
         });
     }
 
-    function addInstance (instance) {
+    function addInstance(instance) {
         $.Fotorama.instances.push(instance);
         calculateIndexes();
     }
 
-    function hideInstance (instance) {
+    function hideInstance(instance) {
         $.Fotorama.instances.splice(instance.index, 1);
         calculateIndexes();
     }
+
     $.Fotorama.cache = {};
     $.Fotorama.measures = {};
     $ = $ || {};
     $.Fotorama = $.Fotorama || {};
     $.Fotorama.jst = $.Fotorama.jst || {};
 
-    $.Fotorama.jst.style = function(v) {
+    $.Fotorama.jst.style = function (v) {
         var __t, __p = '', __e = _.escape;
         __p += '.fotorama' +
-            ((__t = ( v.s )) == null ? '' : __t) +
+            ((__t = (v.s)) == null ? '' : __t) +
             ' .fotorama__nav--thumbs .fotorama__nav__frame{\npadding:' +
-            ((__t = ( v.m )) == null ? '' : __t) +
+            ((__t = (v.m)) == null ? '' : __t) +
             'px;\nheight:' +
-            ((__t = ( v.h )) == null ? '' : __t) +
+            ((__t = (v.h)) == null ? '' : __t) +
             'px}\n.fotorama' +
-            ((__t = ( v.s )) == null ? '' : __t) +
+            ((__t = (v.s)) == null ? '' : __t) +
             ' .fotorama__thumb-border{\nheight:' +
-            ((__t = ( v.h - v.b * (v.q ? 0 : 2) )) == null ? '' : __t) +
+            ((__t = (v.h - v.b * (v.q ? 0 : 2))) == null ? '' : __t) +
             'px;\nborder-width:' +
-            ((__t = ( v.b )) == null ? '' : __t) +
+            ((__t = (v.b)) == null ? '' : __t) +
             'px;\nmargin-top:' +
-            ((__t = ( v.m )) == null ? '' : __t) +
+            ((__t = (v.m)) == null ? '' : __t) +
             'px}';
         return __p
     };
 
-    $.Fotorama.jst.video = function(v) {
+    $.Fotorama.jst.video = function (v) {
         var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-        function print() { __p += __j.call(arguments, '') }
+
+        function print() {
+            __p += __j.call(arguments, '')
+        }
+
         __p += '<div class="fotorama__video"><iframe src="';
-        print((v.type == 'youtube' ? v.p + 'youtube.com/embed/' + v.id +'?autoplay=1' : v.type == 'vimeo' ? v.p + 'player.vimeo.com/video/' + v.id + '?autoplay=1&badge=0' : v.id)  + (v.s && v.type != 'custom' ? '&' + v.s : '')) ;
+        print((v.type == 'youtube' ? v.p + 'youtube.com/embed/' + v.id + '?autoplay=1' : v.type == 'vimeo' ? v.p + 'player.vimeo.com/video/' + v.id + '?autoplay=1&badge=0' : v.id) + (v.s && v.type != 'custom' ? '&' + v.s : ''));
         __p += '" frameborder="0" allowfullscreen></iframe></div>\n';
         return __p
     };

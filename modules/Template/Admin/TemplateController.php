@@ -1,6 +1,8 @@
 <?php
+
 namespace Modules\Template\Admin;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +15,7 @@ class TemplateController extends AdminController
 {
     protected $templateClass;
     protected $templateTranslationClass;
+
     public function __construct()
     {
         parent::__construct();
@@ -24,14 +27,14 @@ class TemplateController extends AdminController
     {
         $this->checkPermission('template_view');
         $this->setActiveMenu(route('template.admin.index'));
-        $query = $this->templateClass::query() ;
+        $query = $this->templateClass::query();
         $query->orderBy('id', 'desc');
         if (!empty($tour_name = $request->input('s'))) {
             $query->where('title', 'LIKE', '%' . $tour_name . '%');
             $query->orderBy('title', 'asc');
         }
         $data = [
-            'rows'       => $query->paginate(20),
+            'rows' => $query->paginate(20),
             'page_title' => __('Template Management')
         ];
         return view('Template::admin.index', $data);
@@ -43,19 +46,19 @@ class TemplateController extends AdminController
         $this->checkPermission('template_create');
         $row = new $this->templateClass();
         $data = [
-            'row'         => $row,
+            'row' => $row,
             'breadcrumbs' => [
                 [
                     'name' => __('Templates'),
-                    'url'  => route('template.admin.index')
+                    'url' => route('template.admin.index')
                 ],
                 [
-                    'name'  => __('Create new template'),
+                    'name' => __('Create new template'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'  => __('Create new Template'),
-            'translation'=>new $this->templateTranslationClass()
+            'page_title' => __('Create new Template'),
+            'translation' => new $this->templateTranslationClass()
         ];
         return view('Template::admin.detail', $data);
     }
@@ -71,20 +74,20 @@ class TemplateController extends AdminController
         $translation = $row->translateOrOrigin($request->query('lang'));
 
         $data = [
-            'row'         => $row,
+            'row' => $row,
             'breadcrumbs' => [
                 [
                     'name' => __('Templates'),
-                    'url'  => route('template.admin.index')
+                    'url' => route('template.admin.index')
                 ],
                 [
-                    'name'  => __('Edit Template: :title', ['title' => $row->title]),
+                    'name' => __('Edit Template: :title', ['title' => $row->title]),
                     'class' => 'active'
                 ],
             ],
-            'page_title'  => __('Edit Template: :title', ['title' => $row->title]),
-            'translation'=>$translation,
-            'enable_multi_lang'=>true
+            'page_title' => __('Edit Template: :title', ['title' => $row->title]),
+            'translation' => $translation,
+            'enable_multi_lang' => true
         ];
         return view('Template::admin.detail', $data);
     }
@@ -93,30 +96,30 @@ class TemplateController extends AdminController
     {
         $template = new $this->templateClass();
         $blocks = [];
-        if(!empty($items = $template->getBlocks())){
+        if (!empty($items = $template->getBlocks())) {
             $blocks['all_block']['name'] = __("All Blocks");
             $blocks['all_block']['open'] = false;
-            foreach ($items as $item){
-                if(!empty($item['category'])){
-                    $blocks[ $item['category'] ]['items'][] = $item;
-                    $blocks[ $item['category'] ]['name'] = $item['category'];
-                    $blocks[ $item['category'] ]['open'] = false;
+            foreach ($items as $item) {
+                if (!empty($item['category'])) {
+                    $blocks[$item['category']]['items'][] = $item;
+                    $blocks[$item['category']]['name'] = $item['category'];
+                    $blocks[$item['category']]['open'] = false;
                 }
                 $blocks['all_block']['items'][] = $item;
             }
-            asort($blocks );
+            asort($blocks);
         }
         return $this->sendSuccess(['data' => $blocks]);
     }
 
     public function store(Request $request)
     {
-        if(is_demo_mode()){
+        if (is_demo_mode()) {
             return $this->sendError("DEMO MODE: Can not edit template");
         }
         $request->validate([
             'content' => 'required',
-            'title'   => 'required|max:255'
+            'title' => 'required|max:255'
         ]);
         if ($request->input('id')) {
             $this->checkPermission('template_update');
@@ -133,14 +136,14 @@ class TemplateController extends AdminController
         $template->saveOriginOrTranslation($request->input('lang'));
 
         return $this->sendSuccess([
-            'url' => $request->input('id') ? '' : route('template.admin.edit',['id'=>$template->id])
+            'url' => $request->input('id') ? '' : route('template.admin.edit', ['id' => $template->id])
         ], __('Your template has been saved'));
     }
 
     public function bulkEdit(Request $request)
     {
-        if(is_demo_mode()){
-            return redirect()->back('danger',__("DEMO MODE: Disable update"));
+        if (is_demo_mode()) {
+            return redirect()->back('danger', __("DEMO MODE: Disable update"));
         }
         $ids = $request->input('ids');
         $action = $request->input('action');
@@ -150,13 +153,13 @@ class TemplateController extends AdminController
         if (empty($action)) {
             return redirect()->back()->with('error', __('Please select an action!'));
         }
-        switch ($action){
+        switch ($action) {
             case "delete":
                 foreach ($ids as $id) {
                     $query = $this->templateClass::where("id", $id);
                     $this->checkPermission('template_delete');
                     $query->first();
-                    if(!empty($query)){
+                    if (!empty($query)) {
                         $query->delete();
                     }
                 }
@@ -173,67 +176,71 @@ class TemplateController extends AdminController
                 break;
         }
     }
-    public function exportTemplate(Request $request ,$id){
 
-	    \Debugbar::disable();
-    	$template = $this->templateClass::find($id);
-    	if(empty($template)){
-		    return redirect()->back()->with('warning', __('Template not found!'));
-	    }
-    	$template->load('translations');
-	    $fileName = Str::slug($template->title,'_').'_template.json';
-	    $path ='/templates/';
-	    $fullPath = $path.$fileName;
-		$json = $template->toJson();
-	    $headers = array('Content-type'=> 'application/json');
-	    if(Storage::disk('uploads')->put($fullPath,$json)){
-			$file = Storage::disk('uploads')->path($fullPath);
-			return response()->download($file,$fileName,$headers);
-		}else{
-			return redirect()->back()->with('warning',__('Template can\'t export. Please try again'));
-		}
+    public function exportTemplate(Request $request, $id)
+    {
+
+        Debugbar::disable();
+        $template = $this->templateClass::find($id);
+        if (empty($template)) {
+            return redirect()->back()->with('warning', __('Template not found!'));
+        }
+        $template->load('translations');
+        $fileName = Str::slug($template->title, '_') . '_template.json';
+        $path = '/templates/';
+        $fullPath = $path . $fileName;
+        $json = $template->toJson();
+        $headers = array('Content-type' => 'application/json');
+        if (Storage::disk('uploads')->put($fullPath, $json)) {
+            $file = Storage::disk('uploads')->path($fullPath);
+            return response()->download($file, $fileName, $headers);
+        } else {
+            return redirect()->back()->with('warning', __('Template can\'t export. Please try again'));
+        }
     }
-    public function importTemplate(Request $request){
-    	if($request->isMethod('post')){
-    		if(!empty($request->file('file'))){
-				$file = $request->file('file');
-				if($file->getClientMimeType()=='application/json'){
-					try{
-						$content = json_decode($file->get(),true);
-						$dataInput = Arr::except($content, ['id','_id']);
-						$template = new Template();
-						$template->fill($dataInput);
-						if($template->save()){
-							if(!empty($dataInput['translations'])){
-								foreach ($dataInput['translations'] as $translation){
-									if(!empty($translation['origin_id'])){
-										unset($translation['origin_id']);
-									}
-									if(!empty($translation['id'])){
-										unset($translation['id']);
-									}
-									$templateTrans = new TemplateTranslation();
-									$templateTrans->fill($translation);
-									if(!empty($translation['locale'])){
-										$templateTrans->locale = $translation['locale'];
-									}
-									$templateTrans->origin_id = $template->id;
-									$templateTrans->save();
-									$template->translations()->save($templateTrans);
-								}
-							}
-							return redirect()->to(route("template.admin.index"))->with('success',__('Import template '.@$dataInput['title'].' success!'));
-						}
-					}catch (\Exception $exception){
-						return redirect()->back()->with('warning',__($exception->getMessage()));
 
-					}
-				}else{
-					return redirect()->back()->with('warning',__('Only support json file'));
-				}
-		    }
-	    }
-		return view('Template::admin.import');
+    public function importTemplate(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            if (!empty($request->file('file'))) {
+                $file = $request->file('file');
+                if ($file->getClientMimeType() == 'application/json') {
+                    try {
+                        $content = json_decode($file->get(), true);
+                        $dataInput = Arr::except($content, ['id', '_id']);
+                        $template = new Template();
+                        $template->fill($dataInput);
+                        if ($template->save()) {
+                            if (!empty($dataInput['translations'])) {
+                                foreach ($dataInput['translations'] as $translation) {
+                                    if (!empty($translation['origin_id'])) {
+                                        unset($translation['origin_id']);
+                                    }
+                                    if (!empty($translation['id'])) {
+                                        unset($translation['id']);
+                                    }
+                                    $templateTrans = new TemplateTranslation();
+                                    $templateTrans->fill($translation);
+                                    if (!empty($translation['locale'])) {
+                                        $templateTrans->locale = $translation['locale'];
+                                    }
+                                    $templateTrans->origin_id = $template->id;
+                                    $templateTrans->save();
+                                    $template->translations()->save($templateTrans);
+                                }
+                            }
+                            return redirect()->to(route("template.admin.index"))->with('success', __('Import template ' . @$dataInput['title'] . ' success!'));
+                        }
+                    } catch (Exception $exception) {
+                        return redirect()->back()->with('warning', __($exception->getMessage()));
+
+                    }
+                } else {
+                    return redirect()->back()->with('warning', __('Only support json file'));
+                }
+            }
+        }
+        return view('Template::admin.import');
     }
 
     public function getForSelect2(Request $request)

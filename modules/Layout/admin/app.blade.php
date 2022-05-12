@@ -17,13 +17,13 @@
             $file = (new \Modules\Media\Models\MediaFile())->findById($favicon);
         @endphp
         @if(!empty($file))
-            <link rel="icon" type="{{$file['file_type']}}" href="{{asset('uploads/'.$file['file_path'])}}" />
+            <link rel="icon" type="{{$file['file_type']}}" href="{{asset('uploads/'.$file['file_path'])}}"/>
         @else:
-        <link rel="icon" type="image/png" href="{{url('images/favicon.png')}}" />
+        <link rel="icon" type="image/png" href="{{url('images/favicon.png')}}"/>
         @endif
     @endif
 
-    <meta name="robots" content="noindex, nofollow" />
+    <meta name="robots" content="noindex, nofollow"/>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
@@ -36,28 +36,28 @@
     {!! \App\Helpers\Assets::css() !!}
     {!! \App\Helpers\Assets::js() !!}
     <script>
-        var bookingCore  = {
-            url:'{{url('/')}}',
-            admin_url:'{{route('admin.index')}}',
-            map_provider:'{{setting_item('map_provider')}}',
-            map_gmap_key:'{{setting_item('map_gmap_key')}}',
-            csrf:'{{csrf_token()}}',
-            date_format:'{{get_moment_date_format()}}',
-            markAsRead:'{{route('core.admin.notification.markAsRead')}}',
-            markAllAsRead:'{{route('core.admin.notification.markAllAsRead')}}',
-            loadNotify : '{{route('core.admin.notification.loadNotify')}}',
-            pusher_api_key : '{{setting_item("pusher_api_key")}}',
-            pusher_cluster : '{{setting_item("pusher_cluster")}}',
-            isAdmin : {{is_admin() ? 1 : 0}},
+        var bookingCore = {
+            url: '{{url('/')}}',
+            admin_url: '{{route('admin.index')}}',
+            map_provider: '{{setting_item('map_provider')}}',
+            map_gmap_key: '{{setting_item('map_gmap_key')}}',
+            csrf: '{{csrf_token()}}',
+            date_format: '{{get_moment_date_format()}}',
+            markAsRead: '{{route('core.admin.notification.markAsRead')}}',
+            markAllAsRead: '{{route('core.admin.notification.markAllAsRead')}}',
+            loadNotify: '{{route('core.admin.notification.loadNotify')}}',
+            pusher_api_key: '{{setting_item("pusher_api_key")}}',
+            pusher_cluster: '{{setting_item("pusher_cluster")}}',
+            isAdmin: {{is_admin() ? 1 : 0}},
             currentUser: {{(int)Auth::id()}},
         };
         var i18n = {
-            warning:"{{__("Warning")}}",
-            success:"{{__("Success")}}",
-            confirm_delete:"{{__("Do you want to delete?")}}",
-            confirm_recovery:"{{__("Do you want to restore?")}}",
-            confirm:"{{__("Confirm")}}",
-            cancel:"{{__("Cancel")}}",
+            warning: "{{__("Warning")}}",
+            success: "{{__("Success")}}",
+            confirm_delete: "{{__("Do you want to delete?")}}",
+            confirm_recovery: "{{__("Do you want to restore?")}}",
+            confirm: "{{__("Confirm")}}",
+            cancel: "{{__("Cancel")}}",
         };
         var daterangepickerLocale = {
             "applyLabel": "{{__('Apply')}}",
@@ -95,66 +95,169 @@
         var image_editer = {
             language: '{{ app()->getLocale() }}',
             translations: {
-                {{ app()->getLocale() }}: {
-                    'header.image_editor_title': '{{ __('Image Editor') }}',
-                    'header.toggle_fullscreen': '{{ __('Toggle fullscreen') }}',
-                    'header.close': '{{ __('Close') }}',
-                    'header.close_modal': '{{ __('Close window') }}',
-                    'toolbar.download': '{{ __('Save Change') }}',
-                    'toolbar.save': '{{ __('Save') }}',
-                    'toolbar.apply': '{{ __('Apply') }}',
-                    'toolbar.saveAsNewImage': '{{ __('Save As New Image') }}',
-                    'toolbar.cancel': '{{ __('Cancel') }}',
-                    'toolbar.go_back': '{{ __('Go Back') }}',
-                    'toolbar.adjust': '{{ __('Adjust') }}',
-                    'toolbar.effects': '{{ __('Effects') }}',
-                    'toolbar.filters': '{{ __('Filters') }}',
-                    'toolbar.orientation': '{{ __('Orientation') }}',
-                    'toolbar.crop': '{{ __('Crop') }}',
-                    'toolbar.resize': '{{ __('Resize') }}',
-                    'toolbar.watermark': '{{ __('Watermark') }}',
-                    'toolbar.focus_point': '{{ __('Focus point') }}',
-                    'toolbar.shapes': '{{ __('Shapes') }}',
-                    'toolbar.image': '{{ __('Image') }}',
-                    'toolbar.text': '{{ __('Text') }}',
-                    'adjust.brightness': '{{ __('Brightness') }}',
-                    'adjust.contrast': '{{ __('Contrast') }}',
-                    'adjust.exposure': '{{ __('Exposure') }}',
-                    'adjust.saturation': '{{ __('Saturation') }}',
-                    'orientation.rotate_l': '{{ __('Rotate Left') }}',
-                    'orientation.rotate_r': '{{ __('Rotate Right') }}',
-                    'orientation.flip_h': '{{ __('Flip Horizontally') }}',
-                    'orientation.flip_v': '{{ __('Flip Vertically') }}',
-                    'pre_resize.title': '{{ __('Would you like to reduce resolution before editing the image?') }}',
-                    'pre_resize.keep_original_resolution': '{{ __('Keep original resolution') }}',
-                    'pre_resize.resize_n_continue': '{{ __('Resize & Continue') }}',
-                    'footer.reset': '{{ __('Reset') }}',
-                    'footer.undo': '{{ __('Undo') }}',
-                    'footer.redo': '{{ __('Redo') }}',
-                    'spinner.label': '{{ __('Processing...') }}',
-                    'warning.too_big_resolution': '{{ __('The resolution of the image is too big for the web. It can cause problems with Image Editor performance.') }}',
-                    'common.x': '{{ __('x') }}',
-                    'common.y': '{{ __('y') }}',
-                    'common.width': '{{ __('width') }}',
-                    'common.height': '{{ __('height') }}',
-                    'common.custom': '{{ __('custom') }}',
-                    'common.original': '{{ __('original') }}',
-                    'common.square': '{{ __('square') }}',
-                    'common.opacity': '{{ __('Opacity') }}',
-                    'common.apply_watermark': '{{ __('Apply watermark') }}',
-                    'common.url': '{{ __('URL') }}',
-                    'common.upload': '{{ __('Upload') }}',
-                    'common.gallery': '{{ __('Gallery') }}',
-                    'common.text': '{{ __('Text') }}',
-                }
-            }
-        };
+        {{ app()->getLocale() }}:
+        {
+            'header.image_editor_title'
+        :
+            '{{ __('Image Editor') }}',
+                'header.toggle_fullscreen'
+        :
+            '{{ __('Toggle fullscreen') }}',
+                'header.close'
+        :
+            '{{ __('Close') }}',
+                'header.close_modal'
+        :
+            '{{ __('Close window') }}',
+                'toolbar.download'
+        :
+            '{{ __('Save Change') }}',
+                'toolbar.save'
+        :
+            '{{ __('Save') }}',
+                'toolbar.apply'
+        :
+            '{{ __('Apply') }}',
+                'toolbar.saveAsNewImage'
+        :
+            '{{ __('Save As New Image') }}',
+                'toolbar.cancel'
+        :
+            '{{ __('Cancel') }}',
+                'toolbar.go_back'
+        :
+            '{{ __('Go Back') }}',
+                'toolbar.adjust'
+        :
+            '{{ __('Adjust') }}',
+                'toolbar.effects'
+        :
+            '{{ __('Effects') }}',
+                'toolbar.filters'
+        :
+            '{{ __('Filters') }}',
+                'toolbar.orientation'
+        :
+            '{{ __('Orientation') }}',
+                'toolbar.crop'
+        :
+            '{{ __('Crop') }}',
+                'toolbar.resize'
+        :
+            '{{ __('Resize') }}',
+                'toolbar.watermark'
+        :
+            '{{ __('Watermark') }}',
+                'toolbar.focus_point'
+        :
+            '{{ __('Focus point') }}',
+                'toolbar.shapes'
+        :
+            '{{ __('Shapes') }}',
+                'toolbar.image'
+        :
+            '{{ __('Image') }}',
+                'toolbar.text'
+        :
+            '{{ __('Text') }}',
+                'adjust.brightness'
+        :
+            '{{ __('Brightness') }}',
+                'adjust.contrast'
+        :
+            '{{ __('Contrast') }}',
+                'adjust.exposure'
+        :
+            '{{ __('Exposure') }}',
+                'adjust.saturation'
+        :
+            '{{ __('Saturation') }}',
+                'orientation.rotate_l'
+        :
+            '{{ __('Rotate Left') }}',
+                'orientation.rotate_r'
+        :
+            '{{ __('Rotate Right') }}',
+                'orientation.flip_h'
+        :
+            '{{ __('Flip Horizontally') }}',
+                'orientation.flip_v'
+        :
+            '{{ __('Flip Vertically') }}',
+                'pre_resize.title'
+        :
+            '{{ __('Would you like to reduce resolution before editing the image?') }}',
+                'pre_resize.keep_original_resolution'
+        :
+            '{{ __('Keep original resolution') }}',
+                'pre_resize.resize_n_continue'
+        :
+            '{{ __('Resize & Continue') }}',
+                'footer.reset'
+        :
+            '{{ __('Reset') }}',
+                'footer.undo'
+        :
+            '{{ __('Undo') }}',
+                'footer.redo'
+        :
+            '{{ __('Redo') }}',
+                'spinner.label'
+        :
+            '{{ __('Processing...') }}',
+                'warning.too_big_resolution'
+        :
+            '{{ __('The resolution of the image is too big for the web. It can cause problems with Image Editor performance.') }}',
+                'common.x'
+        :
+            '{{ __('x') }}',
+                'common.y'
+        :
+            '{{ __('y') }}',
+                'common.width'
+        :
+            '{{ __('width') }}',
+                'common.height'
+        :
+            '{{ __('height') }}',
+                'common.custom'
+        :
+            '{{ __('custom') }}',
+                'common.original'
+        :
+            '{{ __('original') }}',
+                'common.square'
+        :
+            '{{ __('square') }}',
+                'common.opacity'
+        :
+            '{{ __('Opacity') }}',
+                'common.apply_watermark'
+        :
+            '{{ __('Apply watermark') }}',
+                'common.url'
+        :
+            '{{ __('URL') }}',
+                'common.upload'
+        :
+            '{{ __('Upload') }}',
+                'common.gallery'
+        :
+            '{{ __('Gallery') }}',
+                'common.text'
+        :
+            '{{ __('Text') }}',
+        }
+        }
+        }
+        ;
     </script>
-    <script src="{{ asset('libs/tinymce/js/tinymce/tinymce.min.js') }}" ></script>
+    <script src="{{ asset('libs/tinymce/js/tinymce/tinymce.min.js') }}"></script>
     @yield('script.head')
 
 </head>
-<body class="{{($enable_multi_lang ?? '') ? 'enable_multi_lang' : '' }} @if(setting_item('site_enable_multi_lang')) site_enable_multi_lang @endif">
+<body
+    class="{{($enable_multi_lang ?? '') ? 'enable_multi_lang' : '' }} @if(setting_item('site_enable_multi_lang')) site_enable_multi_lang @endif">
 <div id="app">
     <div class="main-header d-flex">
         @include('Layout::admin.parts.header')
@@ -168,13 +271,15 @@
         <footer class="main-footer">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-6 copy-right" >
-                        {{date('Y')}} &copy; {{__('MixdenTours by')}} <a href="{{__('https://www.mixdentourstravel.com')}}" target="_blank">{{__('MixdenTours')}}</a>
+                    <div class="col-md-6 copy-right">
+                        {{date('Y')}} &copy; {{__('MixdenTours by')}} <a
+                            href="{{__('https://www.mixdentourstravel.com')}}" target="_blank">{{__('MixdenTours')}}</a>
                     </div>
                     <div class="col-md-6">
                         <div class="text-md-right footer-links d-none d-sm-block">
                             <a href="{{__('https://www.mixdentourstravel.com')}}" target="_blank">{{__('About Us')}}</a>
-                            <a href="{{__('https://www.mixdentourstravel.com/contact')}}" target="_blank">{{__('Contact Us')}}</a>
+                            <a href="{{__('https://www.mixdentourstravel.com/contact')}}"
+                               target="_blank">{{__('Contact Us')}}</a>
                         </div>
                     </div>
                 </div>
@@ -190,14 +295,15 @@
 <!-- Scripts -->
 {!! \App\Helpers\Assets::css(true) !!}
 <script src="{{ asset('libs/pusher.min.js') }}"></script>
-<script src="{{ asset('dist/admin/js/manifest.js?_ver='.config('app.asset_version')) }}" ></script>
-<script src="{{ asset('dist/admin/js/vendor.js?_ver='.config('app.asset_version')) }}" ></script>
-<script src="{{ asset('libs/filerobot-image-editor/filerobot-image-editor.min.js?_ver='.config('app.asset_version')) }}"></script>
+<script src="{{ asset('dist/admin/js/manifest.js?_ver='.config('app.asset_version')) }}"></script>
+<script src="{{ asset('dist/admin/js/vendor.js?_ver='.config('app.asset_version')) }}"></script>
+<script
+    src="{{ asset('libs/filerobot-image-editor/filerobot-image-editor.min.js?_ver='.config('app.asset_version')) }}"></script>
 
-<script src="{{ asset('dist/admin/js/app.js?_ver='.config('app.asset_version')) }}" ></script>
+<script src="{{ asset('dist/admin/js/app.js?_ver='.config('app.asset_version')) }}"></script>
 <script src="{{ asset('libs/vue/vue'.(!env('APP_DEBUG') ? '.min':'').'.js') }}"></script>
 
-<script src="{{ asset('libs/select2/js/select2.min.js') }}" ></script>
+<script src="{{ asset('libs/select2/js/select2.min.js') }}"></script>
 <script src="{{ asset('libs/bootbox/bootbox.min.js') }}"></script>
 
 <script src="{{url('libs/daterange/moment.min.js')}}"></script>

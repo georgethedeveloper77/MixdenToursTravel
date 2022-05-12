@@ -189,7 +189,6 @@ return [
         Propaganistas\LaravelPhone\PhoneServiceProvider::class,
 
 
-
     ],
 
     /*
@@ -274,9 +273,9 @@ return [
         ],
     ],
 
-    'version'=>"2.4.2",
-    'asset_version'=>"2.4.2",
+    'version' => "2.4.2",
+    'asset_version' => "2.4.2",
 
-    'updater_url'=>"http://check.bookingcore.org/updater.php"
+    'updater_url' => "http://check.bookingcore.org/updater.php"
 
 ];

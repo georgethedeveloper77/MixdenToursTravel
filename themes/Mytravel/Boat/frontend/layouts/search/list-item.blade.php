@@ -32,7 +32,8 @@
                 </div>
             </div>
             @if($rows->total() > 0)
-                <div class="text-center text-md-left font-size-14 mb-3 text-lh-1">{{ __("Showing :from - :to of :total boats",["from"=>$rows->firstItem(),"to"=>$rows->lastItem(),"total"=>$rows->total()]) }}</div>
+                <div
+                    class="text-center text-md-left font-size-14 mb-3 text-lh-1">{{ __("Showing :from - :to of :total boats",["from"=>$rows->firstItem(),"to"=>$rows->lastItem(),"total"=>$rows->total()]) }}</div>
             @endif
             {{$rows->appends(request()->query())->links()}}
         </div>

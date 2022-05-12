@@ -28,7 +28,6 @@
 @endsection--}}
 
 
-
 @extends('layouts.app')
 @section('head')
     <link href="{{ asset('dist/frontend/module/boat/css/boat.css?_ver='.config('app.version')) }}" rel="stylesheet">

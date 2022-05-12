@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\User\Admin;
 
 use App\User;
@@ -12,6 +13,7 @@ use Spatie\Permission\Models\Role;
 class RoleController extends AdminController
 {
     protected $role_class;
+
     public function __construct()
     {
         parent::__construct();
@@ -63,14 +65,15 @@ class RoleController extends AdminController
         return view('User::admin.role.detail', $data);
     }
 
-    public function store(Request $request, $id){
-        if($id>0){
+    public function store(Request $request, $id)
+    {
+        if ($id > 0) {
             $this->checkPermission('role_update');
             $row = Role::find($id);
             if (empty($row)) {
                 return redirect(route('user.admin.role.index'));
             }
-        }else{
+        } else {
             $this->checkPermission('role_create');
             $row = new Role();
         }
@@ -78,42 +81,45 @@ class RoleController extends AdminController
         $row->fill($request->input());
         $res = $row->save();
         if ($res) {
-            if($id > 0 ){
-                return back()->with('success',  __('Role updated') );
-            }else{
-                return redirect(route('user.admin.role.detail',['id' => $row->id]))->with('success', __('Role created') );
+            if ($id > 0) {
+                return back()->with('success', __('Role updated'));
+            } else {
+                return redirect(route('user.admin.role.detail', ['id' => $row->id]))->with('success', __('Role created'));
             }
         }
     }
 
-    public function verifyFields(Request $request){
+    public function verifyFields(Request $request)
+    {
 
         $this->checkPermission('role_update');
         $this->setActiveMenu(route('user.admin.index'));
 
         $data = [
             'roles' => Role::all(),
-            'fields'=>setting_item_array('role_verify_fields'),
+            'fields' => setting_item_array('role_verify_fields'),
             'breadcrumbs' => [
                 [
                     'name' => __('User'),
-                    'url'  => route('user.admin.index')
+                    'url' => route('user.admin.index')
                 ],
                 [
                     'name' => __('Role Management'),
-                    'url'  => route('user.admin.role.index')
+                    'url' => route('user.admin.role.index')
                 ],
                 [
                     'name' => __('Verify Configs'),
-                    'url'  => route('user.admin.role.verifyFields'),
-                    'active'=>1
+                    'url' => route('user.admin.role.verifyFields'),
+                    'active' => 1
                 ],
             ]
         ];
         return view('User::admin.role.verifyFields', $data);
 
     }
-    public function verifyFieldsEdit(Request $request,$id){
+
+    public function verifyFieldsEdit(Request $request, $id)
+    {
 
         $this->checkPermission('role_update');
 
@@ -122,29 +128,29 @@ class RoleController extends AdminController
         $all = setting_item_array('role_verify_fields');
         $row = $all[$id] ?? [];
 
-        if(empty($row)) return redirect()->back()->with("error",__("Field not found"));
+        if (empty($row)) return redirect()->back()->with("error", __("Field not found"));
 
         $row['id'] = $id;
 
         $data = [
             'roles' => Role::all(),
-            'row'=>$row,
+            'row' => $row,
             'breadcrumbs' => [
                 [
                     'name' => __('User'),
-                    'url'  => route('user.admin.index')
+                    'url' => route('user.admin.index')
                 ],
                 [
                     'name' => __('Role Management'),
-                    'url'  => route('user.admin.role.index')
+                    'url' => route('user.admin.role.index')
                 ],
                 [
                     'name' => __('Verify Configs'),
-                    'url'  => route('user.admin.role.verifyFields'),
+                    'url' => route('user.admin.role.verifyFields'),
                 ],
                 [
-                    'name' => __('Edit field: :name',['name'=>$row['name'] ?? $id]),
-                    'active'=>1
+                    'name' => __('Edit field: :name', ['name' => $row['name'] ?? $id]),
+                    'active' => 1
                 ],
             ]
         ];
@@ -152,58 +158,57 @@ class RoleController extends AdminController
 
     }
 
-    public function verifyFieldsStore(){
+    public function verifyFieldsStore()
+    {
         $this->checkPermission('role_update');
 
-        $all = setting_item_array('role_verify_fields',[]);
+        $all = setting_item_array('role_verify_fields', []);
         $id = \request()->input('id');
         $id = Str::snake($id);
-        if(empty($id))
-        {
+        if (empty($id)) {
             return redirect()->back()->withInput();
         }
         $isAdd = !isset($all[$id]);
         $all[$id] = [
-            'name'=>\request()->input('name'),
-            'type'=>\request()->input('type'),
-            'roles'=>\request()->input('roles'),
-            'required'=>\request()->input('required'),
-            'order'=>\request()->input('order'),
-            'icon'=>\request()->input('icon'),
+            'name' => \request()->input('name'),
+            'type' => \request()->input('type'),
+            'roles' => \request()->input('roles'),
+            'required' => \request()->input('required'),
+            'order' => \request()->input('order'),
+            'icon' => \request()->input('icon'),
         ];
 
         $languages = \Modules\Language\Models\Language::getActive();
-        if(!empty($languages) && setting_item('site_enable_multi_lang') && setting_item('site_locale'))
-        {
-            foreach($languages as $language){
-                $key_lang = setting_item('site_locale') != $language->locale ? "_".$language->locale : "";
-                $all[$id]['name'.$key_lang] = \request()->input('name'.$key_lang);
+        if (!empty($languages) && setting_item('site_enable_multi_lang') && setting_item('site_locale')) {
+            foreach ($languages as $language) {
+                $key_lang = setting_item('site_locale') != $language->locale ? "_" . $language->locale : "";
+                $all[$id]['name' . $key_lang] = \request()->input('name' . $key_lang);
             }
         }
 
-        setting_update_item('role_verify_fields',$all);
+        setting_update_item('role_verify_fields', $all);
 
-        return redirect()->back()->with('success', $isAdd? __("Field created") : __("Field saved"));
+        return redirect()->back()->with('success', $isAdd ? __("Field created") : __("Field saved"));
     }
 
-	public function bulkEdit(Request $request)
-	{
-		$ids = $request->input('ids');
-		$action = $request->input('action');
-		if (empty($ids))
-			return redirect()->back()->with('error', __('Select at leas 1 item!'));
-		if (empty($action))
-			return redirect()->back()->with('error', __('Select an Action!'));
-		if ($action == 'delete') {
-			$all = setting_item_array('role_verify_fields',[]);
-			$new = Arr::except($all,$ids);
-			setting_update_item('role_verify_fields',$new);
-		}
-		return redirect()->back()->with('success', __('Updated successfully!'));
-	}
+    public function bulkEdit(Request $request)
+    {
+        $ids = $request->input('ids');
+        $action = $request->input('action');
+        if (empty($ids))
+            return redirect()->back()->with('error', __('Select at leas 1 item!'));
+        if (empty($action))
+            return redirect()->back()->with('error', __('Select an Action!'));
+        if ($action == 'delete') {
+            $all = setting_item_array('role_verify_fields', []);
+            $new = Arr::except($all, $ids);
+            setting_update_item('role_verify_fields', $new);
+        }
+        return redirect()->back()->with('success', __('Updated successfully!'));
+    }
 
 
-	public function permission_matrix()
+    public function permission_matrix()
     {
         $permissions = Permission::all();
         $permissions_group = [
@@ -239,11 +244,11 @@ class RoleController extends AdminController
             }
         }
         $data = [
-            'permissions'       => $permissions,
-            'roles'             => $roles,
+            'permissions' => $permissions,
+            'roles' => $roles,
             'permissions_group' => $permissions_group,
-            'selectedIds'       => $selectedIds,
-            'role'              => $role
+            'selectedIds' => $selectedIds,
+            'role' => $role
         ];
         return view('User::admin.role.permission_matrix', $data);
     }
@@ -269,15 +274,15 @@ class RoleController extends AdminController
         $pre_selected = $request->query('pre_selected');
         $selected = $request->query('selected');
 
-        if($pre_selected && $selected){
-            $item = $this->role_class::where('name',$selected)->first();
-            if(empty($item)){
+        if ($pre_selected && $selected) {
+            $item = $this->role_class::where('name', $selected)->first();
+            if (empty($item)) {
                 return response()->json([
-                    'text'=>''
+                    'text' => ''
                 ]);
-            }else{
+            } else {
                 return response()->json([
-                    'text'=>$item->name
+                    'text' => $item->name
                 ]);
             }
         }

@@ -10,22 +10,22 @@ jQuery(function ($) {
     $("#bravo_twocheckout_card_name,#bravo_twocheckout_card_number,#bravo_twocheckout_card_expiry_month,#bravo_twocheckout_card_expiry_year,#bravo_twocheckout_card_cvc").change(function () {
         $(".card_twocheckout_msg").html("");
         var request_now = true;
-        if($("#bravo_twocheckout_card_name").val() === ""){
+        if ($("#bravo_twocheckout_card_name").val() === "") {
             request_now = false;
         }
-        if($("#bravo_twocheckout_card_number").val() === ""){
+        if ($("#bravo_twocheckout_card_number").val() === "") {
             request_now = false;
         }
-        if($("#bravo_twocheckout_card_expiry_month").val() === ""){
+        if ($("#bravo_twocheckout_card_expiry_month").val() === "") {
             request_now = false;
         }
-        if($("#bravo_twocheckout_card_expiry_year").val() === ""){
+        if ($("#bravo_twocheckout_card_expiry_year").val() === "") {
             request_now = false;
         }
-        if($("#bravo_twocheckout_card_cvc").val() === ""){
+        if ($("#bravo_twocheckout_card_cvc").val() === "") {
             request_now = false;
         }
-        if(request_now){
+        if (request_now) {
             tokenRequest();
         }
     });

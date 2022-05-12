@@ -14,7 +14,8 @@
                         $module = new $allServices[$service_type];
                     @endphp
                     <li class="nav-item" role="bravo_{{$service_type}}">
-                        <a class="nav-link font-weight-medium @if($number == 0) active @endif" data-toggle="pill" href="#bravo_{{$key_time.$service_type}}-tab">
+                        <a class="nav-link font-weight-medium @if($number == 0) active @endif" data-toggle="pill"
+                           href="#bravo_{{$key_time.$service_type}}-tab">
                             <div class="d-flex flex-column flex-md-row  position-relative text-dark align-items-center">
                                 <span class="tabtext font-weight-semi-bold">
                                     {{ !empty($modelBlock["title_for_".$service_type]) ? $modelBlock["title_for_".$service_type] : $module->getModelName() }}
@@ -35,7 +36,8 @@
                         if(empty($allServices[$service_type]) OR empty($rows[$service_type])) continue;
                     @endphp
 
-                    <div class="tab-pane fade @if($number == 0) active show @endif bravo_{{$service_type}}" id="bravo_{{$key_time.$service_type}}-tab">
+                    <div class="tab-pane fade @if($number == 0) active show @endif bravo_{{$service_type}}"
+                         id="bravo_{{$key_time.$service_type}}-tab">
                         <div class="row">
                             @foreach($rows[$service_type] as $row)
                                 <div class="col-md-6 col-lg-4 col-xl-3 mb-3 mb-md-4 pb-1">

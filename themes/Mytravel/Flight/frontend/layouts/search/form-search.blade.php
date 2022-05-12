@@ -40,6 +40,8 @@
     </div>
 
     <div class="g-button-submit align-self-lg-end">
-        <button class="btn btn-blue-1 width-lg-200 text-white border-radius-2 font-weight-bold btn-md mb-xl-0 mb-lg-1 transition-3d-hover w-100 w-md-auto" type="submit"><i class="flaticon-magnifying-glass mr-2"></i> {{__("Search")}}</button>
+        <button
+            class="btn btn-blue-1 width-lg-200 text-white border-radius-2 font-weight-bold btn-md mb-xl-0 mb-lg-1 transition-3d-hover w-100 w-md-auto"
+            type="submit"><i class="flaticon-magnifying-glass mr-2"></i> {{__("Search")}}</button>
     </div>
 </form>

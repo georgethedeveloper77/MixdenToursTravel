@@ -1,5 +1,6 @@
 <?php
-namespace  Modules\User;
+
+namespace Modules\User;
 
 use Modules\Core\Abstracts\BaseSettingsClass;
 
@@ -9,11 +10,11 @@ class SettingClass extends BaseSettingsClass
     {
         return [
             [
-                'id'   => 'user',
+                'id' => 'user',
                 'title' => __("User Settings"),
-                'position'=>50,
-                'view'=>"User::admin.settings.user",
-                "keys"=>[
+                'position' => 50,
+                'view' => "User::admin.settings.user",
+                "keys" => [
                     'user_enable_login_recaptcha',
                     'user_enable_register_recaptcha',
                     'enable_mail_user_registered',
@@ -40,16 +41,16 @@ class SettingClass extends BaseSettingsClass
                     'user_permanently_delete_content_email_to_admin',
 
                 ],
-                'html_keys'=>[
+                'html_keys' => [
 
                 ]
             ],
             [
-                'id'   => 'wallet',
+                'id' => 'wallet',
                 'title' => __("Wallet Settings"),
-                'position'=>50,
-                'view'=>"User::admin.settings.wallet",
-                "keys"=>[
+                'position' => 50,
+                'view' => "User::admin.settings.wallet",
+                "keys" => [
                     'wallet_module_disable',
 
                     'wallet_credit_exchange_rate',
@@ -67,7 +68,7 @@ class SettingClass extends BaseSettingsClass
                     'wallet_update_deposit_customer_subject',
                     'wallet_update_deposit_customer_content',
                 ],
-                'html_keys'=>[
+                'html_keys' => [
 
                 ]
             ]

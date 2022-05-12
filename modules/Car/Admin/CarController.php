@@ -5,6 +5,7 @@
  * Date: 7/30/2019
  * Time: 1:56 PM
  */
+
 namespace Modules\Car\Admin;
 
 use Illuminate\Http\Request;
@@ -68,19 +69,19 @@ class CarController extends AdminController
             $query->where('create_user', Auth::id());
         }
         $data = [
-            'rows'              => $query->with(['author'])->paginate(20),
+            'rows' => $query->with(['author'])->paginate(20),
             'car_manage_others' => $this->hasPermission('car_manage_others'),
-            'breadcrumbs'       => [
+            'breadcrumbs' => [
                 [
                     'name' => __('Cars'),
-                    'url'  => route('car.admin.index')
+                    'url' => route('car.admin.index')
                 ],
                 [
-                    'name'  => __('All'),
+                    'name' => __('All'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'        => __("Car Management")
+            'page_title' => __("Car Management")
         ];
         return view('Car::admin.index', $data);
     }
@@ -102,20 +103,20 @@ class CarController extends AdminController
             $query->where('create_user', Auth::id());
         }
         $data = [
-            'rows'              => $query->with(['author'])->paginate(20),
+            'rows' => $query->with(['author'])->paginate(20),
             'car_manage_others' => $this->hasPermission('car_manage_others'),
-            'recovery'          => 1,
-            'breadcrumbs'       => [
+            'recovery' => 1,
+            'breadcrumbs' => [
                 [
                     'name' => __('Cars'),
-                    'url'  => route('car.admin.index')
+                    'url' => route('car.admin.index')
                 ],
                 [
-                    'name'  => __('Recovery'),
+                    'name' => __('Recovery'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'        => __("Recovery Car Management")
+            'page_title' => __("Recovery Car Management")
         ];
         return view('Car::admin.index', $data);
     }
@@ -128,21 +129,21 @@ class CarController extends AdminController
             'status' => 'publish'
         ]);
         $data = [
-            'row'          => $row,
-            'attributes'   => $this->attributes::where('service', 'car')->get(),
+            'row' => $row,
+            'attributes' => $this->attributes::where('service', 'car')->get(),
             'car_location' => $this->location::where('status', 'publish')->get()->toTree(),
-            'translation'  => new $this->car_translation(),
-            'breadcrumbs'  => [
+            'translation' => new $this->car_translation(),
+            'breadcrumbs' => [
                 [
                     'name' => __('Cars'),
-                    'url'  => route('car.admin.index')
+                    'url' => route('car.admin.index')
                 ],
                 [
-                    'name'  => __('Add Car'),
+                    'name' => __('Add Car'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'   => __("Add new Car")
+            'page_title' => __("Add new Car")
         ];
         return view('Car::admin.detail', $data);
     }
@@ -161,23 +162,23 @@ class CarController extends AdminController
             }
         }
         $data = [
-            'row'               => $row,
-            'translation'       => $translation,
-            "selected_terms"    => $row->terms->pluck('term_id'),
-            'attributes'        => $this->attributes::where('service', 'car')->get(),
-            'car_location'      => $this->location::where('status', 'publish')->get()->toTree(),
+            'row' => $row,
+            'translation' => $translation,
+            "selected_terms" => $row->terms->pluck('term_id'),
+            'attributes' => $this->attributes::where('service', 'car')->get(),
+            'car_location' => $this->location::where('status', 'publish')->get()->toTree(),
             'enable_multi_lang' => true,
-            'breadcrumbs'       => [
+            'breadcrumbs' => [
                 [
                     'name' => __('Cars'),
-                    'url'  => route('car.admin.index')
+                    'url' => route('car.admin.index')
                 ],
                 [
-                    'name'  => __('Edit Car'),
+                    'name' => __('Edit Car'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'        => __("Edit: :name", ['name' => $row->title])
+            'page_title' => __("Edit: :name", ['name' => $row->title])
         ];
         return view('Car::admin.detail', $data);
     }
@@ -262,7 +263,7 @@ class CarController extends AdminController
             $term_ids = $request->input('terms');
             foreach ($term_ids as $term_id) {
                 $this->car_term::firstOrCreate([
-                    'term_id'   => $term_id,
+                    'term_id' => $term_id,
                     'target_id' => $row->id
                 ]);
             }

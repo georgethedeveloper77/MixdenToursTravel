@@ -1,11 +1,10 @@
 <?php
+
 namespace Modules\News\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Modules\AdminController;
 use Modules\News\Models\NewsCategory;
-use Illuminate\Support\Str;
 use Modules\News\Models\NewsCategoryTranslation;
 
 class CategoryController extends AdminController
@@ -28,19 +27,19 @@ class CategoryController extends AdminController
         $rows = $catlist->get();
 
         $data = [
-            'rows'        => $rows->toTree(),
-            'row'         => new NewsCategory(),
+            'rows' => $rows->toTree(),
+            'row' => new NewsCategory(),
             'breadcrumbs' => [
                 [
                     'name' => __('News'),
-                    'url'  => route('news.admin.index')
+                    'url' => route('news.admin.index')
                 ],
                 [
-                    'name'  => __('Category'),
+                    'name' => __('Category'),
                     'class' => 'active'
                 ],
             ],
-            'translation'=>new NewsCategoryTranslation()
+            'translation' => new NewsCategoryTranslation()
         ];
         return view('News::admin.category.index', $data);
     }
@@ -56,23 +55,24 @@ class CategoryController extends AdminController
             return redirect(route('news.admin.category.index'));
         }
         $data = [
-            'row'     => $row,
-            'translation'     => $translation,
+            'row' => $row,
+            'translation' => $translation,
             'parents' => NewsCategory::get()->toTree(),
-            'enable_multi_lang'=>true
+            'enable_multi_lang' => true
         ];
         return view('News::admin.category.detail', $data);
     }
 
-    public function store(Request $request, $id){
+    public function store(Request $request, $id)
+    {
         $this->checkPermission('news_manage_others');
 
-        if($id>0){
+        if ($id > 0) {
             $row = NewsCategory::find($id);
             if (empty($row)) {
                 return redirect(route('news.admin.category.index'));
             }
-        }else{
+        } else {
             $row = new NewsCategory();
             $row->status = "publish";
         }
@@ -81,10 +81,10 @@ class CategoryController extends AdminController
         $res = $row->saveOriginOrTranslation($request->input('lang'));
 
         if ($res) {
-            if($id > 0 ){
-                return back()->with('success',  __('Category updated') );
-            }else{
-                return redirect(route('news.admin.category.index'))->with('success', __('Category created') );
+            if ($id > 0) {
+                return back()->with('success', __('Category updated'));
+            } else {
+                return redirect(route('news.admin.category.index'))->with('success', __('Category created'));
             }
         }
     }
@@ -103,7 +103,7 @@ class CategoryController extends AdminController
         if ($action == 'delete') {
             foreach ($ids as $id) {
                 $query = NewsCategory::where("id", $id)->first();
-                if(!empty($query)){
+                if (!empty($query)) {
                     $query->delete();
                 }
             }
@@ -116,20 +116,20 @@ class CategoryController extends AdminController
         $pre_selected = $request->query('pre_selected');
         $selected = $request->query('selected');
 
-        if($pre_selected && $selected){
+        if ($pre_selected && $selected) {
             $item = NewsCategory::find($selected);
-            if(empty($item)){
+            if (empty($item)) {
                 return response()->json([
-                    'text'=>''
+                    'text' => ''
                 ]);
-            }else{
+            } else {
                 return response()->json([
-                    'text'=>$item->name
+                    'text' => $item->name
                 ]);
             }
         }
         $q = $request->query('q');
-        $query = NewsCategory::select('id', 'name as text')->where("status","publish");
+        $query = NewsCategory::select('id', 'name as text')->where("status", "publish");
         if ($q) {
             $query->where('name', 'like', '%' . $q . '%');
         }

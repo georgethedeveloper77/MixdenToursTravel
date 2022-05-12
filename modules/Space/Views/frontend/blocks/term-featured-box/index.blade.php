@@ -13,7 +13,7 @@
                 @foreach($list_term as $item)
                     <?php
                     $image_url = get_file_url($item->image_id, 'full');
-                    $page_search = Modules\Space\Models\Space::getLinkForPageSearch(false , [ 'terms[]' =>  $item->id] );
+                    $page_search = Modules\Space\Models\Space::getLinkForPageSearch(false, ['terms[]' => $item->id]);
                     $translation = $item->translateOrOrigin(app()->getLocale());
 
                     ?>

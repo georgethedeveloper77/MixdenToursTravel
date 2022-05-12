@@ -8,11 +8,14 @@
                 <div class="card border-0 mb-3">
                     <div class="card-header border-bottom-0 p-0">
                         <h5 class="mb-0">
-                            <button type="button" class="collapse-link btn btn-link btn-block d-flex align-items-md-center font-weight-bold p-0" data-toggle="collapse" data-target="#itinerary_{{$key}}">
+                            <button type="button"
+                                    class="collapse-link btn btn-link btn-block d-flex align-items-md-center font-weight-bold p-0"
+                                    data-toggle="collapse" data-target="#itinerary_{{$key}}">
                                 <div class="text-primary font-size-22 mb-3 mb-md-0 mr-3">
                                     <i class="fa fa-circle-o"></i>
                                 </div>
-                                <div class="text-primary flex-shrink-0">{{$item['title']}} <span class="px-2">-</span> </div>
+                                <div class="text-primary flex-shrink-0">{{$item['title']}} <span class="px-2">-</span>
+                                </div>
                                 <h6 class="font-weight-bold text-gray-3 text-left mb-0">{{$item['desc']}}</h6>
                             </button>
                         </h5>

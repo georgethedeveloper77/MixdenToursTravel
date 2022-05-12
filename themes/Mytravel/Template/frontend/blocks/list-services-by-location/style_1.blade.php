@@ -9,7 +9,9 @@
             <ul class="nav tab-nav-line flex-nowrap pb-4 tab-nav justify-content-lg-center text-nowrap" role="tablist">
                 @foreach($list_location as $k => $list)
                     <li class="nav-item">
-                        <a class="nav-link font-weight-medium @if($k==0) active @endif" id="location-{{$list->id}}-tab" data-toggle="pill" href="#location-{{$list->id}}" role="tab" aria-controls="location-{{$list->id}}" aria-selected="true">
+                        <a class="nav-link font-weight-medium @if($k==0) active @endif" id="location-{{$list->id}}-tab"
+                           data-toggle="pill" href="#location-{{$list->id}}" role="tab"
+                           aria-controls="location-{{$list->id}}" aria-selected="true">
                             <div class="d-flex flex-column flex-md-row  position-relative text-dark align-items-center">
                                 <span class="tabtext font-weight-semi-bold">{{$list->name}}</span>
                             </div>
@@ -20,7 +22,8 @@
 
             <div class="tab-content">
                 @foreach($list_location as $k => $list)
-                    <div class="tab-pane fade @if($k==0) active show @endif" id="location-{{$list->id}}" role="tabpanel" aria-labelledby="location-{{$list->id}}-tab">
+                    <div class="tab-pane fade @if($k==0) active show @endif" id="location-{{$list->id}}" role="tabpanel"
+                         aria-labelledby="location-{{$list->id}}-tab">
                         <div class="row">
                             @foreach($rows as $row)
                                 @if($list->id == $row->location_id)

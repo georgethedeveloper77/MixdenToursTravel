@@ -12,16 +12,16 @@
                     <div class="col-md-{{ $field['size'] ?? "6" }} mb-4 mb-lg-0 text-left">
                         @switch($field['field'])
                             @case ('service_name')
-                                @include('Event::frontend.layouts.search.fields.service_name')
+                            @include('Event::frontend.layouts.search.fields.service_name')
                             @break
                             @case ('location')
-                                @include('Event::frontend.layouts.search.fields.location')
+                            @include('Event::frontend.layouts.search.fields.location')
                             @break
                             @case ('date')
-                                @include('Event::frontend.layouts.search.fields.date')
+                            @include('Event::frontend.layouts.search.fields.date')
                             @break
                             @case ('attr')
-                                @include('Event::frontend.layouts.search.fields.attr')
+                            @include('Event::frontend.layouts.search.fields.attr')
                             @break
                         @endswitch
                     </div>

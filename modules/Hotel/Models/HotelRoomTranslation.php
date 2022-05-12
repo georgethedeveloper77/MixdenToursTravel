@@ -2,25 +2,18 @@
 
 namespace Modules\Hotel\Models;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Booking\Models\Bookable;
 use Modules\Booking\Models\Booking;
-use Modules\Core\Models\SEO;
-use Modules\Media\Helpers\FileHelper;
 use Modules\Review\Models\Review;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Hotel\Models\HotelTranslation;
 use Modules\User\Models\UserWishList;
 
 class HotelRoomTranslation extends Bookable
 {
     use SoftDeletes;
-    protected $table = 'bravo_hotel_room_translations';
-    public $type = 'hotel_room_translation';
 
+    public $type = 'hotel_room_translation';
+    protected $table = 'bravo_hotel_room_translations';
     protected $fillable = [
         'title',
         'content',
@@ -36,6 +29,7 @@ class HotelRoomTranslation extends Bookable
     protected $hotelRoomTermClass;
     protected $hotelTranslationClass;
     protected $userWishListClass;
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -57,7 +51,8 @@ class HotelRoomTranslation extends Bookable
     }
 
 
-    public function terms(){
+    public function terms()
+    {
         return $this->hasMany($this->hotelRoomTermClass, "target_id");
     }
 }

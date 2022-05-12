@@ -1,8 +1,9 @@
 <?php
+
 namespace Modules\Theme;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouterServiceProvider extends ServiceProvider
 {
@@ -44,6 +45,20 @@ class RouterServiceProvider extends ServiceProvider
     }
 
     /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+            ->namespace('Modules\User\Api')
+            ->group(__DIR__ . '/Routes/api.php');
+    }
+
+    /**
      * Define the "web" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
@@ -56,6 +71,22 @@ class RouterServiceProvider extends ServiceProvider
             ->namespace($this->moduleNamespace)
             ->group(__DIR__ . '/Routes/web.php');
     }
+
+    /**
+     * Define the "admin" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::middleware(['web', 'dashboard'])
+            ->namespace($this->adminModuleNamespace)
+            ->prefix('admin/module/theme')
+            ->group(__DIR__ . '/Routes/admin.php');
+    }
+
     /**
      * Define the "web" routes for the application.
      *
@@ -69,34 +100,5 @@ class RouterServiceProvider extends ServiceProvider
             ->namespace($this->moduleNamespace)
             ->prefix(app()->getLocale())
             ->group(__DIR__ . '/Routes/language.php');
-    }
-
-    /**
-     * Define the "admin" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapAdminRoutes()
-    {
-        Route::middleware(['web','dashboard'])
-            ->namespace($this->adminModuleNamespace)
-            ->prefix('admin/module/theme')
-            ->group(__DIR__ . '/Routes/admin.php');
-    }
-
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
-    protected function mapApiRoutes()
-    {
-        Route::prefix('api')
-            ->namespace('Modules\User\Api')
-            ->group(__DIR__ . '/Routes/api.php');
     }
 }

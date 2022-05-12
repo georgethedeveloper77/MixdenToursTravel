@@ -1,4 +1,6 @@
-<div class="bravo-form-search-all hero-block hero-v1 bg-img-hero-bottom gradient-overlay-half-black-gradient text-center z-index-2" style="background-image: url('{{$bg_image_url}}') !important;">
+<div
+    class="bravo-form-search-all hero-block hero-v1 bg-img-hero-bottom gradient-overlay-half-black-gradient text-center z-index-2"
+    style="background-image: url('{{$bg_image_url}}') !important;">
     <div class="container space-2 space-top-xl-4">
         <div class="row justify-content-center pb-xl-8">
             <div class="py-8 py-xl-10 pb-5">
@@ -8,7 +10,8 @@
         </div>
         @if(empty($hide_form_search))
             <div class="mb-lg-n1">
-                <ul class="nav tab-nav flex-nowrap tab-nav-shadow justify-content-start @if(!empty($single_form_search)) d-none @endif" role="tablist">
+                <ul class="nav tab-nav flex-nowrap tab-nav-shadow justify-content-start @if(!empty($single_form_search)) d-none @endif"
+                    role="tablist">
                     @if(!empty($service_types))
                         @php $number = 0; @endphp
                         @foreach ($service_types as $service_type)
@@ -18,8 +21,11 @@
                                 $module = new $allServices[$service_type];
                             @endphp
                             <li class="nav-item" role="bravo_{{$service_type}}">
-                                <a class="nav-link font-weight-medium @if($number == 0) active @endif pl-md-5 pl-3" id="bravo_{{$service_type}}-tab" data-toggle="pill" href="#bravo_{{$service_type}}" role="tab" aria-controls="bravo_{{$service_type}}" aria-selected="true">
-                                    <div class="d-flex flex-column flex-md-row  position-relative text-white align-items-center">
+                                <a class="nav-link font-weight-medium @if($number == 0) active @endif pl-md-5 pl-3"
+                                   id="bravo_{{$service_type}}-tab" data-toggle="pill" href="#bravo_{{$service_type}}"
+                                   role="tab" aria-controls="bravo_{{$service_type}}" aria-selected="true">
+                                    <div
+                                        class="d-flex flex-column flex-md-row  position-relative text-white align-items-center">
                                         <figure class="ie-height-40 d-md-block mr-md-3">
                                             <i class="icon {{ $module->getServiceIconFeatured() }} font-size-3"></i>
                                         </figure>
@@ -41,7 +47,8 @@
                                 $allServices = get_bookable_services();
                                 if(empty($allServices[$service_type])) continue;
                             @endphp
-                            <div class="tab-pane fade @if($number == 0) active show @endif" id="bravo_{{$service_type}}" role="tabpanel" aria-labelledby="bravo_{{$service_type}}-tab">
+                            <div class="tab-pane fade @if($number == 0) active show @endif" id="bravo_{{$service_type}}"
+                                 role="tabpanel" aria-labelledby="bravo_{{$service_type}}-tab">
                                 <div class="p-3 gradient-overlay-half-white-gradient">
                                     <div class="card border-0 tab-shadow">
                                         <div class="card-body">

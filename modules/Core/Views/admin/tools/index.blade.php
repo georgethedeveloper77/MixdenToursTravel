@@ -24,7 +24,8 @@
                                             </span>
                                             <span class="setting-item-info">
                                                 <span class="setting-item-title">{{__("Languages")}}</span>
-                                                <span class="setting-item-desc">{{__("Manage languages of your website")}}</span>
+                                                <span
+                                                    class="setting-item-desc">{{__("Manage languages of your website")}}</span>
                                             </span>
                                         </a>
                                     </div>
@@ -34,13 +35,15 @@
                                 @php $hasAvailableTools = true; @endphp
                                 <div class="col-md-4">
                                     <div class="area-setting-item">
-                                        <a class="setting-item-link" href="{{route('language.admin.translations.index')}}">
+                                        <a class="setting-item-link"
+                                           href="{{route('language.admin.translations.index')}}">
                                             <span class="setting-item-media">
                                                 <i class="icon ion-ios-globe"></i>
                                             </span>
                                             <span class="setting-item-info">
                                                 <span class="setting-item-title">{{__("Translations")}}</span>
-                                                <span class="setting-item-desc">{{__("Translation manager of your website")}}</span>
+                                                <span
+                                                    class="setting-item-desc">{{__("Translation manager of your website")}}</span>
                                             </span>
                                         </a>
                                     </div>
@@ -56,7 +59,8 @@
                                                 </span>
                                             <span class="setting-item-info">
                                                 <span class="setting-item-title">{{__("System Log Viewer")}}</span>
-                                                <span class="setting-item-desc">{{__("Views and manage system log of your website")}}</span>
+                                                <span
+                                                    class="setting-item-desc">{{__("Views and manage system log of your website")}}</span>
                                             </span>
                                         </a>
                                     </div>

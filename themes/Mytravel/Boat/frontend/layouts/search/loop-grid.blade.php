@@ -27,14 +27,14 @@
             {{$location->name ?? ''}}
         @endif
     </div>
-    <div class="item-title">
-        <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl($include_param ?? true)}}">
-            @if($row->is_instant)
-                <i class="fa fa-bolt d-none"></i>
-            @endif
+        <div class="item-title">
+            <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl($include_param ?? true)}}">
+                @if($row->is_instant)
+                    <i class="fa fa-bolt d-none"></i>
+                @endif
                 {!! clean($translation->title) !!}
-        </a>
-    </div>
+            </a>
+        </div>
         @if(setting_item('boat_enable_review'))
             <?php
             $reviewData = $row->getScoreReview();
@@ -42,7 +42,8 @@
             ?>
             <div class="service-review">
                 <span class="rate">
-                    @if($reviewData['total_review'] > 0) {{$score_total}}/5 @endif <span class="rate-text">{{$reviewData['review_text']}}</span>
+                    @if($reviewData['total_review'] > 0) {{$score_total}}/5 @endif <span
+                        class="rate-text">{{$reviewData['review_text']}}</span>
                 </span>
                 <span class="review">
                  @if($reviewData['total_review'] > 1)
@@ -53,43 +54,43 @@
                 </span>
             </div>
         @endif
-    <div class="amenities">
-        @if($row->max_guest)
-            <span class="amenity total" data-toggle="tooltip"  title="{{ __("Max Guests") }}">
+        <div class="amenities">
+            @if($row->max_guest)
+                <span class="amenity total" data-toggle="tooltip" title="{{ __("Max Guests") }}">
                 <i class="icofont-ui-user-group input-icon field-icon"></i>
                 <span class="text">
                     {{$row->max_guest}}
                 </span>
             </span>
-        @endif
-        @if($row->cabin)
-            <span class="amenity bed" data-toggle="tooltip" title="{{__("Cabin")}}">
+            @endif
+            @if($row->cabin)
+                <span class="amenity bed" data-toggle="tooltip" title="{{__("Cabin")}}">
                 <i class="input-icon field-icon icofont-sail-boat-alt-2"></i>
                 <span class="text">
                     {{$row->cabin}}
                 </span>
             </span>
-        @endif
-        @if($row->length)
-            <span class="amenity bath" data-toggle="tooltip" title="{{__("Length Boat")}}" >
+            @endif
+            @if($row->length)
+                <span class="amenity bath" data-toggle="tooltip" title="{{__("Length Boat")}}">
                 <i class="input-icon field-icon icofont-yacht"></i>
                 <span class="text">
                     {{$row->length}}
                 </span>
             </span>
-        @endif
-        @if($row->speed)
-            <span class="amenity size" data-toggle="tooltip" title="{{__("Speed")}}" >
+            @endif
+            @if($row->speed)
+                <span class="amenity size" data-toggle="tooltip" title="{{__("Speed")}}">
                 <i class="input-icon field-icon icofont-speed-meter"></i>
                 <span class="text">
                     {{$row->speed}}
                 </span>
             </span>
-        @endif
-    </div>
-    <div class="info">
-        <div class="g-price">
-            <div class="prefix">
+            @endif
+        </div>
+        <div class="info">
+            <div class="g-price">
+                <div class="prefix">
                 <span class="fr_text">{{__("from")}}</span>
             </div>
             <div class="price">

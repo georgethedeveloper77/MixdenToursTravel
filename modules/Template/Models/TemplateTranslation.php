@@ -5,9 +5,8 @@
  * Date: 7/16/2019
  * Time: 2:05 PM
  */
-namespace Modules\Template\Models;
 
-use App\BaseModel;
+namespace Modules\Template\Models;
 
 class TemplateTranslation extends Template
 {

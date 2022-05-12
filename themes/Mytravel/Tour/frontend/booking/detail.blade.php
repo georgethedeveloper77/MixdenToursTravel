@@ -5,7 +5,8 @@
 <div class="shadow-soft bg-white rounded-sm booking-review">
     <div class="pt-5 pb-3 px-4 border-bottom">
         <a href="#" class="d-block mb-3">
-            <img class="img-fluid rounded-sm" src="{{$service->image_url}}" alt="{!! clean($service_translation->title) !!}">
+            <img class="img-fluid rounded-sm" src="{{$service->image_url}}"
+                 alt="{!! clean($service_translation->title) !!}">
         </a>
         <a href="{{$service->getDetailUrl()}}" class="text-dark font-weight-bold mb-2 d-block">
             {!! clean($service_translation->title) !!}
@@ -18,9 +19,11 @@
     </div>
     <div id="basicsAccordionBooking">
         <div class="card rounded-0 border-top-0 border-left-0 border-right-0">
-            <div class="card-header card-collapse bg-transparent border-0" >
+            <div class="card-header card-collapse bg-transparent border-0">
                 <h5 class="mb-0">
-                    <button type="button" class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark" data-toggle="collapse" data-target="#basicsCollapseDetail">
+                    <button type="button"
+                            class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark"
+                            data-toggle="collapse" data-target="#basicsCollapseDetail">
                         {{ __("Booking Detail") }}
                         <span class="card-btn-arrow font-size-14 text-dark"><i class="fa fa-chevron-down"></i></span>
                     </button>
@@ -66,7 +69,9 @@
         <div class="card rounded-0 border-top-0 border-left-0 border-right-0">
             <div class="card-header card-collapse bg-transparent border-0" id="basicsHeadingFour">
                 <h5 class="mb-0">
-                    <button type="button" class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark" data-toggle="collapse" data-target="#basicsCollapsePayment">
+                    <button type="button"
+                            class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark"
+                            data-toggle="collapse" data-target="#basicsCollapsePayment">
                         {{ __("Payment") }}
                         <span class="card-btn-arrow font-size-14 text-dark"><i class="fa fa-chevron-down"></i></span>
                     </button>
@@ -79,7 +84,8 @@
                         @if(!empty($person_types))
                             @foreach($person_types as $type)
                                 <li class="d-flex justify-content-between py-2">
-                                    <div class="label">{{ $type['name_'.$lang_local] ?? __($type['name'])}}: {{$type['number']}} * {{format_money($type['price'])}}</div>
+                                    <div class="label">{{ $type['name_'.$lang_local] ?? __($type['name'])}}
+                                        : {{$type['number']}} * {{format_money($type['price'])}}</div>
                                     <div class="val">
                                         {{format_money($type['price'] * $type['number'])}}
                                     </div>
@@ -87,7 +93,8 @@
                             @endforeach
                         @else
                             <li class="d-flex justify-content-between py-2">
-                                <div class="label">{{__("Guests")}}: {{$booking->total_guests}} * {{format_money($booking->getMeta('base_price'))}}</div>
+                                <div class="label">{{__("Guests")}}: {{$booking->total_guests}}
+                                    * {{format_money($booking->getMeta('base_price'))}}</div>
                                 <div class="val">
                                     {{format_money($booking->getMeta('base_price') * $booking->total_guests)}}
                                 </div>
@@ -158,7 +165,8 @@
                                 <li class="d-flex justify-content-between py-2">
                                     <div class="label">
                                         {{$item['name_'.$lang_local] ?? $item['name']}}
-                                        <i class="icofont-info-circle" data-toggle="tooltip" data-placement="top" title="{{ $item['desc_'.$lang_local] ?? $item['desc'] }}"></i>
+                                        <i class="icofont-info-circle" data-toggle="tooltip" data-placement="top"
+                                           title="{{ $item['desc_'.$lang_local] ?? $item['desc'] }}"></i>
                                         @if(!empty($item['per_person']) and $item['per_person'] == "on")
                                             : {{$booking->total_guests}} * {{format_money( $fee_price )}}
                                         @endif

@@ -1,15 +1,15 @@
 <?php
 return [
-    'booking_route_prefix'=>env("BOOKING_ROUTER_PREFIX",'booking'),
-    'services'=>[
-        'tour'=>Modules\Tour\Models\Tour::class
+    'booking_route_prefix' => env("BOOKING_ROUTER_PREFIX", 'booking'),
+    'services' => [
+        'tour' => Modules\Tour\Models\Tour::class
     ],
-    'payment_gateways'=>[
-        'offline_payment'=>Modules\Booking\Gateways\OfflinePaymentGateway::class,
-        'paypal'=>Modules\Booking\Gateways\PaypalGateway::class,
-        'stripe'=>Modules\Booking\Gateways\StripeGateway::class
+    'payment_gateways' => [
+        'offline_payment' => Modules\Booking\Gateways\OfflinePaymentGateway::class,
+        'paypal' => Modules\Booking\Gateways\PaypalGateway::class,
+        'stripe' => Modules\Booking\Gateways\StripeGateway::class
     ],
-    'statuses'=>[
+    'statuses' => [
         'completed',
         'processing',
         'confirmed',

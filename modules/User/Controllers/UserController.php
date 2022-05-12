@@ -1,12 +1,18 @@
 <?php
+
 namespace Modules\User\Controllers;
 
-use App\Notifications\AdminChannelServices;
-use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Matrix\Exception;
 use Modules\Boat\Models\Boat;
+use Modules\Booking\Models\Booking;
+use Modules\Booking\Models\Enquiry;
 use Modules\Booking\Models\Service;
 use Modules\Car\Models\Car;
 use Modules\Event\Models\Event;
@@ -15,23 +21,11 @@ use Modules\FrontendController;
 use Modules\Hotel\Models\Hotel;
 use Modules\Space\Models\Space;
 use Modules\Tour\Models\Tour;
-use Modules\User\Emails\UserPermanentlyDelete;
 use Modules\User\Events\NewVendorRegistered;
-use Modules\User\Events\SendMailUserRegistered;
 use Modules\User\Events\UserSubscriberSubmit;
 use Modules\User\Models\Subscriber;
-use Modules\User\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\MessageBag;
 use Modules\Vendor\Models\VendorRequest;
 use Validator;
-use Modules\Booking\Models\Booking;
-use App\Helpers\ReCaptchaEngine;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Modules\Booking\Models\Enquiry;
-use Illuminate\Support\Str;
 
 class UserController extends FrontendController
 {
@@ -50,12 +44,12 @@ class UserController extends FrontendController
         $this->checkPermission('dashboard_vendor_access');
         $user_id = Auth::id();
         $data = [
-            'cards_report'       => Booking::getTopCardsReportForVendor($user_id),
+            'cards_report' => Booking::getTopCardsReportForVendor($user_id),
             'earning_chart_data' => Booking::getEarningChartDataForVendor(strtotime('monday this week'), time(), $user_id),
-            'page_title'         => __("Vendor Dashboard"),
-            'breadcrumbs'        => [
+            'page_title' => __("Vendor Dashboard"),
+            'breadcrumbs' => [
                 [
-                    'name'  => __('Dashboard'),
+                    'name' => __('Dashboard'),
                     'class' => 'active'
                 ]
             ]
@@ -82,11 +76,11 @@ class UserController extends FrontendController
     {
         $user = Auth::user();
         $data = [
-            'dataUser'         => $user,
-            'page_title'       => __("Profile"),
-            'breadcrumbs'      => [
+            'dataUser' => $user,
+            'page_title' => __("Profile"),
+            'breadcrumbs' => [
                 [
-                    'name'  => __('Setting'),
+                    'name' => __('Setting'),
                     'class' => 'active'
                 ]
             ],
@@ -95,21 +89,22 @@ class UserController extends FrontendController
         return view('User::frontend.profile', $data);
     }
 
-    public function profileUpdate(Request $request){
+    public function profileUpdate(Request $request)
+    {
         $user = Auth::user();
         $messages = [
-            'user_name.required'      => __('The User name field is required.'),
+            'user_name.required' => __('The User name field is required.'),
         ];
         $request->validate([
             'first_name' => 'required|max:255',
-            'last_name'  => 'required|max:255',
-            'email'      => [
+            'last_name' => 'required|max:255',
+            'email' => [
                 'required',
                 'email',
                 'max:255',
                 Rule::unique('users')->ignore($user->id)
             ],
-            'user_name'=> [
+            'user_name' => [
                 'required',
                 'max:255',
                 'min:4',
@@ -117,16 +112,16 @@ class UserController extends FrontendController
                 'alpha_dash',
                 Rule::unique('users')->ignore($user->id)
             ],
-            'phone'       => [
+            'phone' => [
                 'required',
                 Rule::unique('users')->ignore($user->id)
             ],
-        ],$messages);
+        ], $messages);
         $input = $request->except('bio');
         $user->fill($input);
         $user->bio = clean($request->input('bio'));
         $user->birthday = date("Y-m-d", strtotime($user->birthday));
-        $user->user_name = Str::slug( $request->input('user_name') ,"_");
+        $user->user_name = Str::slug($request->input('user_name'), "_");
         $user->save();
         return redirect()->back()->with('success', __('Update successfully'));
     }
@@ -137,14 +132,14 @@ class UserController extends FrontendController
             'breadcrumbs' => [
                 [
                     'name' => __('Setting'),
-                    'url'  => route("user.profile.index")
+                    'url' => route("user.profile.index")
                 ],
                 [
-                    'name'  => __('Change Password'),
+                    'name' => __('Change Password'),
                     'class' => 'active'
                 ]
             ],
-            'page_title'  => __("Change Password"),
+            'page_title' => __("Change Password"),
         ];
         return view('User::frontend.changePassword', $data);
     }
@@ -161,7 +156,7 @@ class UserController extends FrontendController
         }
         $request->validate([
             'current-password' => 'required',
-            'new-password'     => 'required|string|min:6|confirmed',
+            'new-password' => 'required|string|min:6|confirmed',
         ]);
         //Change Password
         $user = Auth::user();
@@ -174,15 +169,15 @@ class UserController extends FrontendController
     {
         $user_id = Auth::id();
         $data = [
-            'bookings'    => Booking::getBookingHistory($request->input('status'), $user_id),
-            'statues'     => config('booking.statuses'),
+            'bookings' => Booking::getBookingHistory($request->input('status'), $user_id),
+            'statues' => config('booking.statuses'),
             'breadcrumbs' => [
                 [
-                    'name'  => __('Booking History'),
+                    'name' => __('Booking History'),
                     'class' => 'active'
                 ]
             ],
-            'page_title'  => __("Booking History"),
+            'page_title' => __("Booking History"),
         ];
         return view('User::frontend.bookingHistory', $data);
     }
@@ -212,15 +207,16 @@ class UserController extends FrontendController
         }
     }
 
-    public function upgradeVendor(Request $request){
+    public function upgradeVendor(Request $request)
+    {
         $user = Auth::user();
-        $vendorRequest = VendorRequest::query()->where("user_id",$user->id)->where("status","pending")->first();
-        if(!empty($vendorRequest)){
+        $vendorRequest = VendorRequest::query()->where("user_id", $user->id)->where("status", "pending")->first();
+        if (!empty($vendorRequest)) {
             return redirect()->back()->with('warning', __('You have just done the become vendor request, please wait for the Admin\'s approved'));
         }
         // check vendor auto approved
         $vendorAutoApproved = setting_item('vendor_auto_approved');
-         $dataVendor['role_request'] = setting_item('vendor_role');
+        $dataVendor['role_request'] = setting_item('vendor_role');
         if ($vendorAutoApproved) {
             if ($dataVendor['role_request']) {
                 $user->assignRole($dataVendor['role_request']);
@@ -239,23 +235,24 @@ class UserController extends FrontendController
         return redirect()->back()->with('success', __('Request vendor success!'));
     }
 
-    public function enquiryReport(Request $request){
+    public function enquiryReport(Request $request)
+    {
         $this->checkPermission('enquiry_view');
         $user_id = Auth::id();
-        $rows = $this->enquiryClass::where("vendor_id",$user_id)
-            ->whereIn('object_model',array_keys(get_bookable_services()))
+        $rows = $this->enquiryClass::where("vendor_id", $user_id)
+            ->whereIn('object_model', array_keys(get_bookable_services()))
             ->orderBy('id', 'desc');
         $data = [
-            'rows'        => $rows->paginate(5),
-            'statues'     => $this->enquiryClass::$enquiryStatus,
+            'rows' => $rows->paginate(5),
+            'statues' => $this->enquiryClass::$enquiryStatus,
             'has_permission_enquiry_update' => $this->hasPermission('enquiry_update'),
             'breadcrumbs' => [
                 [
-                    'name'  => __('Enquiry Report'),
+                    'name' => __('Enquiry Report'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'  => __("Enquiry Report"),
+            'page_title' => __("Enquiry Report"),
         ];
         return view('User::frontend.enquiryReport', $data);
     }
@@ -263,7 +260,7 @@ class UserController extends FrontendController
     public function enquiryReportBulkEdit($enquiry_id, Request $request)
     {
         $status = $request->input('status');
-        if (!empty( $this->hasPermission('enquiry_update') ) and !empty($status) and !empty($enquiry_id)) {
+        if (!empty($this->hasPermission('enquiry_update')) and !empty($status) and !empty($enquiry_id)) {
             $query = $this->enquiryClass::where("id", $enquiry_id);
             $query->where("vendor_id", Auth::id());
             $item = $query->first();
@@ -278,30 +275,30 @@ class UserController extends FrontendController
     }
 
 
-    public function permanentlyDelete(Request $request){
-        if(!empty(setting_item('user_enable_permanently_delete')))
-        {
+    public function permanentlyDelete(Request $request)
+    {
+        if (!empty(setting_item('user_enable_permanently_delete'))) {
             $user = Auth::user();
             \DB::beginTransaction();
             try {
-                Service::where('create_user',$user->id)->delete();
-                Tour::where('create_user',$user->id)->delete();
-                Car::where('create_user',$user->id)->delete();
-                Space::where('create_user',$user->id)->delete();
-                Hotel::where('create_user',$user->id)->delete();
-                Event::where('create_user',$user->id)->delete();
-                Boat::where('create_user',$user->id)->delete();
-                Flight::where('create_user',$user->id)->delete();
+                Service::where('create_user', $user->id)->delete();
+                Tour::where('create_user', $user->id)->delete();
+                Car::where('create_user', $user->id)->delete();
+                Space::where('create_user', $user->id)->delete();
+                Hotel::where('create_user', $user->id)->delete();
+                Event::where('create_user', $user->id)->delete();
+                Boat::where('create_user', $user->id)->delete();
+                Flight::where('create_user', $user->id)->delete();
                 $user->sendEmailPermanentlyDelete();
                 $user->delete();
                 \DB::commit();
                 Auth::logout();
                 return redirect(route('home'));
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 \DB::rollBack();
             }
         }
-        return back()->with('error',__('Error. You can\'t permanently delete'));
+        return back()->with('error', __('Error. You can\'t permanently delete'));
 
     }
 

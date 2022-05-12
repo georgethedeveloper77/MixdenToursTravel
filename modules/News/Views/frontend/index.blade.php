@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('head')
-    <link href="{{ asset('dist/frontend/module/news/css/news.css?_ver='.config('app.asset_version')) }}" rel="stylesheet">
+    <link href="{{ asset('dist/frontend/module/news/css/news.css?_ver='.config('app.asset_version')) }}"
+          rel="stylesheet">
     <link href="{{ asset('dist/frontend/css/app.css?_ver='.config('app.asset_version')) }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset("libs/daterange/daterangepicker.css") }}">
     <link rel="stylesheet" type="text/css" href="{{ asset("libs/ion_rangeslider/css/ion.rangeSlider.min.css") }}"/>
@@ -15,7 +16,8 @@
             }
         @endphp
         @if(!empty($title_page))
-            <div class="bravo_banner" @if($bg = setting_item("news_page_list_banner")) style="background-image: url({{get_file_url($bg,'full')}})" @endif >
+            <div class="bravo_banner"
+                 @if($bg = setting_item("news_page_list_banner")) style="background-image: url({{get_file_url($bg,'full')}})" @endif >
                 <div class="container">
                     <h1>
                         {{ $title_page }}
@@ -34,7 +36,8 @@
                                 <hr>
                                 <div class="bravo-pagination">
                                     {{$rows->appends(request()->query())->links()}}
-                                    <span class="count-string">{{ __("Showing :from - :to of :total posts",["from"=>$rows->firstItem(),"to"=>$rows->lastItem(),"total"=>$rows->total()]) }}</span>
+                                    <span
+                                        class="count-string">{{ __("Showing :from - :to of :total posts",["from"=>$rows->firstItem(),"to"=>$rows->lastItem(),"total"=>$rows->total()]) }}</span>
                                 </div>
                             </div>
                         @else

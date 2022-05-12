@@ -1,13 +1,13 @@
 jQuery(function ($) {
     $(".bravo_filter .g-filter-item").each(function () {
-        if($(window).width() <= 990){
+        if ($(window).width() <= 990) {
             $(this).find(".item-title").toggleClass("e-close");
         }
         $(this).find(".item-title").click(function () {
             $(this).toggleClass("e-close");
-            if($(this).hasClass("e-close")){
+            if ($(this).hasClass("e-close")) {
                 $(this).closest(".g-filter-item").find(".item-content").slideUp();
-            }else{
+            } else {
                 $(this).closest(".g-filter-item").find(".item-content").slideDown();
             }
         });

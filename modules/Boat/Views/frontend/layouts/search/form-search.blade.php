@@ -12,16 +12,16 @@
                     <div class="col-md-{{ $field['size'] ?? "6" }} border-right">
                         @switch($field['field'])
                             @case ('service_name')
-                                @include('Boat::frontend.layouts.search.fields.service_name')
+                            @include('Boat::frontend.layouts.search.fields.service_name')
                             @break
                             @case ('location')
-                                @include('Boat::frontend.layouts.search.fields.location')
+                            @include('Boat::frontend.layouts.search.fields.location')
                             @break
                             @case ('date')
-                                @include('Boat::frontend.layouts.search.fields.date')
+                            @include('Boat::frontend.layouts.search.fields.date')
                             @break
                             @case ('attr')
-                                @include('Boat::frontend.layouts.search.fields.attr')
+                            @include('Boat::frontend.layouts.search.fields.attr')
                             @break
                         @endswitch
                     </div>

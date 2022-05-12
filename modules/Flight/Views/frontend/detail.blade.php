@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('head')
-    <link href="{{ asset('dist/frontend/module/space/css/flight.css?_ver='.config('app.asset_version')) }}" rel="stylesheet">
+    <link href="{{ asset('dist/frontend/module/space/css/flight.css?_ver='.config('app.asset_version')) }}"
+          rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset("libs/ion_rangeslider/css/ion.rangeSlider.min.css") }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset("libs/fotorama/fotorama.css") }}"/>
 @endsection
@@ -45,7 +46,7 @@
                 ready: function (engineMap) {
                     engineMap.addMarker([{{$row->map_lat}}, {{$row->map_lng}}], {
                         icon_options: {
-                            iconUrl:"{{get_file_url(setting_item("flight_icon_marker_map"),'full') ?? url('images/icons/png/pin.png') }}"
+                            iconUrl: "{{get_file_url(setting_item("flight_icon_marker_map"),'full') ?? url('images/icons/png/pin.png') }}"
                         }
                     });
                 }
@@ -54,17 +55,19 @@
         })
     </script>
     <script>
-        var bravo_booking_data = {!! json_encode($booking_data) !!}
+        var bravo_booking_data =
+            {!! json_encode($booking_data) !!}
         var bravo_booking_i18n = {
-			no_date_select:'{{__('Please select Start and End date')}}',
-            no_guest_select:'{{__('Please select at least one guest')}}',
-            load_dates_url:'{{route('flight.vendor.availability.loadDates')}}',
-            name_required:'{{ __("Name is Required") }}',
-            email_required:'{{ __("Email is Required") }}',
-        };
+                no_date_select: '{{__('Please select Start and End date')}}',
+                no_guest_select: '{{__('Please select at least one guest')}}',
+                load_dates_url: '{{route('flight.vendor.availability.loadDates')}}',
+                name_required: '{{ __("Name is Required") }}',
+                email_required: '{{ __("Email is Required") }}',
+            };
     </script>
     <script type="text/javascript" src="{{ asset("libs/ion_rangeslider/js/ion.rangeSlider.min.js") }}"></script>
     <script type="text/javascript" src="{{ asset("libs/fotorama/fotorama.js") }}"></script>
     <script type="text/javascript" src="{{ asset("libs/sticky/jquery.sticky.js") }}"></script>
-    <script type="text/javascript" src="{{ asset('module/space/js/single-flight.js?_ver='.config('app.asset_version')) }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('module/space/js/single-flight.js?_ver='.config('app.asset_version')) }}"></script>
 @endsection

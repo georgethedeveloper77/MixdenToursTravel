@@ -1,8 +1,8 @@
 <?php
+
 namespace Modules\Template\Blocks;
 
 use Modules\Media\Helpers\FileHelper;
-use Modules\Template\Blocks\BaseBlock;
 
 class VideoPlayer extends BaseBlock
 {
@@ -11,24 +11,24 @@ class VideoPlayer extends BaseBlock
         $this->setOptions([
             'settings' => [
                 [
-                    'id'        => 'title',
-                    'type'      => 'input',
+                    'id' => 'title',
+                    'type' => 'input',
                     'inputType' => 'text',
-                    'label'     => __('Title')
+                    'label' => __('Title')
                 ],
                 [
-                    'id'        => 'youtube',
-                    'type'      => 'input',
+                    'id' => 'youtube',
+                    'type' => 'input',
                     'inputType' => 'text',
-                    'label'     => __('Youtube link')
+                    'label' => __('Youtube link')
                 ],
                 [
-                    'id'    => 'bg_image',
-                    'type'  => 'uploader',
+                    'id' => 'bg_image',
+                    'type' => 'uploader',
                     'label' => __('Background Image Uploader')
                 ],
             ],
-            'category'=>__("Other Block")
+            'category' => __("Other Block")
         ]);
     }
 
@@ -43,7 +43,8 @@ class VideoPlayer extends BaseBlock
         return view('Template::frontend.blocks.video-player', $model);
     }
 
-    public function contentAPI($model = []){
+    public function contentAPI($model = [])
+    {
         if (!empty($model['bg_image'])) {
             $model['bg_image_url'] = FileHelper::url($model['bg_image'], 'full');
         }

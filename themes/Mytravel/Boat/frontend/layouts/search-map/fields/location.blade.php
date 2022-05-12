@@ -12,16 +12,19 @@
                         $location_name = $translate->name;
                     }
                     $list_json[] = [
-                        'id'    => $location->id,
-                        'title' => $prefix.' '.$translate->name,
+                        'id' => $location->id,
+                        'title' => $prefix . ' ' . $translate->name,
                     ];
-                    $traverse($location->children, $prefix.'-');
+                    $traverse($location->children, $prefix . '-');
                 }
             };
             $traverse($list_location);
             ?>
             <div class="smart-search border-0 p-0 form-control  height-40">
-                <input type="text" class="smart-search-location parent_text  font-weight-bold font-size-16 shadow-none hero-form font-weight-bold border-0 p-0" {{ ( empty(setting_item("tour_location_search_style")) or setting_item("tour_location_search_style") == "normal" ) ? "readonly" : ""  }} placeholder="{{__("Where are you going?")}}" value="{{ $location_name }}" data-onLoad="{{__("Loading...")}}"
+                <input type="text"
+                       class="smart-search-location parent_text  font-weight-bold font-size-16 shadow-none hero-form font-weight-bold border-0 p-0"
+                       {{ ( empty(setting_item("tour_location_search_style")) or setting_item("tour_location_search_style") == "normal" ) ? "readonly" : ""  }} placeholder="{{__("Where are you going?")}}"
+                       value="{{ $location_name }}" data-onLoad="{{__("Loading...")}}"
                        data-default="{{ json_encode($list_json) }}">
                 <input type="hidden" class="child_id" name="location_id" value="{{Request::query('location_id')}}">
             </div>

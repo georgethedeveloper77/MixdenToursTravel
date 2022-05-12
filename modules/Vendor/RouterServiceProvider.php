@@ -2,8 +2,8 @@
 
 namespace Modules\Vendor;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouterServiceProvider extends ServiceProvider
 {
@@ -45,6 +45,21 @@ class RouterServiceProvider extends ServiceProvider
     }
 
     /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->moduleNamespace)
+            ->group(__DIR__ . '/Routes/api.php');
+    }
+
+    /**
      * Define the "web" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
@@ -67,11 +82,12 @@ class RouterServiceProvider extends ServiceProvider
      */
     protected function mapAdminRoutes()
     {
-        Route::middleware(['web','dashboard'])
+        Route::middleware(['web', 'dashboard'])
             ->namespace($this->adminModuleNamespace)
-            ->prefix(config('admin.admin_route_prefix').'/module/vendor')
+            ->prefix(config('admin.admin_route_prefix') . '/module/vendor')
             ->group(__DIR__ . '/Routes/admin.php');
     }
+
     /**
      * Define the "lang" routes for the application.
      *
@@ -85,20 +101,5 @@ class RouterServiceProvider extends ServiceProvider
             ->namespace($this->moduleNamespace)
             ->prefix(app()->getLocale())
             ->group(__DIR__ . '/Routes/language.php');
-    }
-
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
-    protected function mapApiRoutes()
-    {
-        Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->moduleNamespace)
-            ->group(__DIR__ . '/Routes/api.php');
     }
 }

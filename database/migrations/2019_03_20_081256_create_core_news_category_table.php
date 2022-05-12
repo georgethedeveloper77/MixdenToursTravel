@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCoreNewsCategoryTable extends Migration
 {
@@ -15,13 +15,13 @@ class CreateCoreNewsCategoryTable extends Migration
     {
         Schema::create('core_news_category', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name',255)->nullable();
+            $table->string('name', 255)->nullable();
             $table->text('content')->nullable();
-            $table->string('slug',255)->nullable();
-            $table->string('status',50)->nullable();
+            $table->string('slug', 255)->nullable();
+            $table->string('status', 50)->nullable();
 
             $table->nestedSet();
-            
+
             $table->integer('create_user')->nullable();
             $table->integer('update_user')->nullable();
             $table->softDeletes();

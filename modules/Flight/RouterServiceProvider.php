@@ -1,8 +1,9 @@
 <?php
+
 namespace Modules\Flight;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouterServiceProvider extends ServiceProvider
 {
@@ -44,49 +45,6 @@ class RouterServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->moduleNamespace)
-            ->group(__DIR__ . '/Routes/web.php');
-    }
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapLanguageRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->moduleNamespace)
-            ->prefix(app()->getLocale())
-            ->group(__DIR__ . '/Routes/language.php');
-    }
-
-    /**
-     * Define the "admin" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapAdminRoutes()
-    {
-        Route::middleware(['web','dashboard'])
-            ->namespace($this->adminModuleNamespace)
-            ->prefix(config('admin.admin_route_prefix').'/module/flight')
-            ->group(__DIR__ . '/Routes/admin.php');
-    }
-
-    /**
      * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
@@ -104,5 +62,49 @@ class RouterServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->adminModuleNamespace)
             ->group(__DIR__ . '/Routes/api-admin.php');
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->moduleNamespace)
+            ->group(__DIR__ . '/Routes/web.php');
+    }
+
+    /**
+     * Define the "admin" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::middleware(['web', 'dashboard'])
+            ->namespace($this->adminModuleNamespace)
+            ->prefix(config('admin.admin_route_prefix') . '/module/flight')
+            ->group(__DIR__ . '/Routes/admin.php');
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapLanguageRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->moduleNamespace)
+            ->prefix(app()->getLocale())
+            ->group(__DIR__ . '/Routes/language.php');
     }
 }

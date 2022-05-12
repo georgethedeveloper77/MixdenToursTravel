@@ -6,10 +6,10 @@
  * Time: 3:39 PM
  */
 $reviews = \Modules\Review\Models\Review::query()->where([
-    'vendor_id'=>$user->id,
-    'status'=>'approved'
+    'vendor_id' => $user->id,
+    'status' => 'approved'
 ])
-    ->orderBy('id','desc')
+    ->orderBy('id', 'desc')
     ->with('author')
     ->paginate(3);
 ?>
@@ -28,7 +28,8 @@ $reviews = \Modules\Review\Models\Review::query()->where([
                         <div class="mr-md-5">
                             <a class="d-block" href="#">
                                 @if($avatar_url = $userInfo->getAvatarUrl())
-                                    <img class="img-fluid mb-3 mb-md-0 rounded-circle avatar-img" src="{{$avatar_url}}" alt="{{$userInfo->getDisplayName()}}">
+                                    <img class="img-fluid mb-3 mb-md-0 rounded-circle avatar-img" src="{{$avatar_url}}"
+                                         alt="{{$userInfo->getDisplayName()}}">
                                 @endif
                             </a>
                         </div>
@@ -37,10 +38,14 @@ $reviews = \Modules\Review\Models\Review::query()->where([
                                 <h6 class="font-weight-bold text-gray-3">
                                     <a href="#">{{$userInfo->getDisplayName()}}</a>
                                 </h6>
-                                <div class="font-weight-normal font-size-14 text-gray-9 mb-2">{{display_datetime($item->created_at)}}</div>
+                                <div
+                                    class="font-weight-normal font-size-14 text-gray-9 mb-2">{{display_datetime($item->created_at)}}</div>
                                 <div class="d-flex align-items-center flex-column flex-md-row mb-2">
                                     @if($item->rate_number)
-                                        <button type="button" class="btn btn-xs btn-primary rounded-xs font-size-14 py-1 px-2 mr-2 mb-2 mb-md-0">{{$item->rate_number}} /5 </button>
+                                        <button type="button"
+                                                class="btn btn-xs btn-primary rounded-xs font-size-14 py-1 px-2 mr-2 mb-2 mb-md-0">{{$item->rate_number}}
+                                            /5
+                                        </button>
                                     @endif
                                     <span class="font-weight-bold font-italic text-gray-3">{{$item->title}}</span>
                                 </div>
@@ -51,6 +56,8 @@ $reviews = \Modules\Review\Models\Review::query()->where([
                 @endforeach
             @endif
         </div>
-        <div class="text-center mt30"><a class="btn btn-sm btn-primary" href="{{route('user.profile.reviews',['id'=> $user->user_name ?? $user->id])}}">{{__('View all reviews (:total)',['total'=>$reviews->total()])}}</a></div>
+        <div class="text-center mt30"><a class="btn btn-sm btn-primary"
+                                         href="{{route('user.profile.reviews',['id'=> $user->user_name ?? $user->id])}}">{{__('View all reviews (:total)',['total'=>$reviews->total()])}}</a>
+        </div>
     </div>
 @endif

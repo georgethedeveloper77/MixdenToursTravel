@@ -20,7 +20,7 @@ class UpdateFrom190To200 extends Migration
         });
         Schema::table('core_pages', function (Blueprint $table) {
             if (!Schema::hasColumn('core_pages', 'header_style')) {
-                $table->string('header_style',255)->nullable();
+                $table->string('header_style', 255)->nullable();
             }
             if (!Schema::hasColumn('core_pages', 'custom_logo')) {
                 $table->integer('custom_logo')->nullable();
@@ -29,10 +29,10 @@ class UpdateFrom190To200 extends Migration
 
         Schema::table('bravo_events', function (Blueprint $table) {
             if (!Schema::hasColumn('bravo_events', 'end_time')) {
-                $table->string('end_time',255)->nullable();
+                $table->string('end_time', 255)->nullable();
             }
             if (!Schema::hasColumn('bravo_events', 'duration_unit')) {
-                $table->string('duration_unit',255)->nullable();
+                $table->string('duration_unit', 255)->nullable();
             }
         });
 
@@ -45,8 +45,8 @@ class UpdateFrom190To200 extends Migration
                 $table->string('object_model', 40)->nullable();
                 $table->time('start_time')->nullable();
                 $table->time('end_time')->nullable();
-                $table->float('duration',255)->nullable();
-                $table->string('duration_unit',255)->nullable();
+                $table->float('duration', 255)->nullable();
+                $table->string('duration_unit', 255)->nullable();
 
                 $table->integer('create_user')->nullable();
                 $table->integer('update_user')->nullable();

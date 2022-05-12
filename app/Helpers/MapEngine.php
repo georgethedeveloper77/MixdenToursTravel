@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helpers;
 class MapEngine
 {
@@ -16,7 +17,7 @@ class MapEngine
                 $html .= sprintf("<link rel='stylesheet' href='%s'>", url('libs/leaflet1.4.0/leaflet.css'));
                 break;
         }
-        $html .= sprintf("<script src='%s'></script>", url('module/core/js/map-engine.js?_ver='.config('app.version')));
+        $html .= sprintf("<script src='%s'></script>", url('module/core/js/map-engine.js?_ver=' . config('app.version')));
         return $html;
     }
 }

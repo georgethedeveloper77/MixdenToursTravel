@@ -1,12 +1,12 @@
 <?php
 $checkNotify = \Modules\Core\Models\NotificationPush::query();
 $notifications = 0;
-if(is_admin()){
-    $checkNotify->where(function($query){
+if (is_admin()) {
+    $checkNotify->where(function ($query) {
         $query->where('data', 'LIKE', '%"for_admin":1%');
         $query->orWhere('notifiable_id', Auth::id());
     });
-}else{
+} else {
     $checkNotify->where('data', 'LIKE', '%"for_admin":0%');
     $checkNotify->where('notifiable_id', Auth::id());
 }
@@ -25,7 +25,8 @@ $countUnread = $checkNotify->where('read_at', null)->count();
             <div class="dropdown-toolbar-actions">
                 <a href="#" class="markAllAsRead">{{__('Mark all as read')}}</a>
             </div>
-            <h3 class="dropdown-toolbar-title">{{__('Notifications')}} (<span class="notif-count">{{$countUnread}}</span>)</h3>
+            <h3 class="dropdown-toolbar-title">{{__('Notifications')}} (<span
+                    class="notif-count">{{$countUnread}}</span>)</h3>
         </div>
         <ul class="dropdown-list-items p-0">
             @if(count($notifications)> 0)
@@ -65,7 +66,8 @@ $countUnread = $checkNotify->where('read_at', null)->count();
                                 <div class="media-body">
                                     {!! $title !!}
                                     <div class="notification-meta">
-                                        <small class="timestamp">{{format_interval($oneNotification->created_at)}}</small>
+                                        <small
+                                            class="timestamp">{{format_interval($oneNotification->created_at)}}</small>
                                     </div>
                                 </div>
                             </div>

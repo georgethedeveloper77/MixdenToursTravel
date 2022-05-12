@@ -4,28 +4,12 @@ use Bavix\Wallet\Models\Transaction;
 use Bavix\Wallet\Models\Wallet;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\SQLiteConnection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\SQLiteConnection;
 
 class UpdateTransactionsTable extends Migration
 {
-
-    /**
-     * @return string
-     */
-    protected function table(): string
-    {
-        return (new Transaction())->getTable();
-    }
-
-    /**
-     * @return string
-     */
-    protected function walletTable(): string
-    {
-        return (new Wallet())->getTable();
-    }
 
     /**
      * @return void
@@ -52,6 +36,22 @@ class UpdateTransactionsTable extends Migration
                     ->update(['wallet_id' => $wallet->id]);
             });
         });
+    }
+
+    /**
+     * @return string
+     */
+    protected function table(): string
+    {
+        return (new Transaction())->getTable();
+    }
+
+    /**
+     * @return string
+     */
+    protected function walletTable(): string
+    {
+        return (new Wallet())->getTable();
     }
 
     /**

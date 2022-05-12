@@ -4,10 +4,12 @@
     padding-bottom: 15px;
     position: relative;
     margin-bottom: 30px;
+
     a {
         text-decoration: none;
         transition: all 0.3s;
     }
+
     .sale_info {
         position: absolute;
         width: 50px;
@@ -24,6 +26,7 @@
         z-index: 999;
         border: solid 3px #fff;
     }
+
     .featured {
         position: absolute;
         top: 15px;
@@ -39,11 +42,13 @@
         line-height: 30px;
         border-radius: 5px;
     }
+
     .thumb-image {
         overflow: hidden;
         background: #FFF;
         position: relative;
         padding-bottom: 55%;
+
         &:hover {
             a {
                 img {
@@ -51,13 +56,15 @@
                 }
             }
         }
+
         a {
             img {
                 transition: all 0.3s;
                 max-width: 100%;
             }
         }
-        .service-wishlist{
+
+        .service-wishlist {
             position: absolute;
             right: 5px;
             z-index: 10;
@@ -65,18 +72,22 @@
             color: #000;
             padding: 10px;
             cursor: pointer;
-            i{
+
+            i {
                 transition: all 0.3s;
                 font-size: 16px;
             }
-            &:hover,&.loading{
-                i{
+
+            &:hover, &.loading {
+                i {
                     color: #ff9290;
                 }
             }
-            &.active{
-                i{
+
+            &.active {
+                i {
                     color: #ff0000;
+
                     &:before {
                         content: "\f004";
                     }
@@ -84,32 +95,40 @@
             }
         }
     }
+
     .location {
         font-size: 13px;
         color: #5e6d77;
         padding: 15px 15px 0;
+
         i {
             position: relative;
             font-size: 16px;
         }
     }
+
     .category {
         padding: 0 15px;
+
         .fa {
             color: #687882;
             opacity: 0.6;
         }
     }
+
     .service-review {
         .rate {
             color: #5191FA;
         }
+
         padding: 0 15px 0;
         font-size: 13px;
+
         .review {
             margin-left: 15px;
             position: relative;
             color: #6A7A84;
+
             &:after {
                 position: absolute;
                 content: '';
@@ -122,49 +141,59 @@
             }
         }
     }
+
     .item-title {
         padding: 0 15px;
         font-size: 16px;
         font-weight: 500;
         position: relative;
-        @media(max-width: 766px){
+        @media(max-width: 766px) {
             min-height: auto;
         }
+
         a {
             color: #1A2B50;
         }
-        i{
+
+        i {
             color: #ffc107;
             font-size: 15px;
             margin-right: 2px;
         }
     }
+
     .info {
         padding: 0 15px 0;
+
         &:before, &:after {
             content: "";
             display: table;
             clear: both;
         }
+
         .g-price {
             .prefix {
                 color: #5e6d77;
                 display: inline-block;
                 font-weight: normal;
                 position: relative;
-                i{
+
+                i {
                     font-size: 16px;
                     color: #ffc107;
                 }
             }
+
             .price {
                 position: relative;
                 display: inline-block;
+
                 .text-price {
                     font-size: 18px;
                     color: #1A2B48;
                     font-weight: 500;
                 }
+
                 .onsale {
                     //position: absolute;
                     // right: 0;
@@ -174,7 +203,8 @@
                     color: #cc0033 !important;
                     font-weight: 400;
                 }
-                .unit{
+
+                .unit {
                     font-size: 14px;
                     color: #5E6D77;
                     font-weight: normal;
@@ -188,24 +218,28 @@
         display: flex;
         font-size: 13px;
         justify-content: space-between;
+
         .amenity {
             align-items: center;
             text-align: center;
+
             .input-icon {
                 font-size: 26px;
                 color: #1a2b48;
                 position: relative;
                 top: 1px;
             }
-            .text{
+
+            .text {
                 display: block;
             }
         }
     }
 
-    &.infobox-item{
+    &.infobox-item {
         position: relative;
-        &:after{
+
+        &:after {
             content: '';
             width: 0;
             height: 0;

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateCoreTemplatesTable extends Migration
 {
@@ -16,7 +16,7 @@ class CreateCoreTemplatesTable extends Migration
         Schema::create('core_templates', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('title',255)->nullable();
+            $table->string('title', 255)->nullable();
             $table->longText('content')->nullable();
             $table->integer('type_id')->nullable();
 
@@ -26,7 +26,7 @@ class CreateCoreTemplatesTable extends Migration
 
             //Languages
             $table->bigInteger('origin_id')->nullable();
-            $table->string('lang',10)->nullable();
+            $table->string('lang', 10)->nullable();
 
 
             $table->timestamps();

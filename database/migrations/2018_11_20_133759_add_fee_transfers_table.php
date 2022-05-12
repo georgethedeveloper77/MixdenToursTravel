@@ -9,14 +9,6 @@ class AddFeeTransfersTable extends Migration
 {
 
     /**
-     * @return string
-     */
-    protected function table(): string
-    {
-        return (new Transfer())->getTable();
-    }
-
-    /**
      * @return void
      */
     public function up(): void
@@ -26,6 +18,14 @@ class AddFeeTransfersTable extends Migration
                 ->default(0)
                 ->after('withdraw_id');
         });
+    }
+
+    /**
+     * @return string
+     */
+    protected function table(): string
+    {
+        return (new Transfer())->getTable();
     }
 
     /**

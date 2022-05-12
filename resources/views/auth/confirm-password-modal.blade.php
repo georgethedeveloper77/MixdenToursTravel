@@ -12,14 +12,15 @@
             <div class="modal-body relative">
                 <form class="bc-form-confirm-password bc-form" method="POST" action="{{ route('password.confirm') }}">
                     <div class="form-group">
-                        <input type="password" class="form-control" name="password"  placeholder="{{__('Password')}}">
+                        <input type="password" class="form-control" name="password" placeholder="{{__('Password')}}">
                         <span class="invalid-feedback error error-password"></span>
                     </div>
                     <div class="error message-error invalid-feedback"></div>
                     <div class="form-group">
                         <button class="btn btn-primary form-submit" type="submit">
                             {{ __('Confirm') }}
-                            <span class="spinner-grow spinner-grow-sm icon-loading" role="status" aria-hidden="true"></span>
+                            <span class="spinner-grow spinner-grow-sm icon-loading" role="status"
+                                  aria-hidden="true"></span>
                         </button>
                     </div>
                 </form>

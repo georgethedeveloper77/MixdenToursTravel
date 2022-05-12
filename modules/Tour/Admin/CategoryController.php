@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Tour\Admin;
 
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Modules\Tour\Models\TourCategoryTranslation;
 class CategoryController extends AdminController
 {
     protected $tourCategoryClass;
+
     public function __construct()
     {
         parent::__construct();
@@ -25,16 +27,16 @@ class CategoryController extends AdminController
         }
         $listCategory->orderBy('created_at', 'desc');
         $data = [
-            'rows'        => $listCategory->get()->toTree(),
-            'row'         => new $this->tourCategoryClass(),
-            'translation'    => new TourCategoryTranslation(),
+            'rows' => $listCategory->get()->toTree(),
+            'row' => new $this->tourCategoryClass(),
+            'translation' => new TourCategoryTranslation(),
             'breadcrumbs' => [
                 [
                     'name' => __('Tour'),
-                    'url'  => route('tour.admin.index')
+                    'url' => route('tour.admin.index')
                 ],
                 [
-                    'name'  => __('Category'),
+                    'name' => __('Category'),
                     'class' => 'active'
                 ],
             ]
@@ -51,17 +53,17 @@ class CategoryController extends AdminController
         }
         $translation = $row->translateOrOrigin($request->query('lang'));
         $data = [
-            'translation'    => $translation,
-            'enable_multi_lang'=>true,
-            'row'         => $row,
-            'parents'     => $this->tourCategoryClass::get()->toTree(),
+            'translation' => $translation,
+            'enable_multi_lang' => true,
+            'row' => $row,
+            'parents' => $this->tourCategoryClass::get()->toTree(),
             'breadcrumbs' => [
                 [
                     'name' => __('Tour'),
-                    'url'  => route('tour.admin.index')
+                    'url' => route('tour.admin.index')
                 ],
                 [
-                    'name'  => __('Category'),
+                    'name' => __('Category'),
                     'class' => 'active'
                 ],
             ]
@@ -69,27 +71,27 @@ class CategoryController extends AdminController
         return view('Tour::admin.category.detail', $data);
     }
 
-    public function store(Request $request , $id)
+    public function store(Request $request, $id)
     {
         $this->checkPermission('tour_manage_others');
         $this->validate($request, [
             'name' => 'required'
         ]);
-        if($id>0){
+        if ($id > 0) {
             $row = $this->tourCategoryClass::find($id);
             if (empty($row)) {
                 return redirect(route('tour.admin.category.index'));
             }
-        }else{
+        } else {
             $row = new $this->tourCategoryClass();
             $row->status = "publish";
         }
 
         $row->fill($request->input());
-        $res = $row->saveOriginOrTranslation($request->input('lang'),true);
+        $res = $row->saveOriginOrTranslation($request->input('lang'), true);
 
         if ($res) {
-            return back()->with('success',  __('Category saved') );
+            return back()->with('success', __('Category saved'));
         }
     }
 
@@ -107,11 +109,11 @@ class CategoryController extends AdminController
         if ($action == "delete") {
             foreach ($ids as $id) {
                 $query = $this->tourCategoryClass::where("id", $id)->first();
-                if(!empty($query)){
+                if (!empty($query)) {
                     //Sync child category
                     $list_childs = $this->tourCategoryClass::where("parent_id", $id)->get();
-                    if(!empty($list_childs)){
-                        foreach ($list_childs as $child){
+                    if (!empty($list_childs)) {
+                        foreach ($list_childs as $child) {
                             $child->parent_id = null;
                             $child->save();
                         }
@@ -134,20 +136,20 @@ class CategoryController extends AdminController
         $pre_selected = $request->query('pre_selected');
         $selected = $request->query('selected');
 
-        if($pre_selected && $selected){
+        if ($pre_selected && $selected) {
             $item = $this->tourCategoryClass::find($selected);
-            if(empty($item)){
+            if (empty($item)) {
                 return response()->json([
-                    'text'=>''
+                    'text' => ''
                 ]);
-            }else{
+            } else {
                 return response()->json([
-                    'text'=>$item->name
+                    'text' => $item->name
                 ]);
             }
         }
         $q = $request->query('q');
-        $query = $this->tourCategoryClass::select('id', 'name as text')->where("status","publish");
+        $query = $this->tourCategoryClass::select('id', 'name as text')->where("status", "publish");
         if ($q) {
             $query->where('name', 'like', '%' . $q . '%');
         }

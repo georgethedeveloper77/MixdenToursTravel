@@ -1,9 +1,8 @@
 <?php
 
-namespace  Modules\Car;
+namespace Modules\Car;
 
 use Modules\Core\Abstracts\BaseSettingsClass;
-use Modules\Core\Models\Settings;
 
 class SettingClass extends BaseSettingsClass
 {
@@ -11,11 +10,11 @@ class SettingClass extends BaseSettingsClass
     {
         return [
             [
-                'id'   => 'car',
+                'id' => 'car',
                 'title' => __("Car Settings"),
-                'position'=>20,
-                'view'=>"Car::admin.settings.car",
-                "keys"=>[
+                'position' => 20,
+                'view' => "Car::admin.settings.car",
+                "keys" => [
                     'car_disable',
                     'car_page_search_title',
                     'car_page_search_banner',
@@ -58,10 +57,10 @@ class SettingClass extends BaseSettingsClass
                     'car_location_radius_value',
                     'car_location_radius_type',
                 ],
-                'html_keys'=>[
+                'html_keys' => [
 
                 ],
-                'filter_demo_mode'=>[
+                'filter_demo_mode' => [
                 ]
             ]
         ];

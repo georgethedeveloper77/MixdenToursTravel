@@ -30,32 +30,33 @@
             {{$location->name ?? ''}}
         @endif
     </div>
-    <div class="item-title">
-        <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl($include_param ?? true)}}">
-            @if($row->is_instant)
-                <i class="fa fa-bolt d-none"></i>
-            @endif
-                {!! clean($translation->title) !!}
-        </a>
-    </div>
-    @if(setting_item('space_enable_review'))
-    <?php
-    $reviewData = $row->getScoreReview();
-    $score_total = $reviewData['score_total'];
-    ?>
-        <div class="service-review">
-            <span class="rate">
-                @if($reviewData['total_review'] > 0) {{$score_total}}/5 @endif <span class="rate-text">{{$reviewData['review_text']}}</span>
-            </span>
-            <span class="review">
-             @if($reviewData['total_review'] > 1)
-                    {{ __(":number Reviews",["number"=>$reviewData['total_review'] ]) }}
-                @else
-                    {{ __(":number Review",["number"=>$reviewData['total_review'] ]) }}
+        <div class="item-title">
+            <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl($include_param ?? true)}}">
+                @if($row->is_instant)
+                    <i class="fa fa-bolt d-none"></i>
                 @endif
-            </span>
+                {!! clean($translation->title) !!}
+            </a>
         </div>
-    @endif
+        @if(setting_item('space_enable_review'))
+            <?php
+            $reviewData = $row->getScoreReview();
+            $score_total = $reviewData['score_total'];
+            ?>
+            <div class="service-review">
+            <span class="rate">
+                @if($reviewData['total_review'] > 0) {{$score_total}}/5 @endif <span
+                    class="rate-text">{{$reviewData['review_text']}}</span>
+            </span>
+                <span class="review">
+             @if($reviewData['total_review'] > 1)
+                        {{ __(":number Reviews",["number"=>$reviewData['total_review'] ]) }}
+                    @else
+                        {{ __(":number Review",["number"=>$reviewData['total_review'] ]) }}
+                    @endif
+            </span>
+            </div>
+        @endif
     @if(!empty($time = $row->start_time))
         <div class="start-time">
             {{ __("Start Time: :time",['time'=>$time]) }}

@@ -6,7 +6,8 @@
         <a href="{{$row->getDetailUrl()}}">
             @if($row->image_id)
                 @if(!empty($disable_lazyload))
-                    <img src="{{get_file_url($row->image_id,'medium')}}" class="img-responsive" alt="{{$translation->name ?? ''}}">
+                    <img src="{{get_file_url($row->image_id,'medium')}}" class="img-responsive"
+                         alt="{{$translation->name ?? ''}}">
                 @else
                     {!! get_image_tag($row->image_id,'medium',['class'=>'img-responsive','alt'=>$row->title]) !!}
                 @endif

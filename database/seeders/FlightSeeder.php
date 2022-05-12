@@ -1,18 +1,18 @@
 <?php
+
 namespace Database\Seeders;
 
-use Faker\Factory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Modules\Core\Models\Attributes;
+use Modules\Core\Models\Terms;
 use Modules\Flight\Models\Airline;
 use Modules\Flight\Models\Airport;
 use Modules\Flight\Models\Flight;
 use Modules\Flight\Models\FlightSeat;
 use Modules\Flight\Models\FlightTerm;
 use Modules\Flight\Models\SeatType;
-use Modules\Location\Models\Location;
 use Modules\Media\Models\MediaFile;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -23,63 +23,63 @@ class FlightSeeder extends Seeder
     {
         //        Flight
         DB::table('media_files')->insertGetId([
-            'file_name'      => 'banner-flight',
-            'file_path'      => 'demo/flight/banner-flight.jpg',
-            'file_type'      => 'image/jpeg',
+            'file_name' => 'banner-flight',
+            'file_path' => 'demo/flight/banner-flight.jpg',
+            'file_type' => 'image/jpeg',
             'file_extension' => 'jpg'
         ]);
         DB::table('core_settings')->insert([
-                [
-                    'name'  => 'flight_page_search_title',
-                    'val'   => 'Search for flight',
-                    'group' => "flight",
-                ],
-                [
-                    'name'  => 'flight_page_limit_item',
-                    'val'   => 9,
-                    'group' => "flight",
-                ],
-                [
-                    'name'  => 'flight_page_search_banner',
-                    'val'   => MediaFile::findMediaByName("banner-flight")->id,
-                    'group' => "flight",
-                ],
-                [
-                    'name'  => 'flight_layout_search',
-                    'val'   => 'normal',
-                    'group' => "flight",
-                ],
-                [
-                    'name'  => 'flight_enable_review',
-                    'val'   => '0',
-                    'group' => "flight",
-                ],
-                [
-                    'name'  => 'flight_review_approved',
-                    'val'   => '0',
-                    'group' => "flight",
-                ],
-                [
-                    'name'  => 'flight_review_stats',
-                    'val'   => '',
-                    'group' => "flight",
-                ],
-                [
-                    'name'  => 'flight_booking_buyer_fees',
-                    'val'   => '',
-                    'group' => "flight",
-                ],
-                [
-                    'name'  => 'flight_map_search_fields',
-                    'val'   => '',
-                    'group' => 'flight'
-                ],
-                [
-                    'name'  => 'flight_search_fields',
-                    'val'   => '[{"title":"From where","title_ja":null,"title_egy":null,"field":"from_where","size":"3","position":"1"},{"title":"To where","title_ja":null,"title_egy":null,"field":"to_where","size":"3","position":"2"},{"title":"Depart","title_ja":null,"title_egy":null,"field":"date","size":"3","position":"3"},{"title":"Travelers","title_ja":null,"title_egy":null,"field":"seat_type","size":"3","position":"4"}]',
-                    'group' => 'flight'
-                ]
-            ]);
+            [
+                'name' => 'flight_page_search_title',
+                'val' => 'Search for flight',
+                'group' => "flight",
+            ],
+            [
+                'name' => 'flight_page_limit_item',
+                'val' => 9,
+                'group' => "flight",
+            ],
+            [
+                'name' => 'flight_page_search_banner',
+                'val' => MediaFile::findMediaByName("banner-flight")->id,
+                'group' => "flight",
+            ],
+            [
+                'name' => 'flight_layout_search',
+                'val' => 'normal',
+                'group' => "flight",
+            ],
+            [
+                'name' => 'flight_enable_review',
+                'val' => '0',
+                'group' => "flight",
+            ],
+            [
+                'name' => 'flight_review_approved',
+                'val' => '0',
+                'group' => "flight",
+            ],
+            [
+                'name' => 'flight_review_stats',
+                'val' => '',
+                'group' => "flight",
+            ],
+            [
+                'name' => 'flight_booking_buyer_fees',
+                'val' => '',
+                'group' => "flight",
+            ],
+            [
+                'name' => 'flight_map_search_fields',
+                'val' => '',
+                'group' => 'flight'
+            ],
+            [
+                'name' => 'flight_search_fields',
+                'val' => '[{"title":"From where","title_ja":null,"title_egy":null,"field":"from_where","size":"3","position":"1"},{"title":"To where","title_ja":null,"title_egy":null,"field":"to_where","size":"3","position":"2"},{"title":"Depart","title_ja":null,"title_egy":null,"field":"date","size":"3","position":"3"},{"title":"Travelers","title_ja":null,"title_egy":null,"field":"seat_type","size":"3","position":"4"}]',
+                'group' => 'flight'
+            ]
+        ]);
         $argvPermission = [
             'flight_manage_others',
             'flight_view',
@@ -95,10 +95,10 @@ class FlightSeeder extends Seeder
         $roleAdmin->givePermissionTo($argvPermission);
         //            Seat Type
         $argvSeatType = [
-            'vip'        => 'Vip',
-            'eco'        => 'Economy',
-            'premium'    => 'Premium',
-            'business'   => 'Business',
+            'vip' => 'Vip',
+            'eco' => 'Economy',
+            'premium' => 'Premium',
+            'business' => 'Business',
             'fist_class' => 'First Class',
         ];
         foreach ($argvSeatType as $item => $value) {
@@ -115,14 +115,14 @@ class FlightSeeder extends Seeder
         ];
         foreach ($argvAirLineImage as $item => $value) {
             DB::table('media_files')->insertGetId([
-                'file_name'      => 'airline-' . $item,
-                'file_path'      => $value,
-                'file_type'      => 'image/jpeg',
+                'file_name' => 'airline-' . $item,
+                'file_path' => $value,
+                'file_type' => 'image/jpeg',
                 'file_extension' => 'jpg'
             ]);
         }
-        $a = new \Modules\Core\Models\Attributes([
-            'name'    => 'Flight Type',
+        $a = new Attributes([
+            'name' => 'Flight Type',
             'service' => 'flight'
         ]);
         $a->save();
@@ -135,15 +135,15 @@ class FlightSeeder extends Seeder
                 'Premium Economy'
             ] as $term
         ) {
-            $t = new \Modules\Core\Models\Terms([
-                'name'    => $term,
+            $t = new Terms([
+                'name' => $term,
                 'attr_id' => $a->id
             ]);
             $t->save();
             $term_ids[] = $t->id;
         }
-        $a = new \Modules\Core\Models\Attributes([
-            'name'    => 'Inflight Experience',
+        $a = new Attributes([
+            'name' => 'Inflight Experience',
             'service' => 'flight'
         ]);
         $a->save();
@@ -155,8 +155,8 @@ class FlightSeeder extends Seeder
                 'Seats & Cabin'
             ] as $term
         ) {
-            $t = new \Modules\Core\Models\Terms([
-                'name'    => $term,
+            $t = new Terms([
+                'name' => $term,
                 'attr_id' => $a->id
             ]);
             $t->save();
@@ -174,7 +174,7 @@ class FlightSeeder extends Seeder
                 if (rand(0, count($term_ids)) == $k)
                     continue;
                 FlightTerm::firstOrCreate([
-                    'term_id'   => $term_id,
+                    'term_id' => $term_id,
                     'target_id' => $flight->id
                 ]);
             }

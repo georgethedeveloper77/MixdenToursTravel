@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateInboxTable extends Migration
 {
@@ -19,7 +19,7 @@ class CreateInboxTable extends Migration
             $table->bigInteger('from_user')->nullable();
             $table->bigInteger('to_user')->nullable();
             $table->bigInteger('object_id')->nullable();
-            $table->string('object_model',50)->nullable();
+            $table->string('object_model', 50)->nullable();
 
             $table->tinyInteger('type')->default(0)->nullable();
 
@@ -57,8 +57,8 @@ class CreateInboxTable extends Migration
             $table->bigInteger('from_user')->nullable();
             $table->bigInteger('to_user')->nullable();
             $table->tinyInteger('is_read')->default(0)->nullable();
-            $table->string('type',50)->nullable();
-            $table->string('type_group',50)->nullable();
+            $table->string('type', 50)->nullable();
+            $table->string('type_group', 50)->nullable();
             $table->bigInteger('target_id')->nullable();
             $table->bigInteger('target_parent_id')->nullable();
             $table->text('params')->nullable();

@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Media\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -9,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Modules\Media\Helpers\FileHelper;
 use Modules\Media\Models\MediaFile;
-use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class MediaController extends Controller
 {
@@ -20,7 +20,7 @@ class MediaController extends Controller
 
     public function privateFileStore(Request $request)
     {
-        if(!$user_id = Auth::id()){
+        if (!$user_id = Auth::id()) {
             return $this->sendError(__("Please log in"));
         }
 
@@ -29,15 +29,15 @@ class MediaController extends Controller
         $file = $request->file($fileName);
 
         try {
-            $this->validatePrivateFile($file,$request->input('type','default'));
+            $this->validatePrivateFile($file, $request->input('type', 'default'));
         } catch (\Exception $exception) {
             return $this->sendError($exception->getMessage());
         }
 
-        $folder = 'private/'.$user_id.'/';
+        $folder = 'private/' . $user_id . '/';
         $folder = $folder . date('Y/m/d');
 
-        $newFileName = md5(microtime(true).rand(0,999));
+        $newFileName = md5(microtime(true) . rand(0, 999));
 
         $i = 0;
         do {
@@ -46,18 +46,18 @@ class MediaController extends Controller
             $i++;
         } while (Storage::disk('local')->exists($testPath));
 
-        $check = $file->storeAs( $folder, $newFileName2 . '.' . $file->getClientOriginalExtension(),'local');
+        $check = $file->storeAs($folder, $newFileName2 . '.' . $file->getClientOriginalExtension(), 'local');
 
         if ($check) {
             try {
-                $path = str_replace('private/','',$check);
+                $path = str_replace('private/', '', $check);
                 return $this->sendSuccess(['data' => [
-                    'path'=>$path,
-                    'name'=>Str::slug($file->getClientOriginalName()),
-                    'size'=>$file->getSize(),
-                    'file_type'=>$file->getMimeType(),
-                    'file_extension'=> $file->getClientOriginalExtension(),
-                    'download'=>route('media.private.view',['path'=>$path]),
+                    'path' => $path,
+                    'name' => Str::slug($file->getClientOriginalName()),
+                    'size' => $file->getSize(),
+                    'file_type' => $file->getMimeType(),
+                    'file_extension' => $file->getClientOriginalExtension(),
+                    'download' => route('media.private.view', ['path' => $path]),
                 ]]);
 
             } catch (\Exception $exception) {
@@ -114,20 +114,20 @@ class MediaController extends Controller
             'gif',
             'svg'
         ];
-        $allowedMimeTypes  = [];
+        $allowedMimeTypes = [];
         $uploadConfigs = [
             'default' => [
-                'types'    => $allowedExts,
+                'types' => $allowedExts,
                 "max_size" => 20000000,
-                "max_width"=>2500,
-                "max_height"=>2500,
+                "max_width" => 2500,
+                "max_height" => 2500,
                 // 20MB
             ],
-            'image'=>[
-                'types'    => $allowedExtsImage,
+            'image' => [
+                'types' => $allowedExtsImage,
                 "max_size" => 20000000,
-                "max_width"=>2500,
-                "max_height"=>2500
+                "max_width" => 2500,
+                "max_height" => 2500
             ]
         ];
         $config = isset($uploadConfigs[$group]) ? $uploadConfigs[$group] : $uploadConfigs['default'];
@@ -139,8 +139,8 @@ class MediaController extends Controller
             throw new \Exception(__("Maximum upload file size is :max_size B", ['max_size' => $config['max_size']]));
         }
 
-        if(in_array($file_extension = strtolower($file->getClientOriginalExtension()), $allowedExtsImage)) {
-            if( $file_extension == "svg"){
+        if (in_array($file_extension = strtolower($file->getClientOriginalExtension()), $allowedExtsImage)) {
+            if ($file_extension == "svg") {
                 return \Modules\Media\Admin\MediaController::validateSVG($file);
             }
             if (!empty($config['max_width']) or !empty($config['max_width'])) {
@@ -160,13 +160,14 @@ class MediaController extends Controller
         return true;
     }
 
-    public function privateFileView(){
+    public function privateFileView()
+    {
 
-        $path = 'private/'.\request()->get('path');
+        $path = 'private/' . \request()->get('path');
 
-        if(Storage::disk('local')->exists($path)) {
+        if (Storage::disk('local')->exists($path)) {
 
-            header('Content-Type: ' . mime_content_type(storage_path('app/'.$path)));
+            header('Content-Type: ' . mime_content_type(storage_path('app/' . $path)));
 
             echo Storage::disk('local')->get($path);
             exit;
@@ -175,17 +176,18 @@ class MediaController extends Controller
         abort(404);
     }
 
-    public function editImage(Request $request){
+    public function editImage(Request $request)
+    {
         $validate = [
-            'image'     => 'required',
-            'image_id'  => 'required',
+            'image' => 'required',
+            'image_id' => 'required',
         ];
         $request->validate($validate);
 
         if (!Auth::user()->hasPermissionTo("media_upload")) {
             $result = [
                 'message' => __('403'),
-                'status'=>0
+                'status' => 0
             ];
             return $result;
         }

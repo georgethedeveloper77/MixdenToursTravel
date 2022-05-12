@@ -34,11 +34,11 @@
                         "dots": false
                     }
                     }]'>
-                @foreach($rows as $row)
-                    <div class="item">
-                        @include('Event::frontend.layouts.search.loop-grid')
-                    </div>
-                @endforeach
+            @foreach($rows as $row)
+                <div class="item">
+                    @include('Event::frontend.layouts.search.loop-grid')
+                </div>
+            @endforeach
         </div>
     </div>
 </div>

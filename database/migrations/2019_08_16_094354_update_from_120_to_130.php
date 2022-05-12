@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class UpdateFrom120To130 extends Migration
 {
@@ -28,7 +28,7 @@ class UpdateFrom120To130 extends Migration
         Schema::table('bravo_bookings', function (Blueprint $table) {
             if (!Schema::hasColumn('bravo_bookings', 'buyer_fees')) {
                 $table->text('buyer_fees')->nullable();
-                $table->decimal('total_before_fees',10,2)->nullable();
+                $table->decimal('total_before_fees', 10, 2)->nullable();
             }
             if (!Schema::hasColumn('bravo_bookings', 'paid_vendor')) {
                 $table->tinyInteger('paid_vendor')->nullable();

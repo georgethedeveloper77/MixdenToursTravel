@@ -1,5 +1,6 @@
 <?php
-namespace  Modules\News;
+
+namespace Modules\News;
 
 use Modules\Core\Abstracts\BaseSettingsClass;
 
@@ -9,11 +10,11 @@ class SettingClass extends BaseSettingsClass
     {
         return [
             [
-                'id'   => 'news',
+                'id' => 'news',
                 'title' => __("News Settings"),
-                'position'=>30,
-                'view'=>"News::admin.settings.news",
-                "keys"=>[
+                'position' => 30,
+                'view' => "News::admin.settings.news",
+                "keys" => [
                     'news_page_list_title',
                     'news_page_list_banner',
                     'news_sidebar',
@@ -22,7 +23,7 @@ class SettingClass extends BaseSettingsClass
                     'news_page_list_seo_image',
                     'news_page_list_seo_share',
                 ],
-                'html_keys'=>[
+                'html_keys' => [
 
                 ]
             ]

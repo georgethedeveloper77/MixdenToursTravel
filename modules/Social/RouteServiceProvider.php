@@ -1,8 +1,9 @@
 <?php
+
 namespace Modules\Social;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -44,6 +45,21 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->moduleNamespace)
+            ->group(__DIR__ . '/Routes/api.php');
+    }
+
+    /**
      * Define the "web" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
@@ -74,24 +90,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapAdminRoutes()
     {
-        Route::middleware(['web','dashboard'])
+        Route::middleware(['web', 'dashboard'])
             ->namespace($this->adminModuleNamespace)
-            ->prefix(config('admin.admin_route_prefix').'/module/social')
+            ->prefix(config('admin.admin_route_prefix') . '/module/social')
             ->group(__DIR__ . '/Routes/admin.php');
-    }
-
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
-    protected function mapApiRoutes()
-    {
-        Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->moduleNamespace)
-            ->group(__DIR__ . '/Routes/api.php');
     }
 }

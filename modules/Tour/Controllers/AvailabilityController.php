@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Tour\Controllers;
 
 use ICal\ICal;
@@ -62,10 +63,10 @@ class AvailabilityController extends FrontendController
         $breadcrumbs = [
             [
                 'name' => __('Tours'),
-                'url'  => route('tour.vendor.index')
+                'url' => route('tour.vendor.index')
             ],
             [
-                'name'  => __('Availability'),
+                'name' => __('Availability'),
                 'class' => 'active'
             ],
         ];
@@ -76,9 +77,9 @@ class AvailabilityController extends FrontendController
     public function loadDates(Request $request)
     {
         $rules = [
-            'id'    => 'required',
+            'id' => 'required',
             'start' => 'required',
-            'end'   => 'required',
+            'end' => 'required',
         ];
         $validator = \Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -96,15 +97,15 @@ class AvailabilityController extends FrontendController
         $query->where('end_date', '<=', date('Y-m-d H:i:s', strtotime($request->query('end'))));
         $rows = $query->take(50)->get();
         $allDates = [];
-        $period = periodDate($request->input('start'),$request->input('end'));
-        foreach ($period as $dt){
+        $period = periodDate($request->input('start'), $request->input('end'));
+        foreach ($period as $dt) {
             $i = $dt->getTimestamp();
             $date = [
-                'id'         => rand(0, 999),
-                'active'     => 0,
-                'price'      => (!empty($tour->sale_price) and $tour->sale_price > 0 and $tour->sale_price < $tour->price) ? $tour->sale_price : $tour->price,
+                'id' => rand(0, 999),
+                'active' => 0,
+                'price' => (!empty($tour->sale_price) and $tour->sale_price > 0 and $tour->sale_price < $tour->price) ? $tour->sale_price : $tour->price,
                 'is_default' => true,
-                'textColor'  => '#2791fe'
+                'textColor' => '#2791fe'
             ];
             if (!$is_single) {
                 $date['price_html'] = format_money_main($date['price']);
@@ -133,7 +134,7 @@ class AvailabilityController extends FrontendController
                 if (!empty($date['person_types'])) {
                     $c_title = "";
                     foreach ($date['person_types'] as &$person) {
-                        $person['name'] = !empty($person['name_' . $lang])?$person['name_' . $lang]:$person['name'];
+                        $person['name'] = !empty($person['name_' . $lang]) ? $person['name_' . $lang] : $person['name'];
                         if (!$is_single) {
                             $c_title .= $person['name'] . ": " . format_money_main($person['price']) . "<br>";
                             //for single
@@ -185,7 +186,7 @@ class AvailabilityController extends FrontendController
                     if (!empty($list_person_types) and is_array($list_person_types)) {
                         $c_title = "";
                         foreach ($list_person_types as $k => &$person) {
-                            $person['name'] = !empty($person['name_' . $lang])?$person['name_' . $lang]:$person['name'];
+                            $person['name'] = !empty($person['name_' . $lang]) ? $person['name_' . $lang] : $person['name'];
                             $person['price'] = $date_person_types[$k]['price'] ?? $person['price'];
                             $person['max'] = $date_person_types[$k]['max'] ?? $person['max'];
                             $person['min'] = $date_person_types[$k]['min'] ?? $person['min'];
@@ -228,8 +229,8 @@ class AvailabilityController extends FrontendController
         $bookings = $this->bookingClass::getBookingInRanges($tour->id, $tour->type, $request->query('start'), $request->query('end'));
         if (!empty($bookings)) {
             foreach ($bookings as $booking) {
-                $period = periodDate($booking->start_date,$booking->end_date,false);
-                foreach ($period as $dt){
+                $period = periodDate($booking->start_date, $booking->end_date, false);
+                foreach ($period as $dt) {
                     $i = $dt->getTimestamp();
                     if (isset($allDates[date('Y-m-d', $i)])) {
                         $total_guests_booking = $booking->total_guests;
@@ -279,9 +280,9 @@ class AvailabilityController extends FrontendController
     {
 
         $request->validate([
-            'target_id'  => 'required',
+            'target_id' => 'required',
             'start_date' => 'required',
-            'end_date'   => 'required'
+            'end_date' => 'required'
         ]);
         $tour = $this->tourClass::find($request->input('target_id'));
         $target_id = $request->input('target_id');
@@ -304,8 +305,8 @@ class AvailabilityController extends FrontendController
         }
 
 //        for ($i = strtotime($request->input('start_date')); $i <= strtotime($request->input('end_date')); $i += DAY_IN_SECONDS) {
-        $period = periodDate($request->input('start_date'),$request->input('end_date'));
-        foreach ($period as $dt){
+        $period = periodDate($request->input('start_date'), $request->input('end_date'));
+        foreach ($period as $dt) {
             $date = $this->tourDateClass::where('start_date', $dt->format('Y-m-d'))->where('target_id', $target_id)->first();
             if (empty($date)) {
                 $date = new $this->tourDateClass();

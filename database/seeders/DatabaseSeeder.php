@@ -1,8 +1,8 @@
 <?php
+
 namespace Database\Seeders;
-use Database\Seeders\FlightSeeder;
+
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Cache;
 
 class DatabaseSeeder extends Seeder
 {

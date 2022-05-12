@@ -8,6 +8,7 @@
 
 namespace App\Traits;
 
-trait HasTranslations{
+trait HasTranslations
+{
 
 }

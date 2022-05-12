@@ -1,121 +1,12 @@
 <?php
+
 namespace App;
+
 use Illuminate\Support\Facades\Session;
 
 class Currency
 {
-    protected static $cached = [];
-
-    public static function getAll()
-    {
-        $res = [];
-        foreach (self::$currency_name as $code => $name) {
-            //$code = strtolower($code);
-            $res[strtolower($code)] = [
-                'id'       => strtolower($code),
-                'name'     => $name . (isset(self::$currency_symbols[$code]) ? ' (' . html_entity_decode(self::$currency_symbols[$code]) . ')' : ''),
-                'raw_name' => $name,
-                'symbol'   => isset(self::$currency_symbols[$code]) ? html_entity_decode(self::$currency_symbols[$code]) : ''
-            ];
-        }
-        return $res;
-    }
-
-    public static function getActiveCurrency(){
-        $extra = [
-            [
-                'currency_main'=>setting_item('currency_main'),
-                'currency_format'=>setting_item('currency_format'),
-                'currency_thousand'=>setting_item('currency_thousand'),
-                'currency_no_decimal'=>setting_item('currency_no_decimal'),
-                'currency_decimal'=>setting_item('currency_decimal'),
-                'is_main'=>1,
-                'rate'=>1
-            ]
-        ];
-        $extra = array_merge(setting_item_array('extra_currency'),$extra);
-        return $extra;
-    }
-
-    public static function getCurrent($need = 'currency_main',$default = '',$main_currency = false)
-    {
-        $code = Session::get('bc_current_currency');
-
-        $code = $code ? $code : setting_item('currency_main');
-        if($main_currency){
-            $code = setting_item('currency_main');
-        }
-
-        $active = static::getActiveCurrency();
-
-        foreach ($active as $item){
-            if($code == $item['currency_main'])
-            {
-                return $item[$need] ?? $default;
-            }
-        }
-
-        return $default;
-    }
-
-    public static function getCurrency($code)
-    {
-        if (isset(static::$cached[$code]))
-            return static::$cached[$code];
-        $all = self::getAll();
-        if (isset($all[$code])) {
-            static::$cached[$code] = $all[$code];
-            return static::$cached[$code];
-        }
-        return [];
-    }
-
-    public static function format($price,$main_currency = false)
-    {
-        $currency_main = static::getCurrent('currency_main',setting_item('currency_main'),$main_currency);
-        $currency_format = static::getCurrent('currency_format',setting_item('currency_format'),$main_currency);
-        $currency_decimal = static::getCurrent('currency_decimal',setting_item('currency_decimal'),$main_currency);
-        $currency_thousand = static::getCurrent('currency_thousand',setting_item('currency_thousand'),$main_currency);
-        $currency_no_decimal = static::getCurrent('currency_no_decimal',setting_item('currency_no_decimal'),$main_currency);
-
-        $exchange_rate = $main_currency ? 1 : static::getCurrent('rate',1,$main_currency);
-        $exchange_rate = (float) $exchange_rate;
-        if(!$exchange_rate) $exchange_rate = 1;
-
-        $price /= $exchange_rate;
-
-        $s = number_format((float)$price, (int)$currency_no_decimal, $currency_decimal, $currency_thousand);
-
-        $currency = self::getCurrency($currency_main);
-
-        if (!empty($currency)) {
-
-            switch ($currency_format) {
-                case "right_space";
-                    return $s . ' ' . $currency['symbol'];
-                    break;
-                case "left";
-                    return $currency['symbol'] . $s;
-                    break;
-                case "left_space";
-                    return $currency['symbol'] . ' ' . $s;
-                    break;
-                default:
-                    return $s . $currency['symbol'];
-                    break;
-            }
-        }
-        return $s;
-    }
-
-    public static function convertPrice($price,$main_currency = false)
-    {
-        $exchange_rate = $main_currency ? 1 : static::getCurrent('rate',1,$main_currency);
-        $price /= $exchange_rate;
-        return (float)$price;
-    }
-
-    public static $currency_name    = array(
+    public static $currency_name = array(
         'ALL' => 'Albania Lek',
         'AFN' => 'Afghanistan Afghani',
         'ARS' => 'Argentina Peso',
@@ -232,16 +123,16 @@ class Currency
         'ZWD' => 'Zimbabwe Dollar',
         "KES" => "Kenyan shilling",
         "AED" => "Emirati Dirham",
-        "TND" =>'Dinar Tunisien',
-        "MAD" =>'Moroccan Dirham',
-        "MVR" =>'Maldivian Ruffiya',
-        "DZD"=>"Algerian Dinar (DZD)",
-        'XAF'=>"Central African CFA franc",
-        'XOF'=>"West African CFA franc",
-        'GEL'=>"Georgian",
-        'BIF'=>"Burundian Franc",
-        'AMD'=>"Armenian dram",
-        'TUL'=>"Turkish Lira",
+        "TND" => 'Dinar Tunisien',
+        "MAD" => 'Moroccan Dirham',
+        "MVR" => 'Maldivian Ruffiya',
+        "DZD" => "Algerian Dinar (DZD)",
+        'XAF' => "Central African CFA franc",
+        'XOF' => "West African CFA franc",
+        'GEL' => "Georgian",
+        'BIF' => "Burundian Franc",
+        'AMD' => "Armenian dram",
+        'TUL' => "Turkish Lira",
     );
     public static $currency_symbols = array(
         'AED' => '&#1583;.&#1573;',
@@ -440,4 +331,114 @@ class Currency
         'ZWL' => '&#90;&#36;',
         'TUL' => '&#x20BA;',
     );
+    protected static $cached = [];
+
+    public static function format($price, $main_currency = false)
+    {
+        $currency_main = static::getCurrent('currency_main', setting_item('currency_main'), $main_currency);
+        $currency_format = static::getCurrent('currency_format', setting_item('currency_format'), $main_currency);
+        $currency_decimal = static::getCurrent('currency_decimal', setting_item('currency_decimal'), $main_currency);
+        $currency_thousand = static::getCurrent('currency_thousand', setting_item('currency_thousand'), $main_currency);
+        $currency_no_decimal = static::getCurrent('currency_no_decimal', setting_item('currency_no_decimal'), $main_currency);
+
+        $exchange_rate = $main_currency ? 1 : static::getCurrent('rate', 1, $main_currency);
+        $exchange_rate = (float)$exchange_rate;
+        if (!$exchange_rate) $exchange_rate = 1;
+
+        $price /= $exchange_rate;
+
+        $s = number_format((float)$price, (int)$currency_no_decimal, $currency_decimal, $currency_thousand);
+
+        $currency = self::getCurrency($currency_main);
+
+        if (!empty($currency)) {
+
+            switch ($currency_format) {
+                case "right_space";
+                    return $s . ' ' . $currency['symbol'];
+                    break;
+                case "left";
+                    return $currency['symbol'] . $s;
+                    break;
+                case "left_space";
+                    return $currency['symbol'] . ' ' . $s;
+                    break;
+                default:
+                    return $s . $currency['symbol'];
+                    break;
+            }
+        }
+        return $s;
+    }
+
+    public static function getCurrent($need = 'currency_main', $default = '', $main_currency = false)
+    {
+        $code = Session::get('bc_current_currency');
+
+        $code = $code ? $code : setting_item('currency_main');
+        if ($main_currency) {
+            $code = setting_item('currency_main');
+        }
+
+        $active = static::getActiveCurrency();
+
+        foreach ($active as $item) {
+            if ($code == $item['currency_main']) {
+                return $item[$need] ?? $default;
+            }
+        }
+
+        return $default;
+    }
+
+    public static function getActiveCurrency()
+    {
+        $extra = [
+            [
+                'currency_main' => setting_item('currency_main'),
+                'currency_format' => setting_item('currency_format'),
+                'currency_thousand' => setting_item('currency_thousand'),
+                'currency_no_decimal' => setting_item('currency_no_decimal'),
+                'currency_decimal' => setting_item('currency_decimal'),
+                'is_main' => 1,
+                'rate' => 1
+            ]
+        ];
+        $extra = array_merge(setting_item_array('extra_currency'), $extra);
+        return $extra;
+    }
+
+    public static function getCurrency($code)
+    {
+        if (isset(static::$cached[$code]))
+            return static::$cached[$code];
+        $all = self::getAll();
+        if (isset($all[$code])) {
+            static::$cached[$code] = $all[$code];
+            return static::$cached[$code];
+        }
+        return [];
+    }
+
+    public static function getAll()
+    {
+        $res = [];
+        foreach (self::$currency_name as $code => $name) {
+            //$code = strtolower($code);
+            $res[strtolower($code)] = [
+                'id' => strtolower($code),
+                'name' => $name . (isset(self::$currency_symbols[$code]) ? ' (' . html_entity_decode(self::$currency_symbols[$code]) . ')' : ''),
+                'raw_name' => $name,
+                'symbol' => isset(self::$currency_symbols[$code]) ? html_entity_decode(self::$currency_symbols[$code]) : ''
+            ];
+        }
+        return $res;
+    }
+
+    public static function convertPrice($price, $main_currency = false)
+    {
+        $exchange_rate = $main_currency ? 1 : static::getCurrent('rate', 1, $main_currency);
+        $price /= $exchange_rate;
+        return (float)$price;
+    }
 }

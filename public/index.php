@@ -1,16 +1,17 @@
 <?php
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-if(!empty($_SERVER['REQUEST_URI'])){
-	if(strpos($_SERVER['REQUEST_URI'],'/install') !== false){
-		if(!file_exists(__DIR__.'/../.env')){
-			copy(__DIR__.'/../.env.example',__DIR__.'/../.env');
-		}
-	}
+
+if (!empty($_SERVER['REQUEST_URI'])) {
+    if (strpos($_SERVER['REQUEST_URI'], '/install') !== false) {
+        if (!file_exists(__DIR__ . '/../.env')) {
+            copy(__DIR__ . '/../.env.example', __DIR__ . '/../.env');
+        }
+    }
 }
-if (!version_compare(phpversion(), '7.3', '>'))
-{
-    die("Current PHP version: ".phpversion()."<br>You must upgrade PHP version 7.3 and later");
+if (!version_compare(phpversion(), '7.3', '>')) {
+    die("Current PHP version: " . phpversion() . "<br>You must upgrade PHP version 7.3 and later");
 }
 
 /**
@@ -35,8 +36,8 @@ define('LARAVEL_START', microtime(true));
 */
 
 //require __DIR__.'/../vendor/autoload.php';
-if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
-    require __DIR__.'/../storage/framework/maintenance.php';
+if (file_exists(__DIR__ . '/../storage/framework/maintenance.php')) {
+    require __DIR__ . '/../storage/framework/maintenance.php';
 }
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +50,7 @@ if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
 | the responses back to the browser and delight our users.
 |
 */
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -63,7 +64,7 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 $kernel = $app->make(Kernel::class);
 
 $response = tap($kernel->handle(

@@ -1,9 +1,11 @@
 <?php
+
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -14,7 +16,7 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run()
     {
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Report
         Permission::findOrCreate('report_view');
@@ -186,7 +188,8 @@ class RolesAndPermissionsSeeder extends Seeder
         $role->givePermissionTo(Permission::all());
     }
 
-    public function initVendor(){
+    public function initVendor()
+    {
 
         $vendor = Role::findOrCreate('vendor');
 

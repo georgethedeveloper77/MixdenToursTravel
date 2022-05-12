@@ -26,55 +26,55 @@
             @if($row->is_instant)
                 <i class="fa fa-bolt d-none"></i>
             @endif
-                {!! clean($translation->title) !!}
+            {!! clean($translation->title) !!}
         </a>
         @if($row->discount_percent)
             <div class="sale_info">{{$row->discount_percent}}</div>
         @endif
     </div>
-    <div class="location">
-        @if(!empty($row->location->name))
-            @php $location =  $row->location->translateOrOrigin(app()->getLocale()) @endphp
-            {{$location->name ?? ''}}
-        @endif
-    </div>
-    <div class="amenities">
-        @if($row->passenger)
-            <span class="amenity total" data-toggle="tooltip"  title="{{ __("Passenger") }}">
+        <div class="location">
+            @if(!empty($row->location->name))
+                @php $location =  $row->location->translateOrOrigin(app()->getLocale()) @endphp
+                {{$location->name ?? ''}}
+            @endif
+        </div>
+        <div class="amenities">
+            @if($row->passenger)
+                <span class="amenity total" data-toggle="tooltip" title="{{ __("Passenger") }}">
                 <i class="input-icon field-icon icon-passenger  "></i>
                 <span class="text">
                     {{$row->passenger}}
                 </span>
             </span>
-        @endif
-        @if($row->gear)
-            <span class="amenity bed" data-toggle="tooltip" title="{{__("Gear Shift")}}">
+            @endif
+            @if($row->gear)
+                <span class="amenity bed" data-toggle="tooltip" title="{{__("Gear Shift")}}">
                 <i class="input-icon field-icon icon-gear"></i>
                 <span class="text">
                     {{$row->gear}}
                 </span>
             </span>
-        @endif
-        @if($row->baggage)
-            <span class="amenity bath" data-toggle="tooltip" title="{{__("Baggage")}}" >
+            @endif
+            @if($row->baggage)
+                <span class="amenity bath" data-toggle="tooltip" title="{{__("Baggage")}}">
                 <i class="input-icon field-icon icon-baggage"></i>
                 <span class="text">
                     {{$row->baggage}}
                 </span>
             </span>
-        @endif
-        @if($row->door)
-            <span class="amenity size" data-toggle="tooltip" title="{{__("Door")}}" >
+            @endif
+            @if($row->door)
+                <span class="amenity size" data-toggle="tooltip" title="{{__("Door")}}">
                 <i class="input-icon field-icon icon-door"></i>
                 <span class="text">
                     {{$row->door}}
                 </span>
             </span>
-        @endif
-    </div>
-    <div class="info">
-        <div class="g-price">
-            <div class="prefix">
+            @endif
+        </div>
+        <div class="info">
+            <div class="g-price">
+                <div class="prefix">
                 <span class="fr_text">{{__("from")}}</span>
             </div>
             <div class="price">

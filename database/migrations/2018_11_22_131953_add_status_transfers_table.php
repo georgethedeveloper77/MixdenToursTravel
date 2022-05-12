@@ -10,14 +10,6 @@ class AddStatusTransfersTable extends Migration
 {
 
     /**
-     * @return string
-     */
-    protected function table(): string
-    {
-        return (new Transfer())->getTable();
-    }
-
-    /**
      * @return void
      */
     public function up(): void
@@ -44,6 +36,14 @@ class AddStatusTransfersTable extends Migration
                 'status' => Transfer::STATUS_REFUND,
                 'status_last' => Transfer::STATUS_PAID,
             ]);
+    }
+
+    /**
+     * @return string
+     */
+    protected function table(): string
+    {
+        return (new Transfer())->getTable();
     }
 
     /**

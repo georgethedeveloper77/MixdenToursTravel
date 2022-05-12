@@ -30,31 +30,32 @@ import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 
 import BookingCoreUploader from '../../admin/js/ckeditor/uploader';
 
-export default class ClassicEditor extends ClassicEditorBase {}
+export default class ClassicEditor extends ClassicEditorBase {
+}
 
 // Plugins to include in the build.
 ClassicEditor.builtinPlugins = [
-	Essentials,
-	UploadAdapter,
-	Autoformat,
-	Bold,
-	Italic,
-	BlockQuote,
-	CKFinder,
-	EasyImage,
-	Heading,
-	Image,
-	ImageCaption,
-	ImageStyle,
-	ImageToolbar,
-	ImageUpload,
-	Link,
-	List,
-	MediaEmbed,
-	Paragraph,
-	PasteFromOffice,
-	Table,
-	TableToolbar,
+    Essentials,
+    UploadAdapter,
+    Autoformat,
+    Bold,
+    Italic,
+    BlockQuote,
+    CKFinder,
+    EasyImage,
+    Heading,
+    Image,
+    ImageCaption,
+    ImageStyle,
+    ImageToolbar,
+    ImageUpload,
+    Link,
+    List,
+    MediaEmbed,
+    Paragraph,
+    PasteFromOffice,
+    Table,
+    TableToolbar,
 
 
     BookingCoreUploader
@@ -62,40 +63,40 @@ ClassicEditor.builtinPlugins = [
 
 // Editor configuration.
 ClassicEditor.defaultConfig = {
-	toolbar: {
-		items: [
-			'heading',
-			'|',
-			'bold',
-			'italic',
-			'link',
-			'bulletedList',
-			'numberedList',
-			'imageUpload',
-			'blockQuote',
-			'insertTable',
-			'mediaEmbed',
-			'undo',
-			'redo',
+    toolbar: {
+        items: [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'link',
+            'bulletedList',
+            'numberedList',
+            'imageUpload',
+            'blockQuote',
+            'insertTable',
+            'mediaEmbed',
+            'undo',
+            'redo',
 
-			'BookingCoreUploader'
-		]
-	},
-	image: {
-		toolbar: [
-			'imageStyle:full',
-			'imageStyle:side',
-			'|',
-			'imageTextAlternative'
-		]
-	},
-	table: {
-		contentToolbar: [
-			'tableColumn',
-			'tableRow',
-			'mergeTableCells'
-		]
-	},
-	// This value must be kept in sync with the language defined in webpack.config.js.
-	language: 'en'
+            'BookingCoreUploader'
+        ]
+    },
+    image: {
+        toolbar: [
+            'imageStyle:full',
+            'imageStyle:side',
+            '|',
+            'imageTextAlternative'
+        ]
+    },
+    table: {
+        contentToolbar: [
+            'tableColumn',
+            'tableRow',
+            'mergeTableCells'
+        ]
+    },
+    // This value must be kept in sync with the language defined in webpack.config.js.
+    language: 'en'
 };

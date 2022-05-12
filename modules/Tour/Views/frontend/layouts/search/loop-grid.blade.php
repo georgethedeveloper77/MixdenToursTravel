@@ -31,51 +31,51 @@
             {{$location->name ?? ''}}
         @endif
     </div>
-    <div class="item-title">
-        <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl($include_param ?? true)}}">
-            {!! clean($translation->title) !!}
-        </a>
-    </div>
-    @if(setting_item('tour_enable_review'))
-    <?php
-    $reviewData = $row->getScoreReview();
-    $score_total = $reviewData['score_total'];
-    ?>
-    <div class="service-review tour-review-{{$score_total}}">
-        <div class="list-star">
-            <ul class="booking-item-rating-stars">
-                <li><i class="fa fa-star-o"></i></li>
-                <li><i class="fa fa-star-o"></i></li>
-                <li><i class="fa fa-star-o"></i></li>
-                <li><i class="fa fa-star-o"></i></li>
-                <li><i class="fa fa-star-o"></i></li>
-            </ul>
-            <div class="booking-item-rating-stars-active" style="width: {{  $score_total * 2 * 10 ?? 0  }}%">
-                <ul class="booking-item-rating-stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                </ul>
-            </div>
+        <div class="item-title">
+            <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl($include_param ?? true)}}">
+                {!! clean($translation->title) !!}
+            </a>
         </div>
-        <span class="review">
+        @if(setting_item('tour_enable_review'))
+            <?php
+            $reviewData = $row->getScoreReview();
+            $score_total = $reviewData['score_total'];
+            ?>
+            <div class="service-review tour-review-{{$score_total}}">
+                <div class="list-star">
+                    <ul class="booking-item-rating-stars">
+                        <li><i class="fa fa-star-o"></i></li>
+                        <li><i class="fa fa-star-o"></i></li>
+                        <li><i class="fa fa-star-o"></i></li>
+                        <li><i class="fa fa-star-o"></i></li>
+                        <li><i class="fa fa-star-o"></i></li>
+                    </ul>
+                    <div class="booking-item-rating-stars-active" style="width: {{  $score_total * 2 * 10 ?? 0  }}%">
+                        <ul class="booking-item-rating-stars">
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                            <li><i class="fa fa-star"></i></li>
+                        </ul>
+                    </div>
+                </div>
+                <span class="review">
             @if($reviewData['total_review'] > 1)
-                {{ __(":number Reviews",["number"=>$reviewData['total_review'] ]) }}
-            @else
-                {{ __(":number Review",["number"=>$reviewData['total_review'] ]) }}
-            @endif
+                        {{ __(":number Reviews",["number"=>$reviewData['total_review'] ]) }}
+                    @else
+                        {{ __(":number Review",["number"=>$reviewData['total_review'] ]) }}
+                    @endif
         </span>
-    </div>
-    @endif
-    <div class="info">
-        <div class="duration">
-            <i class="icofont-wall-clock"></i>
-            {{duration_format($row->duration)}}
-        </div>
-        <div class="g-price">
-            <div class="prefix">
+            </div>
+        @endif
+        <div class="info">
+            <div class="duration">
+                <i class="icofont-wall-clock"></i>
+                {{duration_format($row->duration)}}
+            </div>
+            <div class="g-price">
+                <div class="prefix">
                 <i class="icofont-flash"></i>
                 <span class="fr_text">{{__("from")}}</span>
             </div>

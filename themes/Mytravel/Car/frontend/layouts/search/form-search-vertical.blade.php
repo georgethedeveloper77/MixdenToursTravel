@@ -11,26 +11,29 @@
                     @php $field['title'] = $field['title_'.app()->getLocale()] ?? $field['title'] ?? "" @endphp
                     @switch($field['field'])
                         @case ('service_name')
-                            @include('Car::frontend.layouts.search.fields.service_name')
+                        @include('Car::frontend.layouts.search.fields.service_name')
                         @break
                         @case ('location')
-                            @include('Car::frontend.layouts.search.fields.location')
+                        @include('Car::frontend.layouts.search.fields.location')
                         @break
                         @case ('date')
-                            @include('Car::frontend.layouts.search.fields.date')
+                        @include('Car::frontend.layouts.search.fields.date')
                         @break
 
                         @case ('attr')
-                            @include('Car::frontend.layouts.search.fields.attr')
+                        @include('Car::frontend.layouts.search.fields.attr')
                         @break
                         @case ('guests')
-                          @include('Car::frontend.layouts.search.fields.guests')
+                        @include('Car::frontend.layouts.search.fields.guests')
                         @break
                     @endswitch
                 @endforeach
             @endif
             <div class="text-center">
-                <button type="submit" class="btn btn-primary height-60 w-100 font-weight-bold mb-xl-0 mb-lg-1 transition-3d-hover"><i class="flaticon-magnifying-glass mr-2 font-size-17"></i>Search</button>
+                <button type="submit"
+                        class="btn btn-primary height-60 w-100 font-weight-bold mb-xl-0 mb-lg-1 transition-3d-hover"><i
+                        class="flaticon-magnifying-glass mr-2 font-size-17"></i>Search
+                </button>
             </div>
         </form>
     </div>

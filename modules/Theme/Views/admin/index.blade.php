@@ -4,7 +4,8 @@
         <div class="d-flex justify-content-between mb20">
             <h1 class="title-bar">{{ __('All Themes')}}</h1>
             <div class="title-actions">
-                <a href="{{route('theme.admin.upload')}}" class="btn btn-primary"><i class="fa fa-upload"></i> {{__("Upload")}}</a>
+                <a href="{{route('theme.admin.upload')}}" class="btn btn-primary"><i
+                        class="fa fa-upload"></i> {{__("Upload")}}</a>
             </div>
         </div>
         @include('admin.message')
@@ -12,7 +13,8 @@
             @foreach($rows as $theme_id=>$themeClass)
                 <div class="col-md-4">
                     <div class="card">
-                        <img class="card-img-top" src="{{asset("themes/".$theme_id)}}{{$themeClass::$screenshot}}" alt="">
+                        <img class="card-img-top" src="{{asset("themes/".$theme_id)}}{{$themeClass::$screenshot}}"
+                             alt="">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title">{{$themeClass::$name}}</h5>

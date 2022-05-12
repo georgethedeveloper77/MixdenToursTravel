@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Helpers;
+
 use Illuminate\Support\HtmlString;
 
 class ReCaptchaEngine
@@ -13,23 +15,25 @@ class ReCaptchaEngine
 
     public static function scripts()
     {
-        if (!self::isEnable() OR empty(static::$actions))
+        if (!self::isEnable() or empty(static::$actions))
             return false;
         ?>
-        <script src="https://www.google.com/recaptcha/api.js?render=<?php e(self::$api_key) ?>&onload=BravoReCaptchaCallBack" async defer></script>
+        <script
+            src="https://www.google.com/recaptcha/api.js?render=<?php e(self::$api_key) ?>&onload=BravoReCaptchaCallBack"
+            async defer></script>
         <script>
             window.BravoReCaptcha = {
-                is_loaded : false,
+                is_loaded: false,
                 actions: <?php echo json_encode(static::$actions) ?>,
-                widgetIds : {},
-                sitekey:'<?php echo e(self::$api_key) ?>',
+                widgetIds: {},
+                sitekey: '<?php echo e(self::$api_key) ?>',
                 callback: function () {
                     this.is_loaded = true;
 
                     for (var k in this.actions) {
-                        var id = grecaptcha.render(this.actions[k],{
-                            sitekey:this.sitekey,
-                            callback:this.validateCallback
+                        var id = grecaptcha.render(this.actions[k], {
+                            sitekey: this.sitekey,
+                            callback: this.validateCallback
                         });
                         this.widgetIds[k] = id;
                     }
@@ -40,24 +44,16 @@ class ReCaptchaEngine
                 getToken(action) {
                     grecaptcha.getResponse(this.widgetIds[action])
                 },
-                validateCallback(){
+                validateCallback() {
 
                 }
             }
 
-            function BravoReCaptchaCallBack(){
+            function BravoReCaptchaCallBack() {
                 BravoReCaptcha.callback();
             }
         </script>
         <?php
-    }
-
-    public static function captcha($action = 'default')
-    {
-        if (!self::isEnable())
-            return false;
-        static::$actions[$action] = $action . '_' . uniqid();
-        return new HtmlString('<div class="bravo-recaptcha" id="'.e(static::$actions[$action]).'"></div><!--End Captcha-->');
     }
 
     public static function isEnable()
@@ -78,20 +74,28 @@ class ReCaptchaEngine
         self::$is_init = true;
     }
 
+    public static function captcha($action = 'default')
+    {
+        if (!self::isEnable())
+            return false;
+        static::$actions[$action] = $action . '_' . uniqid();
+        return new HtmlString('<div class="bravo-recaptcha" id="' . e(static::$actions[$action]) . '"></div><!--End Captcha-->');
+    }
+
     public static function verify($response)
     {
         if (!self::isEnable())
             return true;
         $url = 'https://www.google.com/recaptcha/api/siteverify';
         $data = [
-            'secret'   => self::$api_secret,
+            'secret' => self::$api_secret,
             'response' => $response
         ];
         $query = http_build_query($data);
         $options = [
             'http' => [
-                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n" . "Content-Length: " . strlen($query) . "\r\n" . "User-Agent:MyAgent/1.0\r\n",
-                'method'  => 'POST',
+                'header' => "Content-Type: application/x-www-form-urlencoded\r\n" . "Content-Length: " . strlen($query) . "\r\n" . "User-Agent:MyAgent/1.0\r\n",
+                'method' => 'POST',
                 'content' => $query
             ]
         ];
@@ -106,7 +110,8 @@ class ReCaptchaEngine
         return false;
     }
 
-    public static function file_get_contents_curl($url,$isPost = false,$data = []) {
+    public static function file_get_contents_curl($url, $isPost = false, $data = [])
+    {
 
         $ch = curl_init();
 
@@ -116,7 +121,7 @@ class ReCaptchaEngine
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 
-        if($isPost){
+        if ($isPost) {
             curl_setopt($ch, CURLOPT_POST, count($data));
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         }

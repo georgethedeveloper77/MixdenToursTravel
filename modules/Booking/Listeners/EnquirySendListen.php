@@ -1,30 +1,31 @@
 <?php
+
 namespace Modules\Booking\Listeners;
 
 use App\User;
+use Illuminate\Support\Facades\Mail;
 use Modules\Booking\Emails\EnquirySendEmail;
 use Modules\Booking\Events\EnquirySendEvent;
-use Illuminate\Support\Facades\Mail;
 
 
 class EnquirySendListen
 {
+    public const CODE = [
+        'name' => '[name]',
+        'email' => '[email]',
+        'phone' => '[phone]',
+        'note' => '[note]',
+        'status' => '[status]',
+        'service_link' => '[service_link]',
+        'service_name' => '[service_name]',
+        'vendor_link' => '[vendor_link]',
+        'vendor_name' => '[vendor_name]',
+    ];
+
     public function __construct()
     {
 
     }
-
-    public const CODE = [
-        'name'         => '[name]',
-        'email'        => '[email]',
-        'phone'        => '[phone]',
-        'note'         => '[note]',
-        'status'       => '[status]',
-        'service_link' => '[service_link]',
-        'service_name' => '[service_name]',
-        'vendor_link'  => '[vendor_link]',
-        'vendor_name'  => '[vendor_name]',
-    ];
 
     /**
      * Handle the event.
@@ -49,10 +50,10 @@ class EnquirySendListen
     {
         if (!empty($content)) {
             foreach (self::CODE as $item => $value) {
-                switch ($value){
+                switch ($value) {
                     case "[service_link]":
-                            $service = $event->enquiry->service;
-                        $text = '<a href="'.$service->getDetailUrl().'" target="_blank"> '.$service->title.' </a>';
+                        $service = $event->enquiry->service;
+                        $text = '<a href="' . $service->getDetailUrl() . '" target="_blank"> ' . $service->title . ' </a>';
                         $content = str_ireplace($value, $text, $content);
                         break;
                     case "[service_name]":
@@ -61,12 +62,12 @@ class EnquirySendListen
                         break;
                     case "[vendor_link]":
                         $user = $event->enquiry->vendor;
-                        $text = '<a href="'.route('user.admin.detail',['id'=>$event->enquiry->vendor_id]).'" target="_blank"> '.$user->first_name." ".$user->last_name.' </a>';
+                        $text = '<a href="' . route('user.admin.detail', ['id' => $event->enquiry->vendor_id]) . '" target="_blank"> ' . $user->first_name . " " . $user->last_name . ' </a>';
                         $content = str_ireplace($value, $text, $content);
                         break;
                     case "[vendor_name]":
                         $user = $event->enquiry->vendor;
-                        $text = $user->first_name." ".$user->last_name;
+                        $text = $user->first_name . " " . $user->last_name;
                         $content = str_ireplace($value, $text, $content);
                         break;
                     default:

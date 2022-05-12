@@ -32,7 +32,8 @@
                         @if(!empty($row->getAuthor))
                             <li>
                                 @if($avatar_url = $row->getAuthor->getAvatarUrl())
-                                    <img class="avatar" src="{{$avatar_url}}" alt="{{$row->getAuthor->getDisplayName()}}">
+                                    <img class="avatar" src="{{$avatar_url}}"
+                                         alt="{{$row->getAuthor->getDisplayName()}}">
                                 @else
                                     <span class="avatar-text">{{ucfirst($row->getAuthor->getDisplayName()[0])}}</span>
                                 @endif

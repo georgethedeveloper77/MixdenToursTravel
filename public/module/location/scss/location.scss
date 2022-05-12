@@ -12,12 +12,14 @@
             background-size: cover !important;
             padding: 200px 0;
             position: relative;
-            @media(max-width: 766px){
+            @media(max-width: 766px) {
                 padding: 150px 0;
             }
+
             .container {
                 position: relative;
             }
+
             .bravo_gallery {
                 height: 500px;
                 position: relative;
@@ -115,7 +117,6 @@
                 align-items: center;
 
 
-
                 .sub-heading {
                     color: #5E6D77;
                     font-size: 14px;
@@ -190,7 +191,8 @@
                     }
                 }
             }
-            .g-overview{
+
+            .g-overview {
                 .description {
                     margin-top: 30px;
                     margin-bottom: 30px;
@@ -203,6 +205,7 @@
                     }
                 }
             }
+
             .g-location {
                 margin-bottom: 30px;
 
@@ -227,32 +230,34 @@
 
             .g-trip-ideas {
                 .trip-idea {
-                    @media(max-width: 768px){
+                    @media(max-width: 768px) {
                         margin-bottom: 50px !important;
                         border-bottom: solid 1px #afafaf;
-                        .col-lg-4{
+                        .col-lg-4 {
                             display: none;
                         }
-                        &:last-child{
+                        &:last-child {
                             border-bottom: none;
                         }
                     }
-                    .trip-idea-category{
+
+                    .trip-idea-category {
                         font-size: 14px;
                         color: #5191FA;
                         letter-spacing: 0;
                     }
+
                     h2 {
                         font-weight: 300;
                         font-size: 36px;
                         color: #1A2B48;
                         letter-spacing: 0;
                         line-height: 1.7;
-                        @media(max-width: 1024px){
+                        @media(max-width: 1024px) {
                             font-size: 34px;
                             line-height: 46px;
                         }
-                        @media(max-width: 768px){
+                        @media(max-width: 768px) {
                             font-size: 32px;
                             line-height: 42px;
                         }
@@ -293,10 +298,12 @@
                             letter-spacing: 0;
                             text-transform: uppercase;
                             padding: 8px 10px;
-                            color:#1a2b48;
+                            color: #1a2b48;
+
                             &:hover {
                                 text-decoration: none;
                             }
+
                             &.active {
                                 border-bottom: 1px solid #5191FA;
                                 color: #5191FA;
@@ -319,22 +326,27 @@
                     }
                 }
 
-                #module-hotel{
+                #module-hotel {
                     @import "../../hotel/scss/loop";
                 }
-                #module-tour{
+
+                #module-tour {
                     @import "../../tour/scss/loop";
                 }
-                #module-space{
+
+                #module-space {
                     @import "../../space/scss/loop";
                 }
-                #module-car{
+
+                #module-car {
                     @import "../../car/scss/loop";
                 }
-                #module-event{
+
+                #module-event {
                     @import "../../event/scss/loop";
                 }
-                #module-boat{
+
+                #module-boat {
                     @import "../../boat/scss/loop";
                 }
             }
@@ -348,6 +360,7 @@
         }
     }
 }
+
 .bravo_wrap .bravo-list-hotel.layout_normal {
     margin: 0;
 }

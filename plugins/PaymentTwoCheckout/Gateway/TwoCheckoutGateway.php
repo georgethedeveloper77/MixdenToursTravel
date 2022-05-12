@@ -1,58 +1,61 @@
 <?php
+
 namespace Plugins\PaymentTwoCheckout\Gateway;
 
 use Illuminate\Http\Request;
-use Mockery\Exception;
-use Modules\Booking\Models\Payment;
-use Validator;
 use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
+use Modules\Booking\Gateways\BaseGateway;
 use Modules\Booking\Models\Booking;
+use Modules\Booking\Models\Payment;
+use Swift_TransportException;
+use Validator;
 
-class TwoCheckoutGateway extends \Modules\Booking\Gateways\BaseGateway
+class TwoCheckoutGateway extends BaseGateway
 {
-    protected $id   = 'two_checkout_gateway';
-    public    $name = 'Two Checkout';
+    public $name = 'Two Checkout';
+    protected $id = 'two_checkout_gateway';
     protected $gateway;
 
     public function getOptionsConfigs()
     {
         return [
             [
-                'type'  => 'checkbox',
-                'id'    => 'enable',
+                'type' => 'checkbox',
+                'id' => 'enable',
                 'label' => __('Enable Two Checkout?')
             ],
             [
-                'type'  => 'input',
-                'id'    => 'name',
+                'type' => 'input',
+                'id' => 'name',
                 'label' => __('Custom Name'),
-                'std'   => __("Two Checkout"),
+                'std' => __("Two Checkout"),
                 'multi_lang' => "1"
             ],
             [
-                'type'  => 'upload',
-                'id'    => 'logo_id',
+                'type' => 'upload',
+                'id' => 'logo_id',
                 'label' => __('Custom Logo'),
             ],
             [
-                'type'  => 'editor',
-                'id'    => 'html',
+                'type' => 'editor',
+                'id' => 'html',
                 'label' => __('Custom HTML Description'),
                 'multi_lang' => "1"
             ],
             [
-                'type'  => 'input',
-                'id'    => 'twocheckout_account_number',
+                'type' => 'input',
+                'id' => 'twocheckout_account_number',
                 'label' => __('Account Number'),
             ],
             [
-                'type'  => 'input',
-                'id'    => 'twocheckout_secret_word',
+                'type' => 'input',
+                'id' => 'twocheckout_secret_word',
                 'label' => __('Secret Word'),
             ],
             [
-                'type'  => 'checkbox',
-                'id'    => 'twocheckout_enable_sandbox',
+                'type' => 'checkbox',
+                'id' => 'twocheckout_enable_sandbox',
                 'label' => __('Enable Sandbox Mode'),
             ]
         ];
@@ -82,7 +85,7 @@ class TwoCheckoutGateway extends \Modules\Booking\Gateways\BaseGateway
         $booking->save();
         if ($this->getOption('twocheckout_enable_sandbox')) {
             $checkout_url_sandbox = 'https://www.2checkout.com/checkout/purchase';
-            $data['demo']='Y';
+            $data['demo'] = 'Y';
         } else {
             $checkout_url_sandbox = 'https://www.2checkout.com/checkout/purchase';
         }
@@ -90,21 +93,6 @@ class TwoCheckoutGateway extends \Modules\Booking\Gateways\BaseGateway
         response()->json([
             'url' => $checkout_url_sandbox . "?" . $twoco_args
         ])->send();
-    }
-
-    public function processNormal($payment)
-    {
-        $payment->payment_gateway = $this->id;
-        $data = $this->handlePurchaseDataNormal($payment,\request());
-
-        if ($this->getOption('twocheckout_enable_sandbox')) {
-            $checkout_url_sandbox = 'https://sandbox.2checkout.com/checkout/purchase';
-        } else {
-            $checkout_url_sandbox = 'https://www.2checkout.com/checkout/purchase';
-        }
-        $twoco_args = http_build_query($data, '', '&');
-
-        return [true,'',$checkout_url_sandbox . "?" . $twoco_args];
     }
 
     public function handlePurchaseData($data, $booking, $request)
@@ -130,6 +118,22 @@ class TwoCheckoutGateway extends \Modules\Booking\Gateways\BaseGateway
         $twocheckout_args['lang'] = app()->getLocale();
         return $twocheckout_args;
     }
+
+    public function processNormal($payment)
+    {
+        $payment->payment_gateway = $this->id;
+        $data = $this->handlePurchaseDataNormal($payment, \request());
+
+        if ($this->getOption('twocheckout_enable_sandbox')) {
+            $checkout_url_sandbox = 'https://sandbox.2checkout.com/checkout/purchase';
+        } else {
+            $checkout_url_sandbox = 'https://www.2checkout.com/checkout/purchase';
+        }
+        $twoco_args = http_build_query($data, '', '&');
+
+        return [true, '', $checkout_url_sandbox . "?" . $twoco_args];
+    }
+
     public function handlePurchaseDataNormal($payment, $request)
     {
         $twocheckout_args = array();
@@ -177,7 +181,7 @@ class TwoCheckoutGateway extends \Modules\Booking\Gateways\BaseGateway
                 }
                 try {
                     $booking->markAsPaymentFailed();
-                } catch (\Swift_TransportException $e) {
+                } catch (Swift_TransportException $e) {
                     Log::warning($e->getMessage());
                 }
                 return redirect($booking->getDetailUrl())->with("error", __("Payment Failed"));
@@ -191,7 +195,7 @@ class TwoCheckoutGateway extends \Modules\Booking\Gateways\BaseGateway
                 try {
                     $booking->paid += (float)$booking->pay_now;
                     $booking->markAsPaid();
-                } catch (\Swift_TransportException $e) {
+                } catch (Swift_TransportException $e) {
                     Log::warning($e->getMessage());
                 }
                 return redirect($booking->getDetailUrl())->with("success", __("You payment has been processed successfully"));
@@ -203,6 +207,7 @@ class TwoCheckoutGateway extends \Modules\Booking\Gateways\BaseGateway
             return redirect(url('/'));
         }
     }
+
     public function confirmNormalPayment()
     {
         /**
@@ -211,7 +216,7 @@ class TwoCheckoutGateway extends \Modules\Booking\Gateways\BaseGateway
         $request = \request();
         $c = $request->query('pid');
         $payment = Payment::where('code', $c)->first();
-        if (!empty($payment) and in_array($payment->status,['draft'])) {
+        if (!empty($payment) and in_array($payment->status, ['draft'])) {
 
             $compare_string = $this->getOption('twocheckout_secret_word') . $this->getOption('twocheckout_account_number') . $request->input("order_number") . $request->input("total");
             $compare_hash1 = strtoupper(md5($compare_string));

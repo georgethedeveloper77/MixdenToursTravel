@@ -7,10 +7,10 @@
 
 import ClassicEditor from '../../build/ckeditor';
 
-ClassicEditor.create( document.querySelector( '#editor' ) )
-	.then( editor => {
-		window.editor = editor;
-	} )
-	.catch( err => {
-		console.error( err.stack );
-	} );
+ClassicEditor.create(document.querySelector('#editor'))
+    .then(editor => {
+        window.editor = editor;
+    })
+    .catch(err => {
+        console.error(err.stack);
+    });

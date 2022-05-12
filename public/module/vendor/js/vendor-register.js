@@ -29,36 +29,36 @@ $('.bravo-form-register-vendor [type=submit]').click(function (e) {
             form.find('.icon-loading').hide();
             if (data.error === true) {
                 if (data.messages !== undefined) {
-                    for(var item in data.messages) {
+                    for (var item in data.messages) {
                         var msg = data.messages[item];
-                        form.find('.error-'+item).show().text(msg[0]);
+                        form.find('.error-' + item).show().text(msg[0]);
                     }
                 }
                 if (data.messages.message_error !== undefined) {
                     form.find('.message-error').show().html('<div class="alert alert-danger">' + data.messages.message_error[0] + '</div>');
                 }
             }
-            if(data.status){
-                if(data.message){
-					form.find('.message-error').show().html('<div class="alert alert-success">' + data.message + '</div>');
-				}
-				if (typeof data.redirect !== 'undefined') {
-					window.setTimeout(function () {
-						window.location.href = data.redirect;
-					},5000);
-					return;
-				}
+            if (data.status) {
+                if (data.message) {
+                    form.find('.message-error').show().html('<div class="alert alert-success">' + data.message + '</div>');
+                }
+                if (typeof data.redirect !== 'undefined') {
+                    window.setTimeout(function () {
+                        window.location.href = data.redirect;
+                    }, 5000);
+                    return;
+                }
             }
 
-			if(data.redirect){
-				window.location.href = data.redirect;
-				return;
-			}
+            if (data.redirect) {
+                window.location.href = data.redirect;
+                return;
+            }
 
         },
-        error:function (e) {
+        error: function (e) {
             form.find('.icon-loading').hide();
-            if(typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message !='undefined'){
+            if (typeof e.responseJSON !== "undefined" && typeof e.responseJSON.message != 'undefined') {
                 form.find('.message-error').show().html('<div class="alert alert-danger">' + e.responseJSON.message + '</div>');
             }
         }

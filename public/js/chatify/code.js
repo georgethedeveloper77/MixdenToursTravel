@@ -35,6 +35,7 @@ const escapeHtml = (unsafe) => {
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
 };
+
 function actionOnScroll(selector, callback, topScroll = false) {
     $(selector).on("scroll", function () {
         let element = $(this).get(0);
@@ -46,10 +47,12 @@ function actionOnScroll(selector, callback, topScroll = false) {
         }
     });
 }
+
 function routerPush(title, url) {
     $("meta[name=url]").attr("content", url);
     return window.history.pushState({}, title || document.title, url);
 }
+
 function updateSelectedContact(user_id) {
     $(document).find(".messenger-list-item").removeClass("m-list-active");
     $(document)
@@ -58,6 +61,7 @@ function updateSelectedContact(user_id) {
         )
         .addClass("m-list-active");
 }
+
 /**
  *-------------------------------------------------------------
  * Global Templates
@@ -78,6 +82,7 @@ function loadingSVG(w_h = "25px", className = "", style = "") {
 </svg>
 `;
 }
+
 function loadingWithContainer(className) {
     return `<div class="${className}" style="text-align:center;padding:15px">${loadingSVG(
         "25px",
@@ -148,6 +153,7 @@ function sendigCard(message, id) {
 `
     );
 }
+
 // upload image preview card.
 function attachmentTemplate(fileType, fileName, imgURL = null) {
     if (fileType != "image") {
@@ -191,6 +197,7 @@ function activeStatusCircle() {
 $(window).resize(function () {
     cssMediaQueries();
 });
+
 function cssMediaQueries() {
     if (window.matchMedia("(min-width: 980px)").matches) {
         $(".messenger-listView").removeAttr("style");
@@ -366,7 +373,7 @@ function IDinfo(id, type) {
         $.ajax({
             url: url + "/idInfo",
             method: "POST",
-            data: { _token: access_token, id, type },
+            data: {_token: access_token, id, type},
             dataType: "JSON",
             success: (data) => {
                 // avatar photo
@@ -451,7 +458,7 @@ function sendMessage() {
                         .append(sendigCard(messageInput.text(), tempID));
                 // scroll to bottom
                 scrollBottom(messagesContainer);
-                messageInput.css({ height: "42px" });
+                messageInput.css({height: "42px"});
                 // form reset and focus
                 $("#message-form").trigger("reset");
                 cancelAttachment();
@@ -462,7 +469,7 @@ function sendMessage() {
                     // message card error status
                     errorMessageCard(tempID);
                     console.error(data.error.message);
-                    if(typeof data.error.message != 'undefined'){
+                    if (typeof data.error.message != 'undefined') {
                         alert(data.error.message);
                     }
                 } else {
@@ -504,6 +511,7 @@ function sendMessage() {
 let messagesPage = 1;
 let noMoreMessages = false;
 let messagesLoading = false;
+
 function setMessagesLoading(loading = false) {
     if (!loading) {
         messagesContainer.find(".messages").find(".loading-messages").remove();
@@ -516,6 +524,7 @@ function setMessagesLoading(loading = false) {
     }
     messagesLoading = loading;
 }
+
 function fetchMessages(id, type, newFetch = false) {
     if (newFetch) {
         messagesPage = 1;
@@ -696,7 +705,7 @@ function makeSeen(status) {
     $.ajax({
         url: url + "/makeSeen",
         method: "POST",
-        data: { _token: access_token, id: getMessengerId() },
+        data: {_token: access_token, id: getMessengerId()},
         dataType: "JSON",
         // success: data => {
         //     console.log("[seen] Messages seen - " + getMessengerId());
@@ -774,6 +783,7 @@ function checkInternet(state, selector) {
 let contactsPage = 1;
 let contactsLoading = false;
 let noMoreContacts = false;
+
 function setContactsLoading(loading = false) {
     if (!loading) {
         $(".listOfContacts").find(".loading-contacts").remove();
@@ -784,14 +794,15 @@ function setContactsLoading(loading = false) {
     }
     contactsLoading = loading;
 }
+
 function getContacts(user_id) {
-    if(typeof user_id == 'undefined') user_id = '';
+    if (typeof user_id == 'undefined') user_id = '';
     if (!contactsLoading && !noMoreContacts) {
         setContactsLoading(true);
         $.ajax({
-            url: url + '/getContacts?user_id='+user_id,
+            url: url + '/getContacts?user_id=' + user_id,
             method: "GET",
-            data: { _token: access_token, page: contactsPage },
+            data: {_token: access_token, page: contactsPage},
             dataType: "JSON",
             success: (data) => {
                 setContactsLoading(false);
@@ -804,8 +815,8 @@ function getContacts(user_id) {
                 // update data-action required with [responsive design]
                 cssMediaQueries();
 
-                if(user_id){
-                    $('.messenger-list-item[data-contact='+user_id+']').trigger('click');
+                if (user_id) {
+                    $('.messenger-list-item[data-contact=' + user_id + ']').trigger('click');
                     // messenger = 'user_'+user_id;
                     // IDinfo(user_id,'user');
                 }
@@ -865,7 +876,7 @@ function star(user_id) {
         $.ajax({
             url: url + "/star",
             method: "POST",
-            data: { _token: access_token, user_id: user_id },
+            data: {_token: access_token, user_id: user_id},
             dataType: "JSON",
             success: (data) => {
                 data.status > 0
@@ -889,7 +900,7 @@ function getFavoritesList() {
     $.ajax({
         url: url + "/favorites",
         method: "POST",
-        data: { _token: access_token },
+        data: {_token: access_token},
         dataType: "JSON",
         success: (data) => {
             if (data.count > 0) {
@@ -916,7 +927,7 @@ function getSharedPhotos(user_id) {
     $.ajax({
         url: url + "/shared",
         method: "POST",
-        data: { _token: access_token, user_id: user_id },
+        data: {_token: access_token, user_id: user_id},
         dataType: "JSON",
         success: (data) => {
             $(".shared-photos-list").html(data.shared);
@@ -936,6 +947,7 @@ let searchPage = 1;
 let noMoreDataSearch = false;
 let searchLoading = false;
 let searchTempVal = "";
+
 function setSearchLoading(loading = false) {
     if (!loading) {
         $(".search-records").find(".loading-search").remove();
@@ -946,6 +958,7 @@ function setSearchLoading(loading = false) {
     }
     searchLoading = loading;
 }
+
 function messengerSearch(input) {
     if (input != searchTempVal) {
         searchPage = 1;
@@ -961,7 +974,7 @@ function messengerSearch(input) {
         $.ajax({
             url: url + "/search",
             method: "GET",
-            data: { _token: access_token, input: input, page: searchPage },
+            data: {_token: access_token, input: input, page: searchPage},
             dataType: "JSON",
             success: (data) => {
                 setSearchLoading(false);
@@ -993,7 +1006,7 @@ function deleteConversation(id) {
     $.ajax({
         url: url + "/deleteConversation",
         method: "POST",
-        data: { _token: access_token, id: id },
+        data: {_token: access_token, id: id},
         dataType: "JSON",
         beforeSend: () => {
             // hide delete modal
@@ -1099,7 +1112,7 @@ function setActiveStatus(status, user_id) {
     $.ajax({
         url: url + "/setActiveStatus",
         method: "POST",
-        data: { _token: access_token, user_id: user_id, status: status },
+        data: {_token: access_token, user_id: user_id, status: status},
         dataType: "JSON",
         success: (data) => {
             // Nothing to do
@@ -1126,7 +1139,7 @@ $(document).ready(function () {
     clearTimeout(typingTimeout);
 
     // NProgress configurations
-    NProgress.configure({ showSpinner: false, minimum: 0.7, speed: 500 });
+    NProgress.configure({showSpinner: false, minimum: 0.7, speed: 500});
 
     // make message input autosize.
     autosize($(".m-send"));
@@ -1281,7 +1294,7 @@ $(document).ready(function () {
             "txt",
         ];
         const sizeLimit = 5000000; // 5 megabyte
-        const { name: fileName, size: fileSize } = file;
+        const {name: fileName, size: fileSize} = file;
         const fileExtension = fileName.split(".").pop();
         if (!allowedExtensions.includes(fileExtension)) {
             alert("file type not allowed");

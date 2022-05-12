@@ -1,27 +1,33 @@
-.bravo-admin-bar{
+.bravo-admin-bar {
     background: #333;
-    color:white;
-    a{
-        color:white;
+    color: white;
+
+    a {
+        color: white;
     }
-    .adminbar-menu{
+
+    .adminbar-menu {
         list-style: none;
         margin: 0px;
         padding: 0px;
-        li{
+
+        li {
             display: inline-block;
-            a{
+
+            a {
                 padding: 0 8px 0 7px;
                 height: 32px;
                 line-height: 32px;
                 display: block;
-                &:hover{
+
+                &:hover {
                     text-decoration: none;
                 }
 
             }
-            &:hover{
-                >a{
+
+            &:hover {
+                > a {
                     background: #32373c;
                     color: #84adda;
                 }

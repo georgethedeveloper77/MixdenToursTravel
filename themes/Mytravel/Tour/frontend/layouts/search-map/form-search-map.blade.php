@@ -1,4 +1,5 @@
-<form action="{{url( app_get_locale(false,false,'/').config('tour.tour_route_prefix') )}}" class="form bravo_form d-flex justify-content-start" method="get" onsubmit="return false;">
+<form action="{{url( app_get_locale(false,false,'/').config('tour.tour_route_prefix') )}}"
+      class="form bravo_form d-flex justify-content-start" method="get" onsubmit="return false;">
 
     @php $tour_map_search_fields = setting_item_array('tour_map_search_fields');
 
@@ -11,26 +12,27 @@
         @foreach($tour_map_search_fields as $field)
             @switch($field['field'])
                 @case ('location')
-                    @include('Tour::frontend.layouts.search-map.fields.location')
+                @include('Tour::frontend.layouts.search-map.fields.location')
                 @break
                 @case ('category')
-                    @include('Tour::frontend.layouts.search-map.fields.category')
+                @include('Tour::frontend.layouts.search-map.fields.category')
                 @break
                 @case ('attr')
-                    @include('Tour::frontend.layouts.search-map.fields.attr')
+                @include('Tour::frontend.layouts.search-map.fields.attr')
                 @break
                 @case ('date')
-                    @include('Tour::frontend.layouts.search-map.fields.date')
+                @include('Tour::frontend.layouts.search-map.fields.date')
                 @break
                 @case ('price')
-                    @include('Tour::frontend.layouts.search-map.fields.price')
+                @include('Tour::frontend.layouts.search-map.fields.price')
                 @break
-                    @case ('advance')
-                    <div class="filter-item filter-simple advance-filters">
-                        <div class="form-group">
-                            <span class="filter-title toggle-advance-filter" data-target="#advance_filters">{{__('More filters')}} <i class="fa fa-angle-down"></i></span>
-                        </div>
+                @case ('advance')
+                <div class="filter-item filter-simple advance-filters">
+                    <div class="form-group">
+                        <span class="filter-title toggle-advance-filter" data-target="#advance_filters">{{__('More filters')}} <i
+                                class="fa fa-angle-down"></i></span>
                     </div>
+                </div>
                 @break
             @endswitch
         @endforeach

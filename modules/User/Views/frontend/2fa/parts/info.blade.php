@@ -8,7 +8,7 @@
     </div>
     {!! request()->user()->twoFactorQrCodeSvg() !!}
     <?php
-    $codes = (array) request()->user()->recoveryCodes();
+    $codes = (array)request()->user()->recoveryCodes();
     ?>
     @if(!empty($codes))
         <hr>

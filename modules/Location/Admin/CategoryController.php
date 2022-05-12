@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Location\Admin;
 
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Modules\Location\Models\LocationCategoryTranslation;
 class CategoryController extends AdminController
 {
     protected $locationCategoryClass;
+
     public function __construct()
     {
         parent::__construct();
@@ -25,16 +27,16 @@ class CategoryController extends AdminController
         }
         $listCategory->orderBy('created_at', 'desc');
         $data = [
-            'rows'        => $listCategory->get()->toTree(),
-            'row'         => new $this->locationCategoryClass(),
-            'translation'    => new LocationCategoryTranslation(),
+            'rows' => $listCategory->get()->toTree(),
+            'row' => new $this->locationCategoryClass(),
+            'translation' => new LocationCategoryTranslation(),
             'breadcrumbs' => [
                 [
                     'name' => __('Location'),
-                    'url'  => route('location.admin.index')
+                    'url' => route('location.admin.index')
                 ],
                 [
-                    'name'  => __('Category'),
+                    'name' => __('Category'),
                     'class' => 'active'
                 ],
             ]
@@ -51,17 +53,17 @@ class CategoryController extends AdminController
         }
         $translation = $row->translateOrOrigin($request->query('lang'));
         $data = [
-            'translation'    => $translation,
-            'enable_multi_lang'=>true,
-            'row'         => $row,
-            'parents'     => $this->locationCategoryClass::get()->toTree(),
+            'translation' => $translation,
+            'enable_multi_lang' => true,
+            'row' => $row,
+            'parents' => $this->locationCategoryClass::get()->toTree(),
             'breadcrumbs' => [
                 [
                     'name' => __('Location'),
-                    'url'  => route('location.admin.index')
+                    'url' => route('location.admin.index')
                 ],
                 [
-                    'name'  => __('Category'),
+                    'name' => __('Category'),
                     'class' => 'active'
                 ],
             ]
@@ -69,27 +71,27 @@ class CategoryController extends AdminController
         return view('Location::admin.category.detail', $data);
     }
 
-    public function store(Request $request , $id)
+    public function store(Request $request, $id)
     {
         $this->checkPermission('location_manage_others');
         $this->validate($request, [
             'name' => 'required'
         ]);
-        if($id>0){
+        if ($id > 0) {
             $row = $this->locationCategoryClass::find($id);
             if (empty($row)) {
                 return redirect(route('location.admin.category.index'));
             }
-        }else{
+        } else {
             $row = new $this->locationCategoryClass();
             $row->status = "publish";
         }
 
         $row->fill($request->input());
-        $res = $row->saveOriginOrTranslation($request->input('lang'),true);
+        $res = $row->saveOriginOrTranslation($request->input('lang'), true);
 
         if ($res) {
-            return back()->with('success',  __('Category saved') );
+            return back()->with('success', __('Category saved'));
         }
     }
 
@@ -107,11 +109,11 @@ class CategoryController extends AdminController
         if ($action == "delete") {
             foreach ($ids as $id) {
                 $query = $this->locationCategoryClass::where("id", $id)->first();
-                if(!empty($query)){
+                if (!empty($query)) {
                     //Sync child category
                     $list_childs = $this->locationCategoryClass::where("parent_id", $id)->get();
-                    if(!empty($list_childs)){
-                        foreach ($list_childs as $child){
+                    if (!empty($list_childs)) {
+                        foreach ($list_childs as $child) {
                             $child->parent_id = null;
                             $child->save();
                         }
@@ -134,20 +136,20 @@ class CategoryController extends AdminController
         $pre_selected = $request->query('pre_selected');
         $selected = $request->query('selected');
 
-        if($pre_selected && $selected){
+        if ($pre_selected && $selected) {
             $item = $this->locationCategoryClass::find($selected);
-            if(empty($item)){
+            if (empty($item)) {
                 return response()->json([
-                    'text'=>''
+                    'text' => ''
                 ]);
-            }else{
+            } else {
                 return response()->json([
-                    'text'=>$item->name
+                    'text' => $item->name
                 ]);
             }
         }
         $q = $request->query('q');
-        $query = $this->locationCategoryClass::select('id', 'name as text')->where("status","publish");
+        $query = $this->locationCategoryClass::select('id', 'name as text')->where("status", "publish");
         if ($q) {
             $query->where('name', 'like', '%' . $q . '%');
         }

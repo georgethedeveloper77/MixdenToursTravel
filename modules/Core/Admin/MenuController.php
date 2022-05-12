@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Core\Admin;
 
 use Illuminate\Http\Request;
@@ -21,8 +22,8 @@ class MenuController extends AdminController
 
         $this->checkPermission('menu_view');
         $data = [
-            'rows'           => Menu::paginate(20),
-            'locations'      => $this->getLocations(),
+            'rows' => Menu::paginate(20),
+            'locations' => $this->getLocations(),
             "menu_locations" => (array)json_decode(setting_item('menu_locations'), true)
         ];
         return view('Core::admin.menu.index', $data);
@@ -41,20 +42,20 @@ class MenuController extends AdminController
 
         $this->checkPermission('menu_create');
         $data = [
-            'row'                    => new Menu(),
-            'locations'              => $this->getLocations(),
+            'row' => new Menu(),
+            'locations' => $this->getLocations(),
             'current_menu_locations' => [],
-            'breadcrumbs'            => [
+            'breadcrumbs' => [
                 [
                     'name' => __('Menus'),
-                    'url'  => route('core.admin.menu.index')
+                    'url' => route('core.admin.menu.index')
                 ],
                 [
-                    'name'  => __('Create new menu'),
+                    'name' => __('Create new menu'),
                     'class' => 'active'
                 ],
             ],
-            'translation'=>new MenuTranslation()
+            'translation' => new MenuTranslation()
         ];
         return view('Core::admin.menu.detail', $data);
     }
@@ -79,21 +80,21 @@ class MenuController extends AdminController
         $translation = $row->translateOrOrigin(request()->get('lang'));
 
         $data = [
-            'row'                    => $row,
-            'translation'            => $translation,
-            'locations'              => $this->getLocations(),
+            'row' => $row,
+            'translation' => $translation,
+            'locations' => $this->getLocations(),
             'current_menu_locations' => $current_menu_locations,
-            'breadcrumbs'            => [
+            'breadcrumbs' => [
                 [
                     'name' => __('Menus'),
-                    'url'  => route('core.admin.menu.index')
+                    'url' => route('core.admin.menu.index')
                 ],
                 [
-                    'name'  => __('Edit: ') . $row->name,
+                    'name' => __('Edit: ') . $row->name,
                     'class' => 'active'
                 ],
             ],
-            'enable_multi_lang'=>true
+            'enable_multi_lang' => true
         ];
 
         return view('Core::admin.menu.detail', $data);
@@ -117,7 +118,7 @@ class MenuController extends AdminController
                 $menuItem['open'] = false;
                 $menuItem['item_model'] = $class;
                 $menuItem['origin_name'] = $menuItem['name'];
-                $menuItem['model_name'] =$class::getModelName();
+                $menuItem['model_name'] = $class::getModelName();
             }
 
             return $this->sendSuccess([
@@ -134,41 +135,40 @@ class MenuController extends AdminController
         $menuModels = [
             [
                 'class' => \Modules\Page\Models\Page::class,
-                'name'  => __("Page"),
+                'name' => __("Page"),
                 'items' => \Modules\Page\Models\Page::searchForMenu(),
-                'position'=>10
+                'position' => 10
             ],
             [
                 'class' => \Modules\Location\Models\Location::class,
-                'name'  => __("Location"),
+                'name' => __("Location"),
                 'items' => \Modules\Location\Models\Location::searchForMenu(),
-                'position'=>40
+                'position' => 40
             ],
             [
                 'class' => \Modules\News\Models\News::class,
-                'name'  => __("News"),
+                'name' => __("News"),
                 'items' => \Modules\News\Models\News::searchForMenu(),
-                'position'=>50
+                'position' => 50
             ],
             [
                 'class' => NewsCategory::class,
-                'name'  => __("News Category"),
+                'name' => __("News Category"),
                 'items' => NewsCategory::searchForMenu(),
-                'position'=>60
+                'position' => 60
             ],
         ];
 
         // Modules
         $custom_modules = \Modules\ServiceProvider::getModules();
-        if(!empty($custom_modules)){
-            foreach($custom_modules as $module){
-                $moduleClass = "\\Modules\\".ucfirst($module)."\\ModuleProvider";
-                if(class_exists($moduleClass))
-                {
-                    $menuConfig = call_user_func([$moduleClass,'getMenuBuilderTypes']);
+        if (!empty($custom_modules)) {
+            foreach ($custom_modules as $module) {
+                $moduleClass = "\\Modules\\" . ucfirst($module) . "\\ModuleProvider";
+                if (class_exists($moduleClass)) {
+                    $menuConfig = call_user_func([$moduleClass, 'getMenuBuilderTypes']);
 
-                    if(!empty($menuConfig)){
-                        $menuModels = array_merge($menuModels,$menuConfig);
+                    if (!empty($menuConfig)) {
+                        $menuModels = array_merge($menuModels, $menuConfig);
                     }
 
                 }
@@ -177,29 +177,27 @@ class MenuController extends AdminController
         }
         // Plugins Menu
         $plugins_modules = \Plugins\ServiceProvider::getModules();
-        if(!empty($plugins_modules)){
-            foreach($plugins_modules as $module){
-                $moduleClass = "\\Plugins\\".ucfirst($module)."\\ModuleProvider";
-                if(class_exists($moduleClass))
-                {
-                    $menuConfig = call_user_func([$moduleClass,'getMenuBuilderTypes']);
-                    if(!empty($menuConfig)){
-                        $menuModels = array_merge($menuModels,$menuConfig);
+        if (!empty($plugins_modules)) {
+            foreach ($plugins_modules as $module) {
+                $moduleClass = "\\Plugins\\" . ucfirst($module) . "\\ModuleProvider";
+                if (class_exists($moduleClass)) {
+                    $menuConfig = call_user_func([$moduleClass, 'getMenuBuilderTypes']);
+                    if (!empty($menuConfig)) {
+                        $menuModels = array_merge($menuModels, $menuConfig);
                     }
                 }
             }
         }
         // Custom Menu
         $custom_modules = \Custom\ServiceProvider::getModules();
-        if(!empty($custom_modules)){
-            foreach($custom_modules as $module){
-                $moduleClass = "\\Custom\\".ucfirst($module)."\\ModuleProvider";
-                if(class_exists($moduleClass))
-                {
-                    $menuConfig = call_user_func([$moduleClass,'getMenuBuilderTypes']);
+        if (!empty($custom_modules)) {
+            foreach ($custom_modules as $module) {
+                $moduleClass = "\\Custom\\" . ucfirst($module) . "\\ModuleProvider";
+                if (class_exists($moduleClass)) {
+                    $menuConfig = call_user_func([$moduleClass, 'getMenuBuilderTypes']);
 
-                    if(!empty($menuConfig)){
-                        $menuModels = array_merge($menuModels,$menuConfig);
+                    if (!empty($menuConfig)) {
+                        $menuModels = array_merge($menuModels, $menuConfig);
                     }
 
                 }
@@ -241,7 +239,7 @@ class MenuController extends AdminController
     {
         $request->validate([
             'items' => 'required',
-            'name'  => 'required|max:255'
+            'name' => 'required|max:255'
         ]);
         if ($request->input('id')) {
 
@@ -255,7 +253,7 @@ class MenuController extends AdminController
         if (empty($menu))
             return $this->sendError(__('Menu not found'));
 
-        $items = json_decode($request->input('items'),true);
+        $items = json_decode($request->input('items'), true);
         $newItems = clean_by_key($items, 'name');
         $menu->items = json_encode($newItems);
         $menu->name = $request->input('name');
@@ -281,7 +279,7 @@ class MenuController extends AdminController
         }
         setting_update_item('menu_locations', json_encode($setting));
         return $this->sendSuccess([
-            'url' => $request->input('id') ? '' : route('core.admin.menu.edit',['id'=>$menu->id])
+            'url' => $request->input('id') ? '' : route('core.admin.menu.edit', ['id' => $menu->id])
         ], __('Your menu has been saved'));
     }
 
@@ -310,7 +308,7 @@ class MenuController extends AdminController
                     }
                 }
                 return redirect()->back()->with('success', __('Deleted success!'));
-            break;
+                break;
         }
     }
 }

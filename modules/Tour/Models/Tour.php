@@ -1,30 +1,25 @@
 <?php
+
 namespace Modules\Tour\Models;
 
 use App\Currency;
-use App\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Modules\Booking\Models\Bookable;
 use Modules\Booking\Models\Booking;
 use Modules\Booking\Traits\CapturesService;
+use Modules\Core\Models\Attributes;
+use Modules\Core\Models\SEO;
 use Modules\Core\Models\Terms;
 use Modules\Location\Models\Location;
-use Modules\Review\Models\Review;
-use Modules\Tour\Models\TourTerm;
 use Modules\Media\Helpers\FileHelper;
-use Illuminate\Support\Facades\Cache;
-use Validator;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Core\Models\SEO;
+use Modules\Review\Models\Review;
 use Modules\User\Models\UserWishList;
-use Modules\Tour\Models\TourCategory;
-use Modules\Core\Models\Attributes;
+use Validator;
 
 class Tour extends Bookable
 {
@@ -32,15 +27,14 @@ class Tour extends Bookable
     use SoftDeletes;
     use CapturesService;
 
-    protected $table                              = 'bravo_tours';
-    public    $checkout_booking_detail_file       = 'Tour::frontend/booking/detail';
-    public    $checkout_booking_detail_modal_file = 'Tour::frontend/booking/detail-modal';
-    public    $set_paid_modal_file                = 'Tour::frontend/booking/set-paid-modal';
-    public    $email_new_booking_file             = 'Tour::emails.new_booking_detail';
-    public    $type                               = 'tour';
-    public    $availabilityClass                  = TourDate::class;
-
-    protected $fillable                           = [
+    public $checkout_booking_detail_file = 'Tour::frontend/booking/detail';
+    public $checkout_booking_detail_modal_file = 'Tour::frontend/booking/detail-modal';
+    public $set_paid_modal_file = 'Tour::frontend/booking/set-paid-modal';
+    public $email_new_booking_file = 'Tour::emails.new_booking_detail';
+    public $type = 'tour';
+    public $availabilityClass = TourDate::class;
+    protected $table = 'bravo_tours';
+    protected $fillable = [
         //Tour info
         'title',
         'content',
@@ -71,29 +65,23 @@ class Tour extends Bookable
         'surrounding',
         'min_day_before_booking',
     ];
-    protected $slugField                          = 'slug';
-    protected $slugFromField                      = 'title';
-    protected $seo_type                           = 'tour';
+    protected $slugField = 'slug';
+    protected $slugFromField = 'title';
+    protected $seo_type = 'tour';
     /**
      * The attributes that should be casted to native types.
      *
      * @var array
      */
     protected $casts = [
-        'faqs'      => 'array',
-        'include'   => 'array',
-        'exclude'   => 'array',
+        'faqs' => 'array',
+        'include' => 'array',
+        'exclude' => 'array',
         'itinerary' => 'array',
         'service_fee' => 'array',
         'surrounding' => 'array',
 
     ];
-
-    public static function getModelName()
-    {
-        return __("Tour");
-    }
-
     protected $bookingClass;
     protected $tourTermClass;
     protected $tourTranslationClass;
@@ -114,14 +102,9 @@ class Tour extends Bookable
         $this->reviewClass = Review::class;
     }
 
-    /**
-     * Get Category
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function category_tour()
+    public static function getModelName()
     {
-        return $this->hasOne("Modules\Tour\Models\TourCategory", "id", 'category_id')->with(['translations']);
+        return __("Tour");
     }
 
     /**
@@ -147,6 +130,252 @@ class Tour extends Bookable
         $meta['seo_share'] = setting_item_with_lang("tour_page_list_seo_share");
         $meta['full_url'] = url()->current();
         return $meta;
+    }
+
+    public static function getLinkForPageSearch($locale = false, $param = [])
+    {
+
+        return url(app_get_locale(false, false, '/') . config('tour.tour_route_prefix') . "?" . http_build_query($param));
+    }
+
+    public static function searchForMenu($q = false)
+    {
+        $query = static::select('id', 'title as name');
+        if (strlen($q)) {
+
+            $query->where('title', 'like', "%" . $q . "%");
+        }
+        $a = $query->orderBy('id', 'desc')->limit(10)->get();
+        return $a;
+    }
+
+    public static function getServiceIconFeatured()
+    {
+        return "icofont-island-alt";
+    }
+
+    public static function isEnable()
+    {
+        return setting_item('tour_disable') == false;
+    }
+
+    public static function isEnableEnquiry()
+    {
+        if (!empty(setting_item('booking_enquiry_for_tour'))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function search(Request $request)
+    {
+        $model_Tour = parent::query()->select("bravo_tours.*");
+        $model_Tour->where("bravo_tours.status", "publish");
+        if (!empty($location_id = $request->query('location_id'))) {
+            $location = Location::where('id', $location_id)->where("status", "publish")->first();
+            if (!empty($location)) {
+                $model_Tour->join('bravo_locations', function ($join) use ($location) {
+                    $join->on('bravo_locations.id', '=', 'bravo_tours.location_id')->where('bravo_locations._lft', '>=', $location->_lft)->where('bravo_locations._rgt', '<=', $location->_rgt);
+                });
+            }
+        }
+
+
+        if (!empty($price_range = $request->query('price_range'))) {
+            $pri_from = explode(";", $price_range)[0];
+            $pri_to = explode(";", $price_range)[1];
+            $raw_sql_min_max = "( (IFNULL(bravo_tours.sale_price,0) > 0 and bravo_tours.sale_price >= ? ) OR (IFNULL(bravo_tours.sale_price,0) <= 0 and bravo_tours.price >= ?) )
+								AND ( (IFNULL(bravo_tours.sale_price,0) > 0 and bravo_tours.sale_price <= ? ) OR (IFNULL(bravo_tours.sale_price,0) <= 0 and bravo_tours.price <= ?) )";
+            $model_Tour->WhereRaw($raw_sql_min_max, [
+                $pri_from,
+                $pri_from,
+                $pri_to,
+                $pri_to
+            ]);
+        }
+        if (!empty($category_ids = $request->query('cat_id')) and !empty($category_ids[0])) {
+            if (!is_array($category_ids))
+                $category_ids = [$category_ids];
+            $list_cat = TourCategory::whereIn('id', $category_ids)->where("status", "publish")->get();
+            if (!empty($list_cat)) {
+                $where_left_right = [];
+                $params = [];
+                foreach ($list_cat as $cat) {
+                    $where_left_right[] = " ( bravo_tour_category._lft >= ? AND bravo_tour_category._rgt <= ? ) ";
+                    $params[] = $cat->_lft;
+                    $params[] = $cat->_rgt;
+                }
+                $sql_where_join = " ( " . implode("OR", $where_left_right) . " )  ";
+                $model_Tour->join('bravo_tour_category', function ($join) use ($sql_where_join, $params) {
+                    $join->on('bravo_tour_category.id', '=', 'bravo_tours.category_id')->WhereRaw($sql_where_join, $params);
+                });
+            }
+        }
+        $terms = $request->query('terms');
+        if (is_array($terms) and !empty($terms = array_filter($terms))) {
+            $model_Tour->join('bravo_tour_term as tt', 'tt.tour_id', "bravo_tours.id")->whereIn('tt.term_id', $terms);
+        }
+        $review_scores = $request->query('review_score');
+        if (is_array($review_scores) && !empty($review_scores)) {
+            $where_review_score = [];
+            $params = [];
+            foreach ($review_scores as $number) {
+                $where_review_score[] = " ( bravo_tours.review_score >= ? AND bravo_tours.review_score <= ? ) ";
+                $params[] = $number;
+                $params[] = $number . '.9';
+            }
+            $sql_where_review_score = " ( " . implode("OR", $where_review_score) . " )  ";
+            $model_Tour->WhereRaw($sql_where_review_score, $params);
+        }
+        if (!empty($service_name = $request->query("service_name"))) {
+            if (setting_item('site_enable_multi_lang') && setting_item('site_locale') != app()->getLocale()) {
+                $model_Tour->leftJoin('bravo_tour_translations', function ($join) {
+                    $join->on('bravo_tours.id', '=', 'bravo_tour_translations.origin_id');
+                });
+                $model_Tour->where('bravo_tour_translations.title', 'LIKE', '%' . $service_name . '%');
+            } else {
+                $model_Tour->where('bravo_tours.title', 'LIKE', '%' . $service_name . '%');
+            }
+        }
+        if (!empty($lat = $request->query('map_lat')) and !empty($lgn = $request->query('map_lgn')) and !empty($request->query('map_place'))) {
+            //			3959 - Miles(dặm), 6371 - Kilometers
+            $distance = setting_item('tour_location_radius_value', 0);
+            if (!empty($distance) and setting_item('tour_location_search_style') == 'autocompletePlace') {
+                $distanceType = setting_item('tour_location_radius_type', 3959);
+                if (empty($distanceType)) {
+                    $distanceType = 3959;
+                }
+                $string = '( ? * acos(
+								cos( radians(?) ) * cos( radians( map_lat ) ) * cos( radians( map_lng ) - radians(?) )
+							    + sin( radians(?) ) * sin( radians(map_lat) )
+							     )
+						 ) <= ?';
+                $model_Tour->whereRaw($string, [$distanceType, $lat, $lgn, $lat, $distance]);
+            }
+//            ORDER BY (POW((lon-$lon),2) + POW((lat-$lat),2))";
+            $model_Tour->orderByRaw("POW((bravo_tours.map_lng-?),2) + POW((bravo_tours.map_lat-?),2)", [$lgn, $lat]);
+        }
+        $orderby = $request->input("orderby");
+        switch ($orderby) {
+            case "price_low_high":
+                $raw_sql = "CASE WHEN IFNULL( bravo_tours.sale_price, 0 ) > 0 THEN bravo_tours.sale_price ELSE bravo_tours.price END AS tmp_min_price";
+                $model_Tour->selectRaw($raw_sql);
+                $model_Tour->orderBy("tmp_min_price", "asc");
+                break;
+            case "price_high_low":
+                $raw_sql = "CASE WHEN IFNULL( bravo_tours.sale_price, 0 ) > 0 THEN bravo_tours.sale_price ELSE bravo_tours.price END AS tmp_min_price";
+                $model_Tour->selectRaw($raw_sql);
+                $model_Tour->orderBy("tmp_min_price", "desc");
+                break;
+            case "rate_high_low":
+                $model_Tour->orderBy("review_score", "desc");
+                break;
+            default:
+                $model_Tour->orderBy("is_featured", "desc");
+                $model_Tour->orderBy("id", "desc");
+        }
+
+        $model_Tour->groupBy("bravo_tours.id");
+        if (!empty($request->query('limit'))) {
+            $limit = $request->query('limit');
+        } else {
+            $limit = !empty(setting_item("tour_page_limit_item")) ? setting_item("tour_page_limit_item") : 9;
+        }
+        return $model_Tour->with([
+            'location',
+            'hasWishList',
+            'translations'
+        ])->paginate($limit);
+    }
+
+    static public function getClassAvailability()
+    {
+        return "\Modules\Tour\Controllers\AvailabilityController";
+    }
+
+    static public function getFiltersSearch()
+    {
+
+        $min_max_price = self::getMinMaxPrice();
+        $category = TourCategory::selectRaw("id,name,slug")->where('status', 'publish')->with(['translations'])->get()->toTree();
+        return [
+            [
+                "title" => __("Filter Price"),
+                "field" => "price_range",
+                "position" => "1",
+                "min_price" => floor(Currency::convertPrice($min_max_price[0])),
+                "max_price" => ceil(Currency::convertPrice($min_max_price[1])),
+            ],
+            [
+                "title" => __("Review Score"),
+                "field" => "review_score",
+                "position" => "2",
+                "min" => "1",
+                "max" => "5",
+            ],
+            [
+                "title" => __("Tour Type"),
+                "field" => "cat_id",
+                "position" => "3",
+                "data" => $category->map(function ($category) {
+                    return $category->dataForApi();
+                })
+            ],
+            [
+                "title" => __("Attributes"),
+                "field" => "terms",
+                "position" => "4",
+                "data" => Attributes::getAllAttributesForApi("tour")
+            ]
+        ];
+    }
+
+    public static function getMinMaxPrice()
+    {
+        $model = parent::selectRaw('MIN( CASE WHEN sale_price > 0 THEN sale_price ELSE ( price ) END ) AS min_price ,
+                                    MAX( CASE WHEN sale_price > 0 THEN sale_price ELSE ( price ) END ) AS max_price ')->where("status", "publish")->first();
+        if (empty($model->min_price) and empty($model->max_price)) {
+            return [
+                0,
+                100
+            ];
+        }
+        return [
+            $model->min_price,
+            $model->max_price
+        ];
+    }
+
+    static public function getFormSearch()
+    {
+        $search_fields = setting_item_array('tour_search_fields');
+        $search_fields = array_values(\Illuminate\Support\Arr::sort($search_fields, function ($value) {
+            return $value['position'] ?? 0;
+        }));
+        foreach ($search_fields as &$item) {
+            if ($item['field'] == 'attr' and !empty($item['attr'])) {
+                $attr = Attributes::find($item['attr']);
+                $item['attr_title'] = $attr->translateOrOrigin(app()->getLocale())->name;
+                foreach ($attr->terms as $term) {
+                    $translate = $term->translateOrOrigin(app()->getLocale());
+                    $item['terms'][] = [
+                        'id' => $term->id,
+                        'title' => $translate->name,
+                    ];
+                }
+            }
+        }
+        return $search_fields;
+    }
+
+    /**
+     * Get Category
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function category_tour()
+    {
+        return $this->hasOne("Modules\Tour\Models\TourCategory", "id", 'category_id')->with(['translations']);
     }
 
     /**
@@ -188,12 +417,6 @@ class Tour extends Bookable
         return url($urlDetail);
     }
 
-    public static function getLinkForPageSearch($locale = false, $param = [])
-    {
-
-        return url(app_get_locale(false, false, '/') . config('tour.tour_route_prefix') . "?" . http_build_query($param));
-    }
-
     public function getGallery($featuredIncluded = false)
     {
         if (empty($this->gallery))
@@ -219,7 +442,7 @@ class Tour extends Bookable
 
     public function getEditUrl()
     {
-        return route('tour.admin.edit',['id'=>$this->id]);
+        return route('tour.admin.edit', ['id' => $this->id]);
     }
 
     public function getDiscountPercentAttribute()
@@ -368,14 +591,14 @@ class Tour extends Bookable
         $total_buyer_fee = 0;
         if (!empty($list_buyer_fees = setting_item('tour_booking_buyer_fees'))) {
             $list_fees = json_decode($list_buyer_fees, true);
-            $total_buyer_fee = $this->calculateServiceFees($list_fees , $total_before_fees , $total_guests);
+            $total_buyer_fee = $this->calculateServiceFees($list_fees, $total_before_fees, $total_guests);
             $total += $total_buyer_fee;
         }
 
         //Service Fees for Vendor
         $total_service_fee = 0;
-        if(!empty($this->enable_service_fee) and !empty($list_service_fee = $this->service_fee)){
-            $total_service_fee = $this->calculateServiceFees($list_service_fee , $total_before_fees , $total_guests);
+        if (!empty($this->enable_service_fee) and !empty($list_service_fee = $this->service_fee)) {
+            $total_service_fee = $this->calculateServiceFees($list_service_fee, $total_before_fees, $total_guests);
             $total += $total_service_fee;
         }
 
@@ -427,57 +650,24 @@ class Tour extends Bookable
             $booking->addMeta('discount_by_people', $discount_by_people);
             if ($this->isDepositEnable()) {
                 $booking->addMeta('deposit_info', [
-                    'type'    => $this->getDepositType(),
-                    'amount'  => $this->getDepositAmount(),
+                    'type' => $this->getDepositType(),
+                    'amount' => $this->getDepositAmount(),
                     'fomular' => $this->getDepositFomular(),
                 ]);
             }
             return $this->sendSuccess([
-                'url'          => $booking->getCheckoutUrl(),
+                'url' => $booking->getCheckoutUrl(),
                 'booking_code' => $booking->code,
             ]);
         }
         return $this->sendError(__("Can not check availability"));
     }
 
-    public function getDataPriceAvailabilityInRanges($start_date)
-    {
-        $datesRaw = $this->tourDateClass::getDatesInRanges($start_date, $this->id);
-        $dates = [
-            'base_price'   => null,
-            'person_types' => null,
-        ];
-        if (!empty($datesRaw)) {
-            $dates = [
-                'base_price'   => $datesRaw->price,
-                'person_types' => is_array($datesRaw->person_types) ? $datesRaw->person_types : false,
-            ];
-        }
-        return $dates;
-    }
-
-    public function beforeCheckout(Request $request, $booking)
-    {
-        $maxGuests = $this->getNumberAvailableBooking($booking->start_date);
-        if ($booking->total_guests > $maxGuests) {
-            return $this->sendError(__("There are " . $maxGuests . " guests available for your selected date"));
-        }
-    }
-
-    public function getNumberAvailableBooking($start_date)
-    {
-        $tourDate = $this->tourDateClass::where('target_id', $this->id)->where('start_date', $start_date)->where('active', 1)->first();
-        $totalGuests = $this->bookingClass::where('object_id', $this->id)->where('start_date', $start_date)->whereNotIn('status', $this->bookingClass::$notAcceptedStatus)->sum('total_guests');
-        $maxGuests = !empty($tourDate->max_guests) ? $tourDate->max_guests : $this->max_people;
-        $number = $maxGuests - $totalGuests;
-        return $number > 0 ? $number : 0;
-    }
-
     public function addToCartValidate(Request $request)
     {
         $meta = $this->meta;
         $rules = [
-            'guests'     => 'required|integer|min:1',
+            'guests' => 'required|integer|min:1',
             'start_date' => 'required|date_format:Y-m-d'
         ];
         $start_date = $request->input('start_date');
@@ -516,7 +706,7 @@ class Tour extends Bookable
         }
 
         // Validate Date and Booking
-        if(!$this->isAvailableInRanges($start_date)){
+        if (!$this->isAvailableInRanges($start_date)) {
             return $this->sendError(__("This tour is not available at selected dates"));
         }
 
@@ -531,10 +721,10 @@ class Tour extends Bookable
             }
         }
 
-        if(!empty($this->min_day_before_booking)){
-            $minday_before = strtotime("today +".$this->min_day_before_booking." days");
-            if(  strtotime($start_date) < $minday_before){
-                return $this->sendError(__("You must book the service for :number days in advance",["number"=>$this->min_day_before_booking]));
+        if (!empty($this->min_day_before_booking)) {
+            $minday_before = strtotime("today +" . $this->min_day_before_booking . " days");
+            if (strtotime($start_date) < $minday_before) {
+                return $this->sendError(__("You must book the service for :number days in advance", ["number" => $this->min_day_before_booking]));
             }
         }
 
@@ -550,50 +740,103 @@ class Tour extends Bookable
         return true;
     }
 
-    public function isAvailableInRanges($start_date){
+    public function isAvailableInRanges($start_date)
+    {
 
-        if($this->default_state)
-        {
+        if ($this->default_state) {
             $notAvailableDates = $this->tourDateClass::query()->where([
-                ['start_date','>=',$start_date],
-                ['end_date','<=',$start_date],
-                ['active','0'],
-                ['target_id','=',$this->id],
+                ['start_date', '>=', $start_date],
+                ['end_date', '<=', $start_date],
+                ['active', '0'],
+                ['target_id', '=', $this->id],
             ])->count('id');
-            if($notAvailableDates) return false;
-        }else{
+            if ($notAvailableDates) return false;
+        } else {
             $availableDates = $this->tourDateClass::query()->where([
-                ['start_date','>=',$start_date],
-                ['end_date','<=',$start_date],
-                ['active','=',1],
-                ['target_id','=',$this->id],
+                ['start_date', '>=', $start_date],
+                ['end_date', '<=', $start_date],
+                ['active', '=', 1],
+                ['target_id', '=', $this->id],
             ])->count('id');
-            if($availableDates < 1) return false;
+            if ($availableDates < 1) return false;
         }
         return true;
+    }
+
+    public function getNumberAvailableBooking($start_date)
+    {
+        $tourDate = $this->tourDateClass::where('target_id', $this->id)->where('start_date', $start_date)->where('active', 1)->first();
+        $totalGuests = $this->bookingClass::where('object_id', $this->id)->where('start_date', $start_date)->whereNotIn('status', $this->bookingClass::$notAcceptedStatus)->sum('total_guests');
+        $maxGuests = !empty($tourDate->max_guests) ? $tourDate->max_guests : $this->max_people;
+        $number = $maxGuests - $totalGuests;
+        return $number > 0 ? $number : 0;
+    }
+
+    public function getDataPriceAvailabilityInRanges($start_date)
+    {
+        $datesRaw = $this->tourDateClass::getDatesInRanges($start_date, $this->id);
+        $dates = [
+            'base_price' => null,
+            'person_types' => null,
+        ];
+        if (!empty($datesRaw)) {
+            $dates = [
+                'base_price' => $datesRaw->price,
+                'person_types' => is_array($datesRaw->person_types) ? $datesRaw->person_types : false,
+            ];
+        }
+        return $dates;
+    }
+
+    public function isDepositEnable()
+    {
+        return (setting_item('tour_deposit_enable') and setting_item('tour_deposit_amount'));
+    }
+
+    public function getDepositFomular()
+    {
+        return setting_item('tour_deposit_fomular', 'default');
+    }
+
+    public function getDepositType()
+    {
+        return setting_item('tour_deposit_type');
+    }
+
+    public function getDepositAmount()
+    {
+        return setting_item('tour_deposit_amount');
+    }
+
+    public function beforeCheckout(Request $request, $booking)
+    {
+        $maxGuests = $this->getNumberAvailableBooking($booking->start_date);
+        if ($booking->total_guests > $maxGuests) {
+            return $this->sendError(__("There are " . $maxGuests . " guests available for your selected date"));
+        }
     }
 
     public function getBookingData()
     {
         $booking_data = [
-            'id'              => $this->id,
-            'person_types'    => [],
-            'max'             => 0,
-            'open_hours'      => [],
-            'extra_price'     => [],
-            'minDate'         => date('m/d/Y'),
-            'duration'        => $this->duration,
-            'buyer_fees'      => [],
-            'start_date'      => request()->input('start') ?? "",
+            'id' => $this->id,
+            'person_types' => [],
+            'max' => 0,
+            'open_hours' => [],
+            'extra_price' => [],
+            'minDate' => date('m/d/Y'),
+            'duration' => $this->duration,
+            'buyer_fees' => [],
+            'start_date' => request()->input('start') ?? "",
             'start_date_html' => request()->input('start') ? display_date(request()->input('start')) : "",
-            'end_date'        => request()->input('end') ?? "",
-            'end_date_html'   => request()->input('end') ? display_date(request()->input('end')) : "",
-            'deposit'         => $this->isDepositEnable(),
-            'deposit_type'    => $this->getDepositType(),
-            'deposit_amount'  => $this->getDepositAmount(),
+            'end_date' => request()->input('end') ?? "",
+            'end_date_html' => request()->input('end') ? display_date(request()->input('end')) : "",
+            'deposit' => $this->isDepositEnable(),
+            'deposit_type' => $this->getDepositType(),
+            'deposit_amount' => $this->getDepositAmount(),
             'deposit_fomular' => $this->getDepositFomular(),
             'is_form_enquiry_and_book' => $this->isFormEnquiryAndBook(),
-            'enquiry_type'             => $this->getBookingEnquiryType(),
+            'enquiry_type' => $this->getBookingEnquiryType(),
         ];
         $meta = $this->meta ?? false;
         $lang = app()->getLocale();
@@ -603,8 +846,8 @@ class Tour extends Bookable
                 if (!empty($booking_data['person_types'])) {
                     foreach ($booking_data['person_types'] as $k => &$type) {
                         if (!empty($lang)) {
-                            $type['name'] = !empty($type['name_' . $lang])?$type['name_' . $lang]:$type['name'];
-                            $type['desc'] = !empty($type['desc_' . $lang])?$type['desc_' . $lang]:$type['desc'];
+                            $type['name'] = !empty($type['name_' . $lang]) ? $type['name_' . $lang] : $type['name'];
+                            $type['desc'] = !empty($type['desc_' . $lang]) ? $type['desc_' . $lang] : $type['desc'];
                         }
                         $type['min'] = (int)$type['min'];
                         $type['max'] = (int)$type['max'];
@@ -658,7 +901,7 @@ class Tour extends Bookable
                 $booking_data['buyer_fees'][] = $item;
             }
         }
-        if(!empty($this->enable_service_fee) and !empty($service_fee = $this->service_fee)){
+        if (!empty($this->enable_service_fee) and !empty($service_fee = $this->service_fee)) {
             foreach ($service_fee as $item) {
                 $item['type_name'] = $item['name_' . app()->getLocale()] ?? $item['name'] ?? '';
                 $item['type_desc'] = $item['desc_' . app()->getLocale()] ?? $item['desc'] ?? '';
@@ -672,31 +915,24 @@ class Tour extends Bookable
         return $booking_data;
     }
 
-    public static function searchForMenu($q = false)
+    public static function isFormEnquiryAndBook()
     {
-        $query = static::select('id', 'title as name');
-        if (strlen($q)) {
-
-            $query->where('title', 'like', "%" . $q . "%");
+        $check = setting_item('booking_enquiry_for_tour');
+        if (!empty($check) and setting_item('booking_enquiry_type') == "booking_and_enquiry") {
+            return true;
         }
-        $a = $query->orderBy('id', 'desc')->limit(10)->get();
-        return $a;
+        return false;
     }
 
-    public static function getMinMaxPrice()
+    public static function getBookingEnquiryType()
     {
-        $model = parent::selectRaw('MIN( CASE WHEN sale_price > 0 THEN sale_price ELSE ( price ) END ) AS min_price ,
-                                    MAX( CASE WHEN sale_price > 0 THEN sale_price ELSE ( price ) END ) AS max_price ')->where("status", "publish")->first();
-        if (empty($model->min_price) and empty($model->max_price)) {
-            return [
-                0,
-                100
-            ];
+        $check = setting_item('booking_enquiry_for_tour');
+        if (!empty($check)) {
+            if (setting_item('booking_enquiry_type') == "only_enquiry") {
+                return "enquiry";
+            }
         }
-        return [
-            $model->min_price,
-            $model->max_price
-        ];
+        return "book";
     }
 
     public function getReviewEnable()
@@ -709,7 +945,8 @@ class Tour extends Bookable
         return setting_item("tour_review_approved", 0);
     }
 
-    public function review_after_booking(){
+    public function review_after_booking()
+    {
         return setting_item("tour_enable_review_after_booking", 0);
     }
 
@@ -721,76 +958,10 @@ class Tour extends Bookable
             $status_making_completed_booking = json_decode($options);
         }
         $number_review = $this->reviewClass::countReviewByServiceID($this->id, Auth::id(), false, $this->type) ?? 0;
-        $number_booking = $this->bookingClass::countBookingByServiceID($this->id, Auth::id(),$status_making_completed_booking) ?? 0;
+        $number_booking = $this->bookingClass::countBookingByServiceID($this->id, Auth::id(), $status_making_completed_booking) ?? 0;
         $number = $number_booking - $number_review;
-        if($number < 0) $number = 0;
+        if ($number < 0) $number = 0;
         return $number;
-    }
-
-    public static function getReviewStats()
-    {
-        $reviewStats = [];
-        if (!empty($list = setting_item("tour_review_stats", []))) {
-            $list = json_decode($list, true);
-            foreach ($list as $item) {
-                $reviewStats[] = $item['title'];
-            }
-        }
-        return $reviewStats;
-    }
-
-    public function getReviewDataAttribute()
-    {
-        $list_score = [
-            'score_total'  => 0,
-            'score_text'   => __("Not Rated"),
-            'total_review' => 0,
-            'rate_score'   => [],
-        ];
-        $dataTotalReview = $this->reviewClass::selectRaw(" AVG(rate_number) as score_total , COUNT(id) as total_review ")->where('object_id', $this->id)->where('object_model', "tour")->where("status", "approved")->first();
-        if (!empty($dataTotalReview->score_total)) {
-            $list_score['score_total'] = number_format($dataTotalReview->score_total, 1);
-            $list_score['score_text'] = $this->reviewClass::getDisplayTextScoreByLever(round($list_score['score_total']));
-        }
-        if (!empty($dataTotalReview->total_review)) {
-            $list_score['total_review'] = $dataTotalReview->total_review;
-        }
-        $list_data_rate = $this->reviewClass::selectRaw('COUNT( CASE WHEN rate_number = 5 THEN rate_number ELSE NULL END ) AS rate_5,
-                                                            COUNT( CASE WHEN rate_number = 4 THEN rate_number ELSE NULL END ) AS rate_4,
-                                                            COUNT( CASE WHEN rate_number = 3 THEN rate_number ELSE NULL END ) AS rate_3,
-                                                            COUNT( CASE WHEN rate_number = 2 THEN rate_number ELSE NULL END ) AS rate_2,
-                                                            COUNT( CASE WHEN rate_number = 1 THEN rate_number ELSE NULL END ) AS rate_1 ')->where('object_id', $this->id)->where('object_model', $this->type)->where("status", "approved")->first()->toArray();
-        for ($rate = 5; $rate >= 1; $rate--) {
-            if (!empty($number = $list_data_rate['rate_' . $rate])) {
-                $percent = ($number / $list_score['total_review']) * 100;
-            } else {
-                $percent = 0;
-            }
-            $list_score['rate_score'][$rate] = [
-                'title'   => $this->reviewClass::getDisplayTextScoreByLever($rate),
-                'total'   => $number,
-                'percent' => round($percent),
-            ];
-        }
-        return $list_score;
-    }
-
-    /**
-     * Get Score Review
-     *
-     * Using for loop tour
-     */
-    public function getScoreReview()
-    {
-        $tour_id = $this->id;
-        $list_score = Cache::rememberForever('review_' . $this->type . '_' . $tour_id, function () use ($tour_id) {
-            $dataReview = $this->reviewClass::selectRaw(" AVG(rate_number) as score_total , COUNT(id) as total_review ")->where('object_id', $tour_id)->where('object_model', "tour")->where("status", "approved")->first();
-            return [
-                'score_total'  => !empty($dataReview->score_total) ? number_format($dataReview->score_total, 1) : 0,
-                'total_review' => !empty($dataReview->total_review) ? $dataReview->total_review : 0,
-            ];
-        });
-        return $list_score;
     }
 
     public function getNumberReviewsInService($status = false)
@@ -812,16 +983,6 @@ class Tour extends Bookable
             return __(":number Tours", ['number' => $number]);
         }
         return __(":number Tour", ['number' => $number]);
-    }
-
-    public function getReviewList(){
-        return $this->reviewClass::select(['id','title','content','rate_number','author_ip','status','created_at','vendor_id','create_user'])
-            ->where('object_id', $this->id)
-            ->where('object_model', 'tour')
-            ->where("status", "approved")
-            ->orderBy("id", "desc")
-            ->with('author')
-            ->paginate(setting_item('tour_review_number_per_page', 5));
     }
 
     /**
@@ -902,186 +1063,6 @@ class Tour extends Bookable
         return '';
     }
 
-    public static function getServiceIconFeatured()
-    {
-        return "icofont-island-alt";
-    }
-
-    public static function isEnable()
-    {
-        return setting_item('tour_disable') == false;
-    }
-
-    public function isDepositEnable()
-    {
-        return (setting_item('tour_deposit_enable') and setting_item('tour_deposit_amount'));
-    }
-
-    public function getDepositAmount()
-    {
-        return setting_item('tour_deposit_amount');
-    }
-
-    public function getDepositType()
-    {
-        return setting_item('tour_deposit_type');
-    }
-
-    public function getDepositFomular()
-    {
-        return setting_item('tour_deposit_fomular', 'default');
-    }
-
-    public static function isEnableEnquiry()
-    {
-        if (!empty(setting_item('booking_enquiry_for_tour'))) {
-            return true;
-        }
-        return false;
-    }
-
-    public static function isFormEnquiryAndBook()
-    {
-        $check = setting_item('booking_enquiry_for_tour');
-        if (!empty($check) and setting_item('booking_enquiry_type') == "booking_and_enquiry") {
-            return true;
-        }
-        return false;
-    }
-
-    public static function getBookingEnquiryType()
-    {
-        $check = setting_item('booking_enquiry_for_tour');
-        if (!empty($check)) {
-            if (setting_item('booking_enquiry_type') == "only_enquiry") {
-                return "enquiry";
-            }
-        }
-        return "book";
-    }
-
-    public static function search(Request $request)
-    {
-        $model_Tour = parent::query()->select("bravo_tours.*");
-        $model_Tour->where("bravo_tours.status", "publish");
-        if (!empty($location_id = $request->query('location_id'))) {
-            $location = Location::where('id', $location_id)->where("status", "publish")->first();
-            if (!empty($location)) {
-                $model_Tour->join('bravo_locations', function ($join) use ($location) {
-                    $join->on('bravo_locations.id', '=', 'bravo_tours.location_id')->where('bravo_locations._lft', '>=', $location->_lft)->where('bravo_locations._rgt', '<=', $location->_rgt);
-                });
-            }
-        }
-
-
-
-        if (!empty($price_range = $request->query('price_range'))) {
-            $pri_from = explode(";", $price_range)[0];
-            $pri_to = explode(";", $price_range)[1];
-            $raw_sql_min_max = "( (IFNULL(bravo_tours.sale_price,0) > 0 and bravo_tours.sale_price >= ? ) OR (IFNULL(bravo_tours.sale_price,0) <= 0 and bravo_tours.price >= ?) )
-								AND ( (IFNULL(bravo_tours.sale_price,0) > 0 and bravo_tours.sale_price <= ? ) OR (IFNULL(bravo_tours.sale_price,0) <= 0 and bravo_tours.price <= ?) )";
-            $model_Tour->WhereRaw($raw_sql_min_max, [
-                $pri_from,
-                $pri_from,
-                $pri_to,
-                $pri_to
-            ]);
-        }
-        if (!empty($category_ids = $request->query('cat_id')) and !empty($category_ids[0])) {
-            if (!is_array($category_ids))
-                $category_ids = [$category_ids];
-            $list_cat = TourCategory::whereIn('id', $category_ids)->where("status", "publish")->get();
-            if (!empty($list_cat)) {
-                $where_left_right = [];
-                $params = [];
-                foreach ($list_cat as $cat) {
-                    $where_left_right[] = " ( bravo_tour_category._lft >= ? AND bravo_tour_category._rgt <= ? ) ";
-                    $params[] = $cat->_lft;
-                    $params[] = $cat->_rgt;
-                }
-                $sql_where_join = " ( " . implode("OR", $where_left_right) . " )  ";
-                $model_Tour->join('bravo_tour_category', function ($join) use ($sql_where_join,$params) {
-                        $join->on('bravo_tour_category.id', '=', 'bravo_tours.category_id')->WhereRaw($sql_where_join,$params);
-                    });
-            }
-        }
-        $terms = $request->query('terms');
-        if (is_array($terms) and !empty($terms = array_filter($terms))) {
-            $model_Tour->join('bravo_tour_term as tt', 'tt.tour_id', "bravo_tours.id")->whereIn('tt.term_id', $terms);
-        }
-        $review_scores = $request->query('review_score');
-        if (is_array($review_scores) && !empty($review_scores)) {
-            $where_review_score = [];
-            $params = [];
-            foreach ($review_scores as $number) {
-                $where_review_score[] = " ( bravo_tours.review_score >= ? AND bravo_tours.review_score <= ? ) ";
-                $params[] = $number;
-                $params[] = $number.'.9';
-            }
-            $sql_where_review_score = " ( " . implode("OR", $where_review_score) . " )  ";
-            $model_Tour->WhereRaw($sql_where_review_score,$params);
-        }
-        if (!empty($service_name = $request->query("service_name"))) {
-            if (setting_item('site_enable_multi_lang') && setting_item('site_locale') != app()->getLocale()) {
-                $model_Tour->leftJoin('bravo_tour_translations', function ($join) {
-                    $join->on('bravo_tours.id', '=', 'bravo_tour_translations.origin_id');
-                });
-                $model_Tour->where('bravo_tour_translations.title', 'LIKE', '%' . $service_name . '%');
-            } else {
-                $model_Tour->where('bravo_tours.title', 'LIKE', '%' . $service_name . '%');
-            }
-        }
-        if(!empty($lat = $request->query('map_lat')) and !empty($lgn = $request->query('map_lgn')) and !empty($request->query('map_place'))){
-            //			3959 - Miles(dặm), 6371 - Kilometers
-                $distance  = setting_item('tour_location_radius_value',0);
-                if(!empty($distance) and setting_item('tour_location_search_style')=='autocompletePlace'){
-                    $distanceType = setting_item('tour_location_radius_type',3959);
-                    if(empty($distanceType)){
-                        $distanceType = 3959;
-                    }
-                    $string = '( ? * acos(
-								cos( radians(?) ) * cos( radians( map_lat ) ) * cos( radians( map_lng ) - radians(?) )
-							    + sin( radians(?) ) * sin( radians(map_lat) )
-							     )
-						 ) <= ?';
-                    $model_Tour->whereRaw($string,[$distanceType,$lat,$lgn,$lat,$distance]);
-                }
-//            ORDER BY (POW((lon-$lon),2) + POW((lat-$lat),2))";
-            $model_Tour->orderByRaw("POW((bravo_tours.map_lng-?),2) + POW((bravo_tours.map_lat-?),2)",[$lgn,$lat]);
-        }
-        $orderby = $request->input("orderby");
-        switch ($orderby){
-            case "price_low_high":
-                $raw_sql = "CASE WHEN IFNULL( bravo_tours.sale_price, 0 ) > 0 THEN bravo_tours.sale_price ELSE bravo_tours.price END AS tmp_min_price";
-                $model_Tour->selectRaw($raw_sql);
-                $model_Tour->orderBy("tmp_min_price", "asc");
-                break;
-            case "price_high_low":
-                $raw_sql = "CASE WHEN IFNULL( bravo_tours.sale_price, 0 ) > 0 THEN bravo_tours.sale_price ELSE bravo_tours.price END AS tmp_min_price";
-                $model_Tour->selectRaw($raw_sql);
-                $model_Tour->orderBy("tmp_min_price", "desc");
-                break;
-            case "rate_high_low":
-                $model_Tour->orderBy("review_score", "desc");
-                break;
-            default:
-                $model_Tour->orderBy("is_featured", "desc");
-                $model_Tour->orderBy("id", "desc");
-        }
-
-        $model_Tour->groupBy("bravo_tours.id");
-        if(!empty($request->query('limit'))){
-            $limit = $request->query('limit');
-        }else{
-            $limit = !empty(setting_item("tour_page_limit_item"))? setting_item("tour_page_limit_item") : 9;
-        }
-        return $model_Tour->with([
-            'location',
-            'hasWishList',
-            'translations'
-        ])->paginate($limit);
-    }
-
     public function dataForApi($forSingle = false)
     {
         $data = parent::dataForApi($forSingle);
@@ -1125,7 +1106,7 @@ class Tour extends Bookable
             }
             $data['booking_fee'] = setting_item_array('tour_booking_buyer_fees');
             if (!empty($location_id = $this->location_id)) {
-                $related =  parent::query()->where('location_id', $location_id)->where("status", "publish")->take(4)->whereNotIn('id', [$this->id])->with(['location','translations','hasWishList'])->get();
+                $related = parent::query()->where('location_id', $location_id)->where("status", "publish")->take(4)->whereNotIn('id', [$this->id])->with(['location', 'translations', 'hasWishList'])->get();
                 $data['related'] = $related->map(function ($related) {
                         return $related->dataForApi();
                     }) ?? null;
@@ -1137,68 +1118,80 @@ class Tour extends Bookable
         return $data;
     }
 
-    static public function getClassAvailability()
+    public function getReviewDataAttribute()
     {
-        return "\Modules\Tour\Controllers\AvailabilityController";
-    }
-
-    static public function getFiltersSearch()
-    {
-
-        $min_max_price = self::getMinMaxPrice();
-        $category = TourCategory::selectRaw("id,name,slug")->where('status', 'publish')->with(['translations'])->get()->toTree();
-        return [
-            [
-                "title"    => __("Filter Price"),
-                "field"    => "price_range",
-                "position" => "1",
-                "min_price" => floor ( Currency::convertPrice($min_max_price[0]) ),
-                "max_price" => ceil (Currency::convertPrice($min_max_price[1]) ),
-            ],
-            [
-                "title"    => __("Review Score"),
-                "field"    => "review_score",
-                "position" => "2",
-                "min" => "1",
-                "max" => "5",
-            ],
-            [
-                "title"    => __("Tour Type"),
-                "field"    => "cat_id",
-                "position" => "3",
-                "data" => $category->map(function($category){
-                    return $category->dataForApi();
-                })
-            ],
-            [
-                "title"    => __("Attributes"),
-                "field"    => "terms",
-                "position" => "4",
-                "data" => Attributes::getAllAttributesForApi("tour")
-            ]
+        $list_score = [
+            'score_total' => 0,
+            'score_text' => __("Not Rated"),
+            'total_review' => 0,
+            'rate_score' => [],
         ];
+        $dataTotalReview = $this->reviewClass::selectRaw(" AVG(rate_number) as score_total , COUNT(id) as total_review ")->where('object_id', $this->id)->where('object_model', "tour")->where("status", "approved")->first();
+        if (!empty($dataTotalReview->score_total)) {
+            $list_score['score_total'] = number_format($dataTotalReview->score_total, 1);
+            $list_score['score_text'] = $this->reviewClass::getDisplayTextScoreByLever(round($list_score['score_total']));
+        }
+        if (!empty($dataTotalReview->total_review)) {
+            $list_score['total_review'] = $dataTotalReview->total_review;
+        }
+        $list_data_rate = $this->reviewClass::selectRaw('COUNT( CASE WHEN rate_number = 5 THEN rate_number ELSE NULL END ) AS rate_5,
+                                                            COUNT( CASE WHEN rate_number = 4 THEN rate_number ELSE NULL END ) AS rate_4,
+                                                            COUNT( CASE WHEN rate_number = 3 THEN rate_number ELSE NULL END ) AS rate_3,
+                                                            COUNT( CASE WHEN rate_number = 2 THEN rate_number ELSE NULL END ) AS rate_2,
+                                                            COUNT( CASE WHEN rate_number = 1 THEN rate_number ELSE NULL END ) AS rate_1 ')->where('object_id', $this->id)->where('object_model', $this->type)->where("status", "approved")->first()->toArray();
+        for ($rate = 5; $rate >= 1; $rate--) {
+            if (!empty($number = $list_data_rate['rate_' . $rate])) {
+                $percent = ($number / $list_score['total_review']) * 100;
+            } else {
+                $percent = 0;
+            }
+            $list_score['rate_score'][$rate] = [
+                'title' => $this->reviewClass::getDisplayTextScoreByLever($rate),
+                'total' => $number,
+                'percent' => round($percent),
+            ];
+        }
+        return $list_score;
     }
 
-    static public function getFormSearch()
+    public static function getReviewStats()
     {
-        $search_fields = setting_item_array('tour_search_fields');
-        $search_fields = array_values(\Illuminate\Support\Arr::sort($search_fields, function ($value) {
-            return $value['position'] ?? 0;
-        }));
-        foreach ( $search_fields as &$item){
-            if($item['field'] == 'attr' and !empty($item['attr']) ){
-                $attr = Attributes::find($item['attr']);
-                $item['attr_title'] = $attr->translateOrOrigin(app()->getLocale())->name;
-                foreach($attr->terms as $term)
-                {
-                    $translate = $term->translateOrOrigin(app()->getLocale());
-                    $item['terms'][] =  [
-                        'id' => $term->id,
-                        'title' => $translate->name,
-                    ];
-                }
+        $reviewStats = [];
+        if (!empty($list = setting_item("tour_review_stats", []))) {
+            $list = json_decode($list, true);
+            foreach ($list as $item) {
+                $reviewStats[] = $item['title'];
             }
         }
-        return $search_fields;
+        return $reviewStats;
+    }
+
+    public function getReviewList()
+    {
+        return $this->reviewClass::select(['id', 'title', 'content', 'rate_number', 'author_ip', 'status', 'created_at', 'vendor_id', 'create_user'])
+            ->where('object_id', $this->id)
+            ->where('object_model', 'tour')
+            ->where("status", "approved")
+            ->orderBy("id", "desc")
+            ->with('author')
+            ->paginate(setting_item('tour_review_number_per_page', 5));
+    }
+
+    /**
+     * Get Score Review
+     *
+     * Using for loop tour
+     */
+    public function getScoreReview()
+    {
+        $tour_id = $this->id;
+        $list_score = Cache::rememberForever('review_' . $this->type . '_' . $tour_id, function () use ($tour_id) {
+            $dataReview = $this->reviewClass::selectRaw(" AVG(rate_number) as score_total , COUNT(id) as total_review ")->where('object_id', $tour_id)->where('object_model', "tour")->where("status", "approved")->first();
+            return [
+                'score_total' => !empty($dataReview->score_total) ? number_format($dataReview->score_total, 1) : 0,
+                'total_review' => !empty($dataReview->total_review) ? $dataReview->total_review : 0,
+            ];
+        });
+        return $list_score;
     }
 }

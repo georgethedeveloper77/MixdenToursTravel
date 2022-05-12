@@ -39,11 +39,17 @@
                     <div class="js-slide mt-5">
                         <div class="card transition-3d-hover shadow-hover-2 w-100 h-100">
                             <div class="position-relative">
-                                <a href="{{$item->getDetailUrl()}}" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                    <img class="card-img-top" src="{{$item->image_url}}" alt="{!! clean($translation->title) !!}">
+                                <a href="{{$item->getDetailUrl()}}"
+                                   class="d-block gradient-overlay-half-bg-gradient-v5">
+                                    <img class="card-img-top" src="{{$item->image_url}}"
+                                         alt="{!! clean($translation->title) !!}">
                                 </a>
                                 <div class="position-absolute top-0 right-0 pt-3 pr-3">
-                                    <button type="button" class="p-0 btn btn-sm btn-icon text-white rounded-circle service-wishlist {{$item->isWishList()}}" data-id="{{$item->id}}" data-type="{{$item->type}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ __("Save for later") }}">
+                                    <button type="button"
+                                            class="p-0 btn btn-sm btn-icon text-white rounded-circle service-wishlist {{$item->isWishList()}}"
+                                            data-id="{{$item->id}}" data-type="{{$item->type}}" data-toggle="tooltip"
+                                            data-placement="top" title=""
+                                            data-original-title="{{ __("Save for later") }}">
                                         <span class="flaticon-valentine-heart font-size-20"></span>
                                     </button>
                                 </div>
@@ -61,7 +67,8 @@
                                 </div>
                             </div>
                             <div class="card-body px-4 py-3">
-                                <a href="{{$item->getDetailUrl()}}" class="card-title font-size-17 font-weight-medium text-dark">
+                                <a href="{{$item->getDetailUrl()}}"
+                                   class="card-title font-size-17 font-weight-medium text-dark">
                                     {!! clean($translation->title) !!}
                                 </a>
                                 @if(setting_item('tour_enable_review'))
@@ -69,7 +76,8 @@
                                     $reviewData = $item->getScoreReview();
                                     ?>
                                     <div class="mt-2 mb-3">
-                                        <span class="badge badge-pill badge-warning text-white py-1 px-2 font-size-14 border-radius-3 font-weight-normal">
+                                        <span
+                                            class="badge badge-pill badge-warning text-white py-1 px-2 font-size-14 border-radius-3 font-weight-normal">
                                             {{ $reviewData['score_total'] }}/5
                                         </span>
                                         <span class="font-size-14 text-gray-1 ml-2">

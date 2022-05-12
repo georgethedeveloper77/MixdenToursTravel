@@ -12,10 +12,10 @@
                     <div class="col-md-9">
                         <?php
                         $reviews = \Modules\Review\Models\Review::query()->where([
-                            'vendor_id'=>$user->id,
-                            'status'=>'approved'
+                            'vendor_id' => $user->id,
+                            'status' => 'approved'
                         ])
-                            ->orderBy('id','desc')
+                            ->orderBy('id', 'desc')
                             ->with('author')
                             ->paginate(10);
                         ?>
@@ -38,14 +38,17 @@
                                                     <div class="media">
                                                         <div class="media-left">
                                                             @if($avatar_url = $userInfo->getAvatarUrl())
-                                                                <img class="avatar" src="{{$avatar_url}}" alt="{{$userInfo->getDisplayName()}}">
+                                                                <img class="avatar" src="{{$avatar_url}}"
+                                                                     alt="{{$userInfo->getDisplayName()}}">
                                                             @else
-                                                                <span class="avatar-text">{{ucfirst($userInfo->getDisplayName()[0])}}</span>
+                                                                <span
+                                                                    class="avatar-text">{{ucfirst($userInfo->getDisplayName()[0])}}</span>
                                                             @endif
                                                         </div>
                                                         <div class="media-body">
                                                             <h4 class="media-heading">{{$userInfo->getDisplayName()}}</h4>
-                                                            <div class="date">{{display_datetime($item->created_at)}}</div>
+                                                            <div
+                                                                class="date">{{display_datetime($item->created_at)}}</div>
                                                         </div>
                                                     </div>
                                                 </div>

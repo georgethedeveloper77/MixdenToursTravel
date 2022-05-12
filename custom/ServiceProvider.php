@@ -1,17 +1,23 @@
 <?php
+
 namespace Custom;
 
 use File;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+    public static function getModules()
+    {
+        return array_map('basename', array_filter(glob(base_path() . '/custom/*'), 'is_dir'));
+    }
+
     public function boot()
     {
         $listModule = array_map('basename', File::directories(__DIR__));
         foreach ($listModule as $module) {
-            if(file_exists(__DIR__. '/' . $module . '/Config/config.php')){
+            if (file_exists(__DIR__ . '/' . $module . '/Config/config.php')) {
                 $this->publishes([
-                    __DIR__. '/' . $module . '/Config/config.php' => config_path(strtolower($module).'.php'),
+                    __DIR__ . '/' . $module . '/Config/config.php' => config_path(strtolower($module) . '.php'),
                 ]);
             }
         }
@@ -21,9 +27,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $listModule = array_map('basename', File::directories(__DIR__));
         foreach ($listModule as $module) {
-            if(file_exists(__DIR__. '/' . $module . '/Config/config.php')){
+            if (file_exists(__DIR__ . '/' . $module . '/Config/config.php')) {
                 $this->mergeConfigFrom(
-                    __DIR__. '/' . $module . '/Config/config.php', strtolower($module)
+                    __DIR__ . '/' . $module . '/Config/config.php', strtolower($module)
                 );
             }
 
@@ -31,8 +37,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 $this->loadViewsFrom(__DIR__ . '/' . $module . '/Views', $module);
             }
 
-            $class = "\Custom\\".ucfirst($module)."\\ModuleProvider";
-            if(class_exists($class)) {
+            $class = "\Custom\\" . ucfirst($module) . "\\ModuleProvider";
+            if (class_exists($class)) {
                 $this->app->register($class);
             }
 
@@ -41,9 +47,5 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         if (is_dir(__DIR__ . '/Layout')) {
             $this->loadViewsFrom(__DIR__ . '/Layout', 'Layout');
         }
-    }
-
-    public static function getModules(){
-        return array_map('basename', array_filter(glob(base_path().'/custom/*'), 'is_dir'));
     }
 }

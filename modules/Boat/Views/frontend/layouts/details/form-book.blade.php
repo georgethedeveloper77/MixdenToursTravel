@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="nav-enquiry" v-if="is_form_enquiry_and_book">
-                <div class="enquiry-item active" >
+                <div class="enquiry-item active">
                     <span>{{ __("Book") }}</span>
                 </div>
                 <div class="enquiry-item" data-toggle="modal" data-target="#enquiry_form_modal">
@@ -62,15 +62,20 @@
                                 <div class="input-number-group">
                                     <select v-model="start_time" class="form-control" @change="startTimeChange()">
                                         @for ( $i = 0 ; $i <= 23 ; $i++)
-                                            <option value="{{ sprintf("%02d", $i) }}:00">{{ sprintf("%02d", $i) }} : 00</option>
-                                            <option value="{{ sprintf("%02d", $i) }}:30">{{ sprintf("%02d", $i) }} : 30</option>
+                                            <option value="{{ sprintf("%02d", $i) }}:00">{{ sprintf("%02d", $i) }} :
+                                                00
+                                            </option>
+                                            <option value="{{ sprintf("%02d", $i) }}:30">{{ sprintf("%02d", $i) }} :
+                                                30
+                                            </option>
                                         @endfor
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group form-date-field form-date-search clearfix " data-format="{{get_moment_date_format()}}">
+                    <div class="form-group form-date-field form-date-search clearfix "
+                         data-format="{{get_moment_date_format()}}">
                         <div class="date-wrapper clearfix align-items-start" @click="openStartDate">
                             <div class="check-in-wrapper">
                                 <label>{{__("Select Dates")}}</label>
@@ -86,7 +91,8 @@
                                         </small>
                                     </div>
                                 @endif
-                                <small class="alert-text mt10 mt-2" v-show="message2.content" v-html="message2.content" :class="{'danger':!message2.type,'success':message2.type}"></small>
+                                <small class="alert-text mt10 mt-2" v-show="message2.content" v-html="message2.content"
+                                       :class="{'danger':!message2.type,'success':message2.type}"></small>
                             </div>
                             <i class="fa fa-angle-down arrow"></i>
                         </div>
@@ -97,7 +103,8 @@
                         <div class="form-group " v-for="(type,index) in extra_price">
                             <div class="extra-price-wrap d-flex justify-content-between">
                                 <div class="flex-grow-1">
-                                    <label><input type="checkbox" true-value="1" false-value="0" v-model="type.enable"> @{{type.name}}</label>
+                                    <label><input type="checkbox" true-value="1" false-value="0" v-model="type.enable">
+                                        @{{type.name}}</label>
                                     <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
                                 </div>
                                 <div class="flex-shrink-0">@{{type.price_html}}
@@ -109,7 +116,8 @@
                         <div class="extra-price-wrap d-flex justify-content-between" v-for="(type,index) in buyer_fees">
                             <div class="flex-grow-1">
                                 <label>@{{type.type_name}}
-                                    <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip" data-placement="top" :title="type.type_desc"></i>
+                                    <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip"
+                                       data-placement="top" :title="type.type_desc"></i>
                                 </label>
                                 <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
                             </div>
@@ -117,7 +125,7 @@
                                 <div class="unit" v-if='type.unit == "percent"'>
                                     @{{ type.price }}%
                                 </div>
-                                <div class="unit" v-else >
+                                <div class="unit" v-else>
                                     @{{ formatMoney(type.price) }}
                                 </div>
                             </div>
@@ -136,12 +144,14 @@
                 </ul>
                 <div v-html="html"></div>
                 <div class="submit-group">
-                    <a class="btn btn-large" @click="doSubmit($event)" :class="{'disabled':onSubmit,'btn-success':(step == 2),'btn-primary':step == 1}" name="submit">
+                    <a class="btn btn-large" @click="doSubmit($event)"
+                       :class="{'disabled':onSubmit,'btn-success':(step == 2),'btn-primary':step == 1}" name="submit">
                         <span v-if="step == 1">{{__("BOOK NOW")}}</span>
                         <span v-if="step == 2">{{__("Book Now")}}</span>
                         <i v-show="onSubmit" class="fa fa-spinner fa-spin"></i>
                     </a>
-                    <div class="alert-text mt10" v-show="message.content" v-html="message.content" :class="{'danger':!message.type,'success':message.type}"></div>
+                    <div class="alert-text mt10" v-show="message.content" v-html="message.content"
+                         :class="{'danger':!message.type,'success':message.type}"></div>
                 </div>
             </div>
             <div class="form-send-enquiry" v-show="enquiry_type=='enquiry'">

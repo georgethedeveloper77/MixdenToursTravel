@@ -23,7 +23,8 @@
                         @foreach($item->terms as $term)
                             @php $translate = $term->translateOrOrigin(app()->getLocale()); @endphp
                             <li class="filter-term-item col-xs-6 col-md-4">
-                                <label><input @if(in_array($term->id,$selected)) checked @endif type="checkbox" name="terms[]" value="{{$term->id}}"> {{$translate->name}}
+                                <label><input @if(in_array($term->id,$selected)) checked @endif type="checkbox"
+                                              name="terms[]" value="{{$term->id}}"> {{$translate->name}}
                                 </label>
                             </li>
                         @endforeach

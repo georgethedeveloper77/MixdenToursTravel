@@ -1,6 +1,8 @@
 @extends('admin.layouts.app')
 @section('content')
-    <form action="{{route('flight.admin.airport.store',['id'=>($row->id) ? $row->id : '-1','lang'=>request()->query('lang')])}}" method="post">
+    <form
+        action="{{route('flight.admin.airport.store',['id'=>($row->id) ? $row->id : '-1','lang'=>request()->query('lang')])}}"
+        method="post">
         @csrf
         <input type="hidden" name="id" value="{{$row->id}}">
         <div class="container">
@@ -39,7 +41,7 @@
         jQuery(function ($) {
             "use strict"
             new BravoMapEngine('map_content', {
-                disableScripts:true,
+                disableScripts: true,
                 fitBounds: true,
                 center: [{{$row->map_lat ?? setting_item('map_lat_default') }}, {{$row->map_lng ?? setting_item('map_lng_default') }}],
                 zoom:{{$row->map_zoom ?? "8"}},

@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class AdminRouteServiceProvider extends ServiceProvider
 {
@@ -45,12 +45,13 @@ class AdminRouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapWebRoutes()
+    protected function mapAdminRoutes()
     {
         Route::middleware('web')
             ->namespace($this->namespace)
-            ->group(base_path('routes/web.php'));
+            ->group(base_path('routes/admin.php'));
     }
+
     /**
      * Define the "web" routes for the application.
      *
@@ -58,11 +59,11 @@ class AdminRouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapAdminRoutes()
+    protected function mapWebRoutes()
     {
         Route::middleware('web')
             ->namespace($this->namespace)
-            ->group(base_path('routes/admin.php'));
+            ->group(base_path('routes/web.php'));
     }
 
     /**

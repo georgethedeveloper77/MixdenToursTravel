@@ -12,14 +12,6 @@ class CreateWalletsTable extends Migration
 {
 
     /**
-     * @return string
-     */
-    protected function table(): string
-    {
-        return (new Wallet())->getTable();
-    }
-
-    /**
      * @return void
      */
     public function up(): void
@@ -61,6 +53,14 @@ class CreateWalletsTable extends Migration
                     ->insert($transactions->toArray());
             });
         });
+    }
+
+    /**
+     * @return string
+     */
+    protected function table(): string
+    {
+        return (new Wallet())->getTable();
     }
 
     /**

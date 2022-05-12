@@ -5,6 +5,7 @@
  * Date: 7/30/2019
  * Time: 1:56 PM
  */
+
 namespace Modules\Event\Admin;
 
 use Illuminate\Http\Request;
@@ -12,10 +13,10 @@ use Illuminate\Support\Facades\Auth;
 use Modules\AdminController;
 use Modules\Core\Events\CreatedServicesEvent;
 use Modules\Core\Events\UpdatedServiceEvent;
+use Modules\Core\Models\Attributes;
 use Modules\Event\Models\Event;
 use Modules\Event\Models\EventTerm;
 use Modules\Event\Models\EventTranslation;
-use Modules\Core\Models\Attributes;
 use Modules\Location\Models\Location;
 use Modules\Location\Models\LocationCategory;
 
@@ -74,19 +75,19 @@ class EventController extends AdminController
             $query->where('create_user', Auth::id());
         }
         $data = [
-            'rows'                => $query->with(['author'])->paginate(20),
+            'rows' => $query->with(['author'])->paginate(20),
             'event_manage_others' => $this->hasPermission('event_manage_others'),
-            'breadcrumbs'         => [
+            'breadcrumbs' => [
                 [
                     'name' => __('Events'),
-                    'url'  => route('event.admin.index')
+                    'url' => route('event.admin.index')
                 ],
                 [
-                    'name'  => __('All'),
+                    'name' => __('All'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'          => __("Event Management")
+            'page_title' => __("Event Management")
         ];
         return view('Event::admin.index', $data);
     }
@@ -108,20 +109,20 @@ class EventController extends AdminController
             $query->where('create_user', Auth::id());
         }
         $data = [
-            'rows'                => $query->with(['author'])->paginate(20),
+            'rows' => $query->with(['author'])->paginate(20),
             'event_manage_others' => $this->hasPermission('event_manage_others'),
-            'recovery'            => 1,
-            'breadcrumbs'         => [
+            'recovery' => 1,
+            'breadcrumbs' => [
                 [
                     'name' => __('Events'),
-                    'url'  => route('event.admin.index')
+                    'url' => route('event.admin.index')
                 ],
                 [
-                    'name'  => __('Recovery'),
+                    'name' => __('Recovery'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'          => __("Recovery Event Management")
+            'page_title' => __("Recovery Event Management")
         ];
         return view('Event::admin.index', $data);
     }
@@ -134,22 +135,22 @@ class EventController extends AdminController
             'status' => 'publish'
         ]);
         $data = [
-            'row'               => $row,
-            'attributes'        => $this->attributes::where('service', 'event')->get(),
-            'event_location'    => $this->location::where('status', 'publish')->get()->toTree(),
+            'row' => $row,
+            'attributes' => $this->attributes::where('service', 'event')->get(),
+            'event_location' => $this->location::where('status', 'publish')->get()->toTree(),
             'location_category' => $this->locationCategoryClass::where('status', 'publish')->get(),
-            'translation'       => new $this->event_translation(),
-            'breadcrumbs'       => [
+            'translation' => new $this->event_translation(),
+            'breadcrumbs' => [
                 [
                     'name' => __('Events'),
-                    'url'  => route('event.admin.index')
+                    'url' => route('event.admin.index')
                 ],
                 [
-                    'name'  => __('Add Event'),
+                    'name' => __('Add Event'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'        => __("Add new Event")
+            'page_title' => __("Add new Event")
         ];
         return view('Event::admin.detail', $data);
     }
@@ -168,24 +169,24 @@ class EventController extends AdminController
             }
         }
         $data = [
-            'row'               => $row,
-            'translation'       => $translation,
-            "selected_terms"    => $row->terms->pluck('term_id'),
-            'attributes'        => $this->attributes::where('service', 'event')->get(),
-            'event_location'    => $this->location::where('status', 'publish')->get()->toTree(),
+            'row' => $row,
+            'translation' => $translation,
+            "selected_terms" => $row->terms->pluck('term_id'),
+            'attributes' => $this->attributes::where('service', 'event')->get(),
+            'event_location' => $this->location::where('status', 'publish')->get()->toTree(),
             'location_category' => $this->locationCategoryClass::where('status', 'publish')->get(),
             'enable_multi_lang' => true,
-            'breadcrumbs'       => [
+            'breadcrumbs' => [
                 [
                     'name' => __('Events'),
-                    'url'  => route('event.admin.index')
+                    'url' => route('event.admin.index')
                 ],
                 [
-                    'name'  => __('Edit Event'),
+                    'name' => __('Edit Event'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'        => __("Edit: :name", ['name' => $row->title])
+            'page_title' => __("Edit: :name", ['name' => $row->title])
         ];
         return view('Event::admin.detail', $data);
     }
@@ -269,7 +270,7 @@ class EventController extends AdminController
             $term_ids = $request->input('terms');
             foreach ($term_ids as $term_id) {
                 $this->event_term::firstOrCreate([
-                    'term_id'   => $term_id,
+                    'term_id' => $term_id,
                     'target_id' => $row->id
                 ]);
             }

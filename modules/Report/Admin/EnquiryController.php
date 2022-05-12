@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Report\Admin;
 
 use Illuminate\Http\Request;
@@ -29,23 +30,23 @@ class EnquiryController extends AdminController
             $title_page = __('Search results: ":s"', ["s" => $request->s]);
         }
         $query->whereIn('object_model', array_keys(get_bookable_services()));
-        $query->orderBy('id','desc');
+        $query->orderBy('id', 'desc');
         $data = [
-            'rows'                  => $query->paginate(20),
+            'rows' => $query->paginate(20),
             'breadcrumbs' => [
                 [
                     'name' => __('Enquiry'),
-                    'url'  => route('report.admin.enquiry.index')
+                    'url' => route('report.admin.enquiry.index')
                 ],
                 [
-                    'name'  => __('All'),
+                    'name' => __('All'),
                     'class' => 'active'
                 ],
             ],
-            'enquiry_update'        => $this->hasPermission('enquiry_update'),
+            'enquiry_update' => $this->hasPermission('enquiry_update'),
             'enquiry_manage_others' => $this->hasPermission('enquiry_manage_others'),
-            'statues'        => $this->enquiryClass::$enquiryStatus,
-            'page_title'=> $title_page ?? __("Enquiry Management")
+            'statues' => $this->enquiryClass::$enquiryStatus,
+            'page_title' => $title_page ?? __("Enquiry Management")
         ];
 
         return view('Report::admin.enquiry.index', $data);
@@ -69,7 +70,7 @@ class EnquiryController extends AdminController
                     $this->checkPermission('enquiry_update');
                 }
                 $query->first();
-                if(!empty($query)){
+                if (!empty($query)) {
                     $query->delete();
                 }
             }
@@ -81,7 +82,7 @@ class EnquiryController extends AdminController
                     $this->checkPermission('enquiry_update');
                 }
                 $item = $query->first();
-                if(!empty($item)){
+                if (!empty($item)) {
                     $item->status = $action;
                     $item->save();
                 }
